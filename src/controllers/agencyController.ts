@@ -1,17 +1,18 @@
 import 'reflect-metadata'
 import { Controller, Param, Body, Get, Post, Put, Delete, OnUndefined } from 'routing-controllers'
+import { Agency } from "../entity/agency.js";
+import { AppDataSource } from "../connectDataBase.js";
 
-@Controller('/users')
-export class UserController {
-  @Get('/')
-  getAll() {
-    return 'This action returns all users'
-  }
-
+@Controller('/agency')
+export class AgencyController {
   @Get('/:id')
   @OnUndefined(204)
   getOne(@Param('id') id: number) {
-    return 'This action returns user #' + id
+    try {
+      const agencyRepository = AppDataSource.getRepository(Agency)
+    } catch (e) {
+
+    }
   }
 
   @Post('/')

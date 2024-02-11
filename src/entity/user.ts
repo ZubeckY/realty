@@ -37,6 +37,9 @@ export class User {
   @Column('varchar', { length: 100, comment: 'Email' })
   email?: string
 
+  @Column('varchar', { comment: 'Пароль' })
+  password!: string
+
   @ManyToOne(() => Address, (address) => address)
   address?: Relation<Address>
 
@@ -50,6 +53,15 @@ export class User {
 
   @ManyToOne(() => Agency, (agency) => agency.id)
   agency?: Relation<Agency>
+
+  @Column({ nullable: true, comment: 'Код активации' })
+  activationCode?: number
+
+  @Column({ nullable: true, comment: 'Ссылка для активации' })
+  activationLink?: string
+
+  @Column({ default: false, comment: 'Активированный аккаунт' })
+  IsActivatedAccount!: boolean
 
   @Column({ default: false, comment: 'Я согласен с условиями использования' })
   IAgreeToTermsOfUse!: boolean

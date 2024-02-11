@@ -17,3 +17,12 @@ export const roleTypeText: DictionaryValue<Role> = {
   [Role['UNKNOWN']]: 'Неизвестный',
   [Role['BLOCK']]: 'Заблокирован',
 }
+
+export const roleRating: DictionaryValue<Role> = {
+  [Role['ADMIN']]: '100',
+  [Role['ROP']]: '60',
+  [Role['OFFICE_MANAGER']]: '50',
+  [Role['MANAGER']]: '30',
+  [Role['UNKNOWN']]: '10',
+  [Role['BLOCK']]: '0',
+}

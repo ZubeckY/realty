@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, Relation } from 'typeorm'
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, Relation } from 'typeorm'
 import { Agency, Address, File } from './index.js'
 import { Nationality } from '../types/nationality.js'
 import { Role } from '../types/role.js'
@@ -68,4 +68,7 @@ export class User {
 
   @Column({ default: false, comment: 'Я согласен с политикой конфиденциальности' })
   IAgreeToPrivacyPolicy!: boolean
+
+  @CreateDateColumn({ comment: 'Дата создания' })
+  created!: Date
 }

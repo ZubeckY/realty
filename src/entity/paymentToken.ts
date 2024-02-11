@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, Relation } from 'typeorm'
+import { Agency } from './index.js'
 
 @Entity()
 export class PaymentToken {
@@ -7,6 +8,9 @@ export class PaymentToken {
 
   @Column({ nullable: false, unique: true, comment: 'Значение' })
   value!: string
+
+  @ManyToOne(() => Agency)
+  user!: Relation<Agency>
 
   @CreateDateColumn({ comment: 'Дата создания' })
   created!: Date

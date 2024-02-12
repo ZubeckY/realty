@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, Relation } from 'typeorm'
-import { Address, File } from './index.js'
+import { Address, File, User } from './index.js'
 import { Category } from '../types/category.js'
 import { OperationType } from '../types/operationType.js'
 import { HouseType } from '../types/houseType.js'
@@ -18,9 +18,18 @@ import { BuildingType } from '../types/buildingType.js'
 import { LandStatus } from '../types/landStatus.js'
 import { TransactionType } from '../types/transactionType.js'
 import { WallsType } from '../types/wallsType.js'
+import { BalconyOrLoggiaMulti } from '../types/balconyOrLoggiaMulti.js'
+import { ViewFromWindows } from '../types/viewFromWindows.js'
+import { Courtyard } from '../types/courtyard.js'
+import { BathroomMulti } from '../types/bathroomMulti.js'
+import { SaleOptions } from '../types/saleOptions.js'
+import { NDAdditionally } from '../types/NDAdditionally.js'
+import { InHouse } from '../types/inHouse.js'
+import { SSAdditionally } from '../types/SSAdditionally.js'
+import { ContactMethod } from '../types/contactMethhod.js'
 
 @Entity()
-export class User {
+export class Realty {
   @PrimaryGeneratedColumn()
   id!: number
 
@@ -208,12 +217,114 @@ export class User {
   buildingType?: BuildingType
 
   @Column({
+    comment: 'Балконы и лоджия',
+    type: 'enum',
+    enum: BalconyOrLoggiaMulti,
+    array: true,
+    nullable: true,
+  })
+  balconyOrLoggia?: BalconyOrLoggiaMulti[]
+
+  @Column({
+    comment: 'Бытовая техника',
+    type: 'enum',
+    enum: BalconyOrLoggiaMulti,
+    array: true,
+    nullable: true,
+  })
+  leaseAppliances?: BalconyOrLoggiaMulti[]
+
+  @Column({
+    comment: 'Вид из окна',
+    type: 'enum',
+    enum: ViewFromWindows,
+    array: true,
+    nullable: true,
+  })
+  viewFromWindows?: ViewFromWindows[]
+
+  @Column({ nullable: true, comment: 'Пассажирский лифт' })
+  passengerElevator?: number
+
+  @Column({ nullable: true, comment: 'Грузовой лифт' })
+  freightElevator?: number
+
+  @Column({
+    comment: 'Двор',
+    type: 'enum',
+    enum: Courtyard,
+    array: true,
+    nullable: true,
+  })
+  courtyard?: Courtyard[]
+
+  @Column({
+    comment: 'Санузел',
+    type: 'enum',
+    enum: BathroomMulti,
+    array: true,
+    nullable: true,
+  })
+  bathroomMulti?: BathroomMulti[]
+
+  @Column({
+    comment: 'Способ продажи дополнительно',
+    type: 'enum',
+    enum: SaleOptions,
+    array: true,
+    nullable: true,
+  })
+  saleOptions?: SaleOptions[]
+
+  @Column({
+    comment: 'Дополнительно',
+    type: 'enum',
+    enum: NDAdditionally,
+    array: true,
+    nullable: true,
+  })
+  NDAdditionally?: NDAdditionally[]
+
+  @Column({
+    comment: 'Дополнительно',
+    type: 'enum',
+    enum: SSAdditionally,
+    array: true,
+    nullable: true,
+  })
+  SSAdditionally?: SSAdditionally[]
+
+  @Column({
+    comment: 'В доме',
+    type: 'enum',
+    enum: InHouse,
+    array: true,
+    nullable: true,
+  })
+  inHouse?: InHouse[]
+
+  @Column({
     comment: 'Тип сделки',
     type: 'enum',
     enum: TransactionType,
     nullable: true,
   })
   transactionType?: TransactionType
+
+  @Column({ nullable: true, comment: 'Интернет звонки' })
+  internetCalls?: boolean
+
+  @Column({
+    comment: 'Способ связи',
+    type: 'enum',
+    enum: ContactMethod,
+    array: true,
+    nullable: true,
+  })
+  contactMethod?: ContactMethod[]
+
+  @ManyToOne(() => User)
+  manager?: User
 
   @CreateDateColumn({ comment: 'Дата создания' })
   created!: Date

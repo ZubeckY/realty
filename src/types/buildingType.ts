@@ -1,3 +1,5 @@
+import { DictionaryValue } from './DictionaryValue.js'
+
 export enum BuildingType {
   business_center = 'business_center',
   shopping_mall = 'shopping_mall',
@@ -6,15 +8,10 @@ export enum BuildingType {
   another_building = 'another_building',
 }
 
-export const buildingTypeText = {
+export const buildingTypeText: DictionaryValue<BuildingType> = {
   [BuildingType['business_center']]: 'Бизнес-центр',
   [BuildingType['shopping_mall']]: 'Торговый центр',
   [BuildingType['administrative_building']]: 'Административное здание',
   [BuildingType['living_house']]: 'Жилой дом',
   [BuildingType['another_building']]: 'Другой',
 }
-
-
-
-
-

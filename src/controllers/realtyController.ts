@@ -21,8 +21,23 @@ import { inHouseTypeText } from '../types/inHouse.js'
 import { SSAdditionallyTypeText } from '../types/SSAdditionally.js'
 import { contactMethodTypeText } from '../types/contactMethhod.js'
 
-@Controller('/auth')
+@Controller('/realty')
 export class RealtyController {
+
+  @Get('/types')
+  async getRealtyTypes(){
+    try {
+      return {
+        categoryTypeText
+      }
+    } catch (e) {
+      return {
+        message: 'Ошибка сервера',
+        error: e
+      }
+    }
+  }
+
   @Get('/create-flat-params')
   async getFlatNewBuildingParams() {
     try {

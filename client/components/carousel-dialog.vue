@@ -1,8 +1,5 @@
 <template>
-  <v-dialog
-    v-model="dialog"
-    class="carousel-dialog"
-  >
+  <v-dialog v-model="dialog" class="carousel-dialog">
     <template v-slot:activator="{ on, attrs }">
       <div v-bind="attrs" v-on="on">
         <slot></slot>
@@ -55,31 +52,19 @@
   </v-dialog>
 </template>
 <script lang="ts">
-import Vue from "vue"
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 
-export default Vue.extend({
-  name: 'CarouselDialog',
-  props: {
-    img: {
-      required: true,
-      type: Array
-    },
-    carousel: {
-      required: true,
-      type: Number
-    }
-  },
+@Component
+export default class CarouselDialog extends Vue {
+  @Prop() img!: any
+  @Prop() carousel!: any
 
-  data() {
-    return {
-      dialog: false,
-      localCarousel: 0,
-    }
-  },
-  watch: {
-    carousel: function () {
-      this.localCarousel = this.carousel
-    },
-  },
-})
+  dialog: boolean = false
+  localCarousel: number = 0
+
+  @Watch('carousel')
+  localCarouselIsCarousel() {
+    this.localCarousel = this.carousel
+  }
+}
 </script>

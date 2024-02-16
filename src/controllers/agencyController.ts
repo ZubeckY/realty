@@ -5,6 +5,7 @@ import { AppDataSource } from '../connectDataBase.js'
 
 @Controller('/agency')
 export class AgencyController {
+
   @Get('/:id')
   @OnUndefined(204)
   getOne(@Param('id') id: number) {

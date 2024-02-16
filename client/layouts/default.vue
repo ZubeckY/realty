@@ -1,6 +1,5 @@
 <template>
-  <v-app class="nightGlowBack">
-<!--  <v-app class="defaultBack">-->
+  <v-app :class="themes[activeTheme]['background']">
     <v-main>
       <v-container>
         <Nuxt />
@@ -9,8 +8,11 @@
   </v-app>
 </template>
 
-<script>
-export default {
-  name: 'DefaultLayout',
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+@Component
+export default class Default extends Vue {
+  themes: any = this.$store.state.themes
+  activeTheme: string = this.$store.state.activeTheme
 }
 </script>

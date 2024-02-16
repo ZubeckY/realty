@@ -1,61 +1,44 @@
 <template>
   <div>
-    <header-component />
+    <header-component :class="themes[activeTheme]['article']" />
     <section class="body mt-3">
       <div class="body-container">
-        <article class="catalog">
-          <div class="catalog-container">
-            <catalog-card v-for="i in 4" :key="i" />
+        <article :class="'params ' + themes[activeTheme]['article']">
+          <div class="params-container pa-2">
+            <article
+              :class="'radius-small mb-2 ' + themes[activeTheme]['article']"
+              v-for="i in 7"
+              :key="i"
+            ></article>
           </div>
         </article>
 
-        <article class="params nightGlowArticle">
-          <!--        <article class="params defaultArticle">-->
-          <div class="params-container pa-2">
-            <article
-              class="radius-small nightGlowArticle mb-2"
-              v-for="i in 7"
-              :key="i"
-            >
-
-            </article>
+        <article class="catalog">
+          <div class="catalog-container">
+            <catalog-card :class="themes[activeTheme]['article']" v-for="i in 4" :key="i" />
           </div>
         </article>
       </div>
     </section>
   </div>
 </template>
-
-<script>
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
 import HeaderComponent from '~/components/header-component.vue'
 import CatalogCard from '~/components/catalog-card.vue'
 
-export default {
-  name: 'IndexPage',
-  components: { HeaderComponent, CatalogCard },
-  data() {
-    return {
-      activeTheme: 'standard',
-      themes: {
-        standard: {
-          background: 'defaultBack',
-          input: 'defaultInput',
-          button: '',
-          article: 'defaultArticle',
-        },
-        nightGlow: {
-          background: 'nightGlowBack',
-          input: 'nightGlowInput',
-          button: 'white',
-          article: 'nightGlowArticle',
-        },
-      },
-    }
+@Component({
+  components: {
+    HeaderComponent,
+    CatalogCard,
   },
+})
+export default class Pages extends Vue {
+  themes: any = this.$store.state.themes
+  activeTheme: string = this.$store.state.activeTheme
 }
 </script>
 <style>
-
 .body {
   width: 100%;
   border-radius: var(--radius);
@@ -72,5 +55,11 @@ export default {
   height: 80vh;
   max-width: 25%;
   border-radius: var(--radius);
+}
+
+@media (max-width: 940px) {
+  .params {
+    display: none;
+  }
 }
 </style>

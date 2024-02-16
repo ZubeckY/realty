@@ -1,6 +1,5 @@
 <template>
-  <header class="header nightGlowArticle">
-    <!--    <header class="header defaultArticle">-->
+  <header class="header">
     <div class="header-container">
       <div class="d-flex align-center" style="width: 100%">
         <v-btn color="white" elevation="0" x-small fab>
@@ -12,16 +11,19 @@
         >
           <div class="d-flex flex-row align-center" style="width: 100%">
             <label class="mx-2" for="search">
-              <input class="" type="text" id="search" placeholder="Поиск" />
+              <input
+                :class="themes[activeTheme]['input']"
+                type="text"
+                id="search"
+                placeholder="Поиск"
+              />
             </label>
 
             <v-btn color="white" elevation="0" x-small fab>
               <v-icon color="primary darken-1">mdi-filter-plus</v-icon>
             </v-btn>
 
-            <v-btn class="mx-2" color="white" elevation="0" x-small fab>
-              <v-icon color="primary darken-1">mdi-plus-box-outline</v-icon>
-            </v-btn>
+            <create-realty-dialog />
 
             <v-btn color="white" elevation="0" x-small fab>
               <v-icon color="primary darken-1">mdi-delete</v-icon>
@@ -56,11 +58,18 @@
   </header>
 </template>
 <script lang="ts">
-import Vue from 'vue'
+import { Component, Vue } from 'vue-property-decorator'
+import CreateRealtyDialog from '~/components/create-realty-dialog.vue'
 
-export default Vue.extend({
-  name: 'HeaderComponent',
+@Component({
+  components: {
+    CreateRealtyDialog,
+  },
 })
+export default class HeaderComponent extends Vue {
+  themes: any = this.$store.state.themes
+  activeTheme: string = this.$store.state.activeTheme
+}
 </script>
 
 <style>

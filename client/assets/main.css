@@ -52,13 +52,16 @@ input[type="number"]:focus {
 }
 
 /* radius */
-
 .radius {
   border-radius: var(--radius) !important;
 }
 
 .radius-small {
   border-radius: var(--radius-small) !important;
+}
+
+.v-dialog {
+  box-shadow: none !important;
 }
 
 /* default theme */

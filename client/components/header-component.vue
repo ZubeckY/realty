@@ -1,5 +1,5 @@
 <template>
-  <header class="header">
+  <header :class="'header ' + themes[activeTheme]['article']">
     <div class="header-container">
       <div class="d-flex align-center" style="width: 100%">
         <v-btn color="white" elevation="0" x-small fab>

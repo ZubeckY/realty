@@ -1,10 +1,10 @@
 <template>
-  <article :class="'catalog-card radius pa-2 mb-3 ' + themes[activeTheme]['text']">
+  <card :class="'catalog-card pa-2 mb-3 ' + themes[activeTheme]['text']">
     <div class="catalog-card__container">
       <!-- catalog-card__wrapper -->
       <div class="catalog-card__wrapper">
         <div class="catalog-card__carousel">
-          <!-- Слайды побольше -->
+          <!-- Слайды -->
           <v-carousel
             v-model="carousel"
             class="catalog-card__carousel-carousel radius"
@@ -24,7 +24,7 @@
             </v-carousel-item>
           </v-carousel>
 
-          <!-- Слайды поменьше -->
+          <!-- Индикаторы вкладки -->
           <v-sheet
             class="catalog-card__carousel-pipki"
             color="rgba(0, 0, 0, .25)"
@@ -41,7 +41,7 @@
                 :key="i"
                 v-slot="{ active, toggle }"
               >
-                <!-- Картинки -->
+                <!-- Вкладка -->
                 <v-card
                   class="radius ma-1 mr-3"
                   :width="active ? '30px' : '12px'"
@@ -56,24 +56,31 @@
 
         <div class="catalog-card__info mt-1 mb-2">
           <div class="catalog-card__info-container">
-            <v-btn
-              :class="'catalog-card__title text-none pa-0 ' + themes[activeTheme]['title']"
-              width="auto"
-              height="auto"
-              text
+            <!-- Название -->
+            <h5
+              :class="
+                'catalog-card__title text-none pa-0 ' +
+                themes[activeTheme]['title']
+              "
             >
-              <v-icon :class="'mr-1 ' + themes[activeTheme]['title']">mdi-home</v-icon>
+              <v-icon :class="'mr-1 ' + themes[activeTheme]['title']"
+                >mdi-home
+              </v-icon>
               Название объявления
-            </v-btn>
+            </h5>
 
+            <!-- Адрес -->
             <div class="catalog-card__address">
-              <v-icon :class="'mx-1 ' + themes[activeTheme]['text']" small>mdi-map-marker</v-icon>
+              <v-icon :class="'mx-1 ' + themes[activeTheme]['text']" small
+                >mdi-map-marker
+              </v-icon>
               <span>Адрес действительный для данного объявления</span>
             </div>
           </div>
 
           <div style="flex: 1 0 auto"></div>
 
+          <!-- Цена -->
           <div class="catalog-card__price">
             <div class="catalog-card__price-container">
               <div class="catalog-card__fullPrice">100 000 000 р</div>
@@ -82,14 +89,18 @@
             </div>
           </div>
 
+          <!-- Менеджер -->
           <div class="catalog-card__manager mt-3">
             <div class="catalog-card__manager-container d-flex">
+              <!-- По клику просмотр фотографии -->
               <v-avatar class="mr-3">
                 <img
                   src="https://cdn.vuetifyjs.com/images/john.jpg"
                   alt="John"
                 />
               </v-avatar>
+
+              <!-- По клику переход на пользователя -->
               <div class="catalog-card__manager-info">
                 <div class="catalog-card__manager-name">Имя фамилия</div>
                 <div class="catalog-card__manager-phone">
@@ -103,12 +114,15 @@
 
       <!-- <div class="catalog-card__footer"></div>-->
     </div>
-  </article>
+  </card>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import Card from '~/components/card.vue'
 
-@Component
+@Component({
+  components: { Card },
+})
 export default class CatalogCard extends Vue {
   themes: any = this.$store.state.themes
   activeTheme: string = this.$store.state.activeTheme

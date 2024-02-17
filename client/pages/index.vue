@@ -1,21 +1,17 @@
 <template>
   <div>
-    <header-component :class="themes[activeTheme]['article']" />
+    <header-component />
     <section class="body mt-3">
       <div class="body-container">
-        <article :class="'params ' + themes[activeTheme]['article']">
+        <card class="params">
           <div class="params-container pa-2">
-            <article
-              :class="'radius-small mb-2 ' + themes[activeTheme]['article']"
-              v-for="i in 7"
-              :key="i"
-            ></article>
+            <card class="radius-small mb-2" v-for="i in 7" :key="i"></card>
           </div>
-        </article>
+        </card>
 
         <article class="catalog">
           <div class="catalog-container">
-            <catalog-card :class="themes[activeTheme]['article']" v-for="i in 4" :key="i" />
+            <catalog-card v-for="i in 4" :key="i" />
           </div>
         </article>
       </div>
@@ -26,17 +22,16 @@
 import { Component, Vue } from 'vue-property-decorator'
 import HeaderComponent from '~/components/header-component.vue'
 import CatalogCard from '~/components/catalog-card.vue'
+import Card from '~/components/card.vue'
 
 @Component({
   components: {
+    Card,
     HeaderComponent,
     CatalogCard,
   },
 })
-export default class Pages extends Vue {
-  themes: any = this.$store.state.themes
-  activeTheme: string = this.$store.state.activeTheme
-}
+export default class Pages extends Vue {}
 </script>
 <style>
 .body {

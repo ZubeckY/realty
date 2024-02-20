@@ -45,9 +45,9 @@ export class RealtyController {
         newBuildingParams: {
           adStatusTypeText,
           operationTypeText,
-          categoryTypeText,
           marketTypeText,
           houseTypeText,
+          statusTypeText,
           propertyRightsTypeText,
           decorationTypeText,
           balconyOrLoggiaTypeText,
@@ -60,7 +60,6 @@ export class RealtyController {
         },
         secondaryBuildingParams: {
           adStatusTypeText,
-          categoryTypeText,
           operationTypeText,
           marketTypeText,
           houseTypeText,

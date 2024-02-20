@@ -1,8 +1,8 @@
 <template>
-  <card :class="'catalog-card pa-2 mb-3 ' + themes[activeTheme]['text']">
+  <card :class="'catalog-card mb-3 ' + themes[activeTheme]['text']">
     <div class="catalog-card__container">
       <!-- catalog-card__wrapper -->
-      <div class="catalog-card__wrapper">
+      <div class="catalog-card__wrapper radius">
         <div class="catalog-card__carousel">
           <!-- Слайды -->
           <v-carousel
@@ -14,7 +14,7 @@
             <v-carousel-item
               class="catalog-card__carousel-item radius"
               v-for="(image, i) in imageList"
-              :key="i"
+              :key="'catalog-card__carousel-item-' + i"
             >
               <img
                 class="catalog-card__carousel-img radius"
@@ -133,91 +133,3 @@ export default class CatalogCard extends Vue {
   ]
 }
 </script>
-<style>
-/* catalog */
-.catalog {
-  width: 100%;
-  height: 80vh;
-  overflow: auto;
-  max-width: 75%;
-  margin-left: 15px;
-  padding-right: 10px;
-  border-radius: var(--radius);
-}
-
-@media (max-width: 940px) {
-  .catalog {
-    max-width: none;
-  }
-}
-
-.catalog-card__wrapper {
-  display: flex;
-  flex-direction: row;
-}
-
-.catalog-card__carousel {
-  position: relative;
-}
-
-.catalog-card__carousel-carousel {
-  width: 230px !important;
-  height: 100% !important;
-  max-height: 177px !important;
-}
-
-.catalog-card__carousel-item {
-  width: inherit !important;
-  height: inherit !important;
-}
-
-.catalog-card__carousel-img {
-  position: relative;
-  display: block;
-  width: 100%;
-  z-index: 2;
-  object-fit: contain;
-}
-
-.catalog-card__carousel-pipki {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 5px;
-  padding: 5px 15px;
-  border-radius: var(--radius-small) var(--radius-small) var(--radius)
-    var(--radius);
-}
-
-.catalog-card__info {
-  display: flex;
-  margin-left: 8px;
-  flex-direction: column;
-}
-
-.catalog-card__title {
-  display: flex;
-  text-align: end;
-  flex-direction: row;
-  align-items: flex-end;
-  font-size: 16px !important;
-}
-
-.catalog-card__address {
-  font-size: 14px;
-  margin-top: 5px;
-}
-
-.catalog-card__price-container {
-  display: flex;
-  flex-direction: row;
-}
-
-.catalog-card__fullPrice {
-  font-weight: bold;
-}
-
-.catalog-card__pricePerMeter {
-  margin-left: 15px;
-}
-</style>

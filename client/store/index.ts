@@ -5,6 +5,7 @@ export const state = () => ({
       background: 'defaultBack',
       input: 'defaultInput',
       title: 'primary--text text--darken-1',
+      primaryColor: 'primary darken-1',
       text: 'black--text',
       color: 'black',
       article: 'defaultArticle',

@@ -6,6 +6,6 @@ export enum StatusType {
 }
 
 export const statusTypeText: DictionaryValue<StatusType> = {
-  [StatusType['flat']]: 'Квартриа',
+  [StatusType['flat']]: 'Квартира',
   [StatusType['apartment']]: 'Апартаменты',
 }

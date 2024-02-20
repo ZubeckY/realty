@@ -28,19 +28,21 @@
           :key="'link-create' + i"
           v-text="item[1]"
         ></a>
+
+        <v-divider class="my-2" />
+        <v-btn @click="dialog = false" block small text>Закрыть</v-btn>
       </div>
     </card>
-
   </v-dialog>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import Card from "~/components/card.vue";
+import Card from '~/components/card.vue'
 
 @Component({
-  components: { Card }
+  components: { Card },
 })
-export default class CreateRealtyDialog extends Vue {
+export default class DialogCreate extends Vue {
   types: any = []
   dialog: boolean = false
 
@@ -59,19 +61,3 @@ export default class CreateRealtyDialog extends Vue {
   }
 }
 </script>
-<style>
-.create-dialog__card {
-  padding-block: 10px;
-  padding-inline: 15px;
-}
-
-.create-dialog__link {
-  display: block;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-.create-dialog__link + .create-dialog__link {
-  margin-top: 10px;
-}
-</style>

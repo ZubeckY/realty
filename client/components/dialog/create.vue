@@ -30,7 +30,7 @@
         ></a>
 
         <v-divider class="my-2" />
-        <v-btn @click="dialog = false" block small text>Закрыть</v-btn>
+        <v-btn class="ma-0" @click="dialog = false" block small text>Закрыть</v-btn>
       </div>
     </card>
   </v-dialog>

@@ -51,6 +51,11 @@ input[type="number"]:focus {
   -moz-appearance: textfield;
 }
 
+.small-input {
+  width: 100%;
+  max-width: 250px !important;
+}
+
 /* card */
 .card {
   padding-block: 10px;
@@ -69,30 +74,6 @@ input[type="number"]:focus {
 
 .v-dialog {
   box-shadow: none !important;
-}
-
-/* themes */
-/* default theme */
-.defaultBack {
-  background: var(--default-back) !important;
-}
-
-.defaultInput {
-  border: 1px solid #a1a1a1;
-}
-
-.defaultArticle {
-  background: white !important;
-}
-
-/* nightGlow theme */
-.nightGlowBack {
-  background: var(--night-glow) !important;
-}
-
-.nightGlowArticle {
-  backdrop-filter: blur(8px) !important;
-  background: rgba(0, 76, 120, 0.6) !important;
 }
 
 /* dialog */

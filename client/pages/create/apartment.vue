@@ -644,9 +644,4 @@ export default class CreateApartment extends Vue {
   content: ' *';
   color: red;
 }
-
-.small-input {
-  width: 100%;
-  max-width: 250px;
-}
 </style>

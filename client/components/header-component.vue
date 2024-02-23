@@ -9,12 +9,8 @@
       <div class="header-panel">
         <div class="header-search">
           <label class="header-search__label mx-2" for="search">
-            <input
-              :class="'header-search__input ' + themes[activeTheme]['input']"
-              placeholder="Поиск"
-              type="text"
-              id="search"
-            />
+            <input :class="'header-search__input ' + themes[activeTheme]['input']"
+                   placeholder="Поиск" type="text" id="search" />
           </label>
 
           <!-- Фильтр -->
@@ -34,21 +30,16 @@
 
       <v-menu offset-y>
         <template v-slot:activator="{ attrs, on }">
-          <v-btn
-            class="radius-small white primary--text text--darken-1"
-            height="32px"
-            elevation="0"
-            v-bind="attrs"
-            v-on="on"
-            small
-          >
+          <v-btn class="radius-small white primary--text text--darken-1"
+                 elevation="0" height="32px"
+                 v-bind="attrs" v-on="on" small>
             Пользователь
           </v-btn>
         </template>
 
-        <v-list>
-          <v-list-item v-for="item in 3" :key="item" link>
-            <v-list-item-title v-text="item"></v-list-item-title>
+        <v-list dense tile>
+          <v-list-item v-for="({link, title}, i) in profileLinks" :key="i + ''" link>
+            <v-list-item-title v-text="title"></v-list-item-title>
           </v-list-item>
         </v-list>
 
@@ -57,19 +48,31 @@
   </header>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import DialogCreate from '~/components/dialog/create.vue'
-import DialogFilter from '~/components/dialog/filter.vue'
+import { Component, Vue } from "vue-property-decorator";
+import DialogCreate from "~/components/dialog/create.vue";
+import DialogFilter from "~/components/dialog/filter.vue";
 
 @Component({
   components: {
     DialogCreate,
-    DialogFilter,
-  },
+    DialogFilter
+  }
 })
 export default class HeaderComponent extends Vue {
   themes: any = this.$store.state.themes
   activeTheme: string = this.$store.state.activeTheme
+
+  profileLinks = [
+    {
+      link: this.getProfileLink(),
+      title: 'Профиль'
+    }
+  ]
+
+  getProfileLink(): string {
+    return ''
+  }
+
 }
 </script>
 

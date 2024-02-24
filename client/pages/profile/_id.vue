@@ -18,15 +18,13 @@
 
           <card class="profile-data">
             <div class="profile-data__container">
-
               <div class="profile-data__name">
                 <!-- Имя -->
-                <div class="profile-data__group">
+                <div v-if="!editMode" :class="themes[activeTheme]['title']">Имя</div>
+                <div v-else class="profile-data__group">
                   <div class="profile-data__title">Имя</div>
                   <div class="small-input mr-3">
-                    <div v-if="!editMode">Имя</div>
-                    <v-text-field v-else
-                                  :disabled="!editMode"
+                    <v-text-field :disabled="!editMode"
                                   label="Имя"
                                   outlined
                                   counter
@@ -35,12 +33,11 @@
                 </div>
 
                 <!-- Фамилия -->
-                <div :class="'profile-data__group' + editMode ? 'ml-3' : ''">
+                <div v-if="!editMode" :class="'ml-3 ' + themes[activeTheme]['title']">Фамилия</div>
+                <div v-else class="profile-data__group ml-3">
                   <div class="profile-data__title">Фамилия</div>
                   <div class="small-input mr-3">
-                    <div v-if="!editMode">Фамилия</div>
-                    <v-text-field v-else
-                                  :disabled="!editMode"
+                    <v-text-field :disabled="!editMode"
                                   label="Фамилия"
                                   outlined
                                   counter
@@ -72,7 +69,9 @@ import Card from "~/components/card.vue"
   }
 })
 export default class Profile extends Vue {
-  editMode: boolean = false;
+  themes: any = this.$store.state.themes
+  activeTheme: string = this.$store.state.activeTheme
+  editMode: boolean = false
   user: any = {
     avatar: "https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w1200/2023/10/free-images.jpg"
   };

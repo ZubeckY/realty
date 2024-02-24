@@ -1,41 +1,59 @@
 <template>
-  <v-menu v-model="showProfilePhotoActions"
-          transition="slide-y-reverse-transition"
-          style="max-width: 250px"
-          rounded="lg"
-          top>
+  <div>
+    <v-menu v-model="showProfilePhotoActions"
+            transition="slide-y-reverse-transition"
+            style="max-width: 250px"
+            rounded="lg"
+            top>
 
-    <template v-slot:activator="{ on, attrs }">
-      <div class="profile-photo__wrapper"
-           v-bind="attrs"
-           v-on="on">
-        <img class="profile-photo__img"
-             alt="profile-photo-avatar"
-             :src="profilePhoto" />
-      </div>
-    </template>
+      <template v-slot:activator="{ on, attrs }">
+        <div class="profile-photo__wrapper"
+             v-bind="attrs"
+             v-on="on">
+          <img class="profile-photo__img"
+               alt="profile-photo-avatar"
+               :src="profilePhoto" />
+        </div>
+      </template>
 
-    <v-list :class="'card ' + themes[activeTheme]['article']" dense tile>
-      <v-list-item v-for="item in 4" :key="item" :color="themes[activeTheme]['title']" link>
-        <v-list-item-title v-text="item"></v-list-item-title>
-      </v-list-item>
-    </v-list>
+      <avatar-logo-buttons @showPhotoInDialog="showPhotoInDialog"/>
+    </v-menu>
 
-  </v-menu>
+    {{ 'dialogPhotoWindow: ' + dialogPhotoWindow }}
+
+  </div>
 </template>
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator"
+import { Component, Vue, Watch, Prop } from "vue-property-decorator"
+import AvatarLogoButtons from "~/components/profile/avatar-logo-buttons.vue"
 
-@Component
+@Component({
+  components: { AvatarLogoButtons }
+})
 export default class ProfileAvatar extends Vue {
-  themes: any = this.$store.state.themes
-  activeTheme: string = this.$store.state.activeTheme
-  showProfilePhotoActions: boolean = true
-
   user: any = {
     avatar: "https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w1200/2023/10/free-images.jpg"
+  };
+
+  themes: any = this.$store.state.themes;
+  activeTheme: string = this.$store.state.activeTheme;
+
+  dialogPhotoWindow: boolean = false;
+  showProfilePhotoActions: boolean = false;
+  profilePhoto: string = this.user.avatar || "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png";
+
+  showPhotoInDialog() {
+    this.dialogPhotoWindow = !this.dialogPhotoWindow;
   }
 
-  profilePhoto: string = this.user.avatar || "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+  // Заменить фотографию
+  changePhoto() {
+  }
+
+  // Удалить фотографию из профиля
+  deletePhotoProfile() {
+  }
+
+
 }
 </script>

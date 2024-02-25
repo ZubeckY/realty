@@ -37,41 +37,28 @@
           </v-btn>
         </template>
 
-        <v-list dense tile>
-          <v-list-item v-for="({link, title}, i) in profileLinks" :key="i + ''" link>
-            <v-list-item-title v-text="title"></v-list-item-title>
-          </v-list-item>
-        </v-list>
+        <header-component-buttons />
 
       </v-menu>
     </div>
   </header>
 </template>
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import DialogCreate from "~/components/dialog/create.vue";
-import DialogFilter from "~/components/dialog/filter.vue";
+import { Component, Vue } from "vue-property-decorator"
+import DialogCreate from "~/components/dialog/create.vue"
+import DialogFilter from "~/components/dialog/filter.vue"
+import HeaderComponentButtons from "~/components/header-component-buttons"
 
 @Component({
   components: {
     DialogCreate,
-    DialogFilter
+    DialogFilter,
+    HeaderComponentButtons
   }
 })
 export default class HeaderComponent extends Vue {
   themes: any = this.$store.state.themes
   activeTheme: string = this.$store.state.activeTheme
-
-  profileLinks = [
-    {
-      link: this.getProfileLink(),
-      title: 'Профиль'
-    }
-  ]
-
-  getProfileLink(): string {
-    return ''
-  }
 
 }
 </script>

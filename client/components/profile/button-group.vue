@@ -24,13 +24,18 @@
       </v-btn>
 
       <v-btn class="radius-small white primary--text text--darken-1 mt-2"
-             elevation="0" block>
+             elevation="0" @click="$router.push('/admin')" block>
         Админ панель
       </v-btn>
 
       <v-btn class="radius-small white primary--text text--darken-1 mt-2"
+             elevation="0" @click="$router.push('/')" block>
+        На главную страницу
+      </v-btn>
+
+      <v-btn class="radius-small white primary--text text--darken-1 mt-2"
              elevation="0" block>
-        Кнопка пустышка
+        Выйти из профиля
       </v-btn>
     </div>
 
@@ -44,8 +49,38 @@ export default class ProfileButtonGroup extends Vue {
   @Prop() editMode!: boolean
   localEditMode: boolean = false
 
+  user: any = {
+    id: 1,
+    name: 'Иван',
+    surname: 'Иванов',
+    patronymic: 'Иванович',
+    role: 'admin',
+    email: 'e-mail@mail.ru',
+    phone: '+7-999-990-00-99'
+  }
+
   created() {
     this.localEditMode = this.editMode
+    this.checkIDToValid()
+  }
+
+  async checkIDToValid() {
+    try {
+      const route: string[] = this.$router.currentRoute.path.split('/')
+      const numericNeedID = route[route.length - 1]
+
+      // Проверяем на цифру
+      if (!Number.isInteger(Number(numericNeedID))) {
+        return console.log('Не верное значение id')
+      }
+
+      await this.$axios.get('/api/users/findUserByID?userID='+numericNeedID)
+
+      console.log('');
+
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   changeEditMode() {

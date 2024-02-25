@@ -16,11 +16,29 @@
         </div>
       </template>
 
-      <avatar-logo-buttons @showPhotoInDialog="showPhotoInDialog"/>
+      <avatar-logo-buttons @showPhotoDialog="showPhotoDialog"
+                           @changePhotoDialog="changePhotoDialog"
+                           @deletePhotoDialog="deletePhotoDialog"/>
+
     </v-menu>
 
+    <v-dialog v-model="dialogShowPhoto">
+      <card class="profile-photo__dialog-card">
+        <div class="profile-photo__dialog-card__container">
 
-    <v-dialog v-model="dialogPhotoWindow">
+        </div>
+      </card>
+    </v-dialog>
+
+    <v-dialog v-model="dialogChangePhoto">
+      <card class="profile-photo__dialog-card">
+        <div class="profile-photo__dialog-card__container">
+
+        </div>
+      </card>
+    </v-dialog>
+
+    <v-dialog v-model="dialogDeletePhoto">
       <card class="profile-photo__dialog-card">
         <div class="profile-photo__dialog-card__container">
 
@@ -44,21 +62,26 @@ export default class ProfileAvatar extends Vue {
   themes: any = this.$store.state.themes;
   activeTheme: string = this.$store.state.activeTheme;
 
-  dialogPhotoWindow: boolean = false;
+  dialogShowPhoto: boolean = false;
+  dialogChangePhoto: boolean = false;
+  dialogDeletePhoto: boolean = false;
+
   showProfilePhotoActions: boolean = false;
   profilePhoto: string = this.user.avatar || "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png";
 
   // Открыть диалоговое окно с фотографией
-  showPhotoInDialog() {
-    this.dialogPhotoWindow = !this.dialogPhotoWindow;
+  showPhotoDialog() {
+    this.dialogShowPhoto = !this.dialogShowPhoto
   }
 
   // Заменить фотографию
-  changePhoto() {
+  changePhotoDialog() {
+    this.dialogChangePhoto = !this.dialogChangePhoto
   }
 
   // Удалить фотографию из профиля
-  deletePhotoProfile() {
+  deletePhotoDialog() {
+    this.dialogDeletePhoto = !this.dialogDeletePhoto
   }
 
 

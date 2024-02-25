@@ -48,7 +48,7 @@ export default class DialogCreate extends Vue {
 
   async mounted() {
     return await this.$axios
-      .get('http://localhost:3000/api/realty/types')
+      .get('/api/realty/types')
       .then((data: any) => {
         if (data.data.message) {
           return console.log(data.data)

@@ -19,8 +19,14 @@
       <avatar-logo-buttons @showPhotoInDialog="showPhotoInDialog"/>
     </v-menu>
 
-    {{ 'dialogPhotoWindow: ' + dialogPhotoWindow }}
 
+    <v-dialog v-model="dialogPhotoWindow">
+      <card class="profile-photo__dialog-card">
+        <div class="profile-photo__dialog-card__container">
+
+        </div>
+      </card>
+    </v-dialog>
   </div>
 </template>
 <script lang="ts">
@@ -42,6 +48,7 @@ export default class ProfileAvatar extends Vue {
   showProfilePhotoActions: boolean = false;
   profilePhoto: string = this.user.avatar || "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png";
 
+  // Открыть диалоговое окно с фотографией
   showPhotoInDialog() {
     this.dialogPhotoWindow = !this.dialogPhotoWindow;
   }

@@ -30,59 +30,69 @@
     </div>
 
     <div class="profile-photo__group" v-if="!localEditMode">
-      <v-dialog v-model="exitDialog" class="carousel-dialog">
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn class="radius-small white error--text text--darken-1 mt-2"
-                 elevation="0" v-bind="attrs" v-on="on" small block>
-            Выйти из профиля
-          </v-btn>
-        </template>
+      <v-btn class="radius-small white error--text text--darken-1 mt-2"
+             elevation="0" @click="exitDialog = !exitDialog" small block>
+        Выйти из профиля
+      </v-btn>
 
-        <card>
-          Вы действительно хотите выйти из профиля?
-        </card>
-      </v-dialog>
+      <action-form :dialog="exitDialog"
+                   @changeDialog="changeExitDialog"
+                   @isCanceled="closeExitDialog"
+                   title="Выход из аккаунта"
+                   text="Вы действительно хотите выйти из аккаунта?" />
+
     </div>
 
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue, Prop } from "vue-property-decorator"
+import { Component, Vue, Prop } from "vue-property-decorator";
+import ActionForm from "~/components/action-form.vue";
 
-@Component
+@Component({
+  components: { ActionForm }
+})
 export default class ProfileButtonGroup extends Vue {
-  @Prop() editMode!: boolean
-  localEditMode: boolean = false
-  exitDialog: boolean = false
+  @Prop() editMode!: boolean;
+  localEditMode: boolean = false;
+  exitDialog: boolean = false;
 
   user: any = {
     id: 1,
-    name: 'Иван',
-    surname: 'Иванов',
-    patronymic: 'Иванович',
-    role: 'admin',
-    email: 'e-mail@mail.ru',
-    phone: '+7-999-990-00-99'
-  }
+    name: "Иван",
+    surname: "Иванов",
+    patronymic: "Иванович",
+    role: "admin",
+    email: "e-mail@mail.ru",
+    phone: "+7-999-990-00-99"
+  };
 
   created() {
-    this.localEditMode = this.editMode
-    this.checkIDToValid()
+    this.localEditMode = this.editMode;
+    this.checkIDToValid();
+  }
+
+  changeExitDialog(value: boolean) {
+    return this.exitDialog = value
+  }
+
+  closeExitDialog() {
+    return this.exitDialog = false
   }
 
   async checkIDToValid() {
     try {
-      const route: string[] = this.$router.currentRoute.path.split('/')
-      const numericNeedID = route[route.length - 1]
+      const route: string[] = this.$router.currentRoute.path.split("/");
+      const numericNeedID = route[route.length - 1];
 
       // Проверяем на цифру
       if (!Number.isInteger(Number(numericNeedID))) {
-        return console.log('Не верное значение id')
+        return console.log("Не верное значение id");
       }
 
-      await this.$axios.get('/api/users/findUserByID?userID='+numericNeedID)
+      await this.$axios.get("/api/users/findUserByID?userID=" + numericNeedID);
 
-      console.log('');
+      console.log("");
 
     } catch (e) {
       console.log(e);
@@ -90,8 +100,14 @@ export default class ProfileButtonGroup extends Vue {
   }
 
   changeEditMode() {
-    this.localEditMode = !this.localEditMode
-    this.$emit('changeEditMode', this.localEditMode)
+    this.localEditMode = !this.localEditMode;
+    this.$emit("changeEditMode", this.localEditMode);
   }
 }
 </script>
+<style>
+.exitFromProfile__title {
+  font-weight: bold;
+}
+
+</style>

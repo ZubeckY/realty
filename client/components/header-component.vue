@@ -37,7 +37,7 @@
           </v-btn>
         </template>
 
-        <header-component-buttons />
+        <header-component-buttons :userID="1" />
 
       </v-menu>
     </div>

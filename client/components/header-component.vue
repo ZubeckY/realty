@@ -47,7 +47,7 @@
 import { Component, Vue } from "vue-property-decorator"
 import DialogCreate from "~/components/dialog/create.vue"
 import DialogFilter from "~/components/dialog/filter.vue"
-import HeaderComponentButtons from "~/components/header-component-buttons"
+import HeaderComponentButtons from "~/components/header-component-buttons.vue"
 
 @Component({
   components: {

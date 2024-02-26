@@ -1,5 +1,5 @@
 <template>
-  <card class="py-0 px-0">
+  <card class="py-1 px-0">
     <v-btn v-for="({text, func}, i) in profileActionsList"
            :class="'justify-start ' + themes[activeTheme]['title']"
            :key="'profile-list-item-' + i"

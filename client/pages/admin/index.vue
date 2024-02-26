@@ -1,13 +1,17 @@
 <template>
+  <div class="">
 
+  </div>
 </template>
-
-<script>
-export default {
-  name: "index"
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+@Component({
+  layout: 'admin'
+})
+export default class Admin extends Vue {
 };
 </script>
 
-<style scoped>
+<style>
 
 </style>

@@ -1,42 +1,47 @@
 <template>
   <div>
+    <div class="profile-photo__group" v-if="!localEditMode">
+      <v-btn class="radius-small white primary--text text--darken-1 mt-2"
+             elevation="0" @click="$router.push('/')" small block>
+        Перейти в каталог
+      </v-btn>
+
+      <v-btn class="radius-small white primary--text text--darken-1 mt-2"
+             elevation="0" @click="$router.push('/admin')" small block>
+        Админ панель
+      </v-btn>
+    </div>
+
     <div class="profile-photo__group">
       <v-btn class="radius-small white primary--text text--darken-1 mt-2"
-             v-if="!localEditMode" elevation="0" @click="changeEditMode" block>
+             v-if="!localEditMode" elevation="0" @click="changeEditMode" small block>
         Редактировать
       </v-btn>
 
       <v-btn class="radius-small white primary--text text--darken-1 mt-2"
-             v-if="localEditMode" elevation="0" @click="changeEditMode" block>
+             v-if="localEditMode" elevation="0" @click="changeEditMode" small block>
         Сохранить
       </v-btn>
 
       <v-btn class="radius-small white primary--text text--darken-1 mt-2"
-             v-if="localEditMode" elevation="0" @click="changeEditMode" block>
+             v-if="localEditMode" elevation="0" @click="changeEditMode" small block>
         Отмена
       </v-btn>
     </div>
 
     <div class="profile-photo__group" v-if="!localEditMode">
-      <v-btn class="radius-small white primary--text text--darken-1 mt-2"
-             elevation="0" block>
-        Заблокировать
-      </v-btn>
+      <v-dialog v-model="exitDialog" class="carousel-dialog">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn class="radius-small white error--text text--darken-1 mt-2"
+                 elevation="0" v-bind="attrs" v-on="on" small block>
+            Выйти из профиля
+          </v-btn>
+        </template>
 
-      <v-btn class="radius-small white primary--text text--darken-1 mt-2"
-             elevation="0" @click="$router.push('/admin')" block>
-        Админ панель
-      </v-btn>
-
-      <v-btn class="radius-small white primary--text text--darken-1 mt-2"
-             elevation="0" @click="$router.push('/')" block>
-        На главную страницу
-      </v-btn>
-
-      <v-btn class="radius-small white primary--text text--darken-1 mt-2"
-             elevation="0" block>
-        Выйти из профиля
-      </v-btn>
+        <card>
+          Вы действительно хотите выйти из профиля?
+        </card>
+      </v-dialog>
     </div>
 
   </div>
@@ -48,6 +53,7 @@ import { Component, Vue, Prop } from "vue-property-decorator"
 export default class ProfileButtonGroup extends Vue {
   @Prop() editMode!: boolean
   localEditMode: boolean = false
+  exitDialog: boolean = false
 
   user: any = {
     id: 1,

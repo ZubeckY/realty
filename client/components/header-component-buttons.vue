@@ -1,5 +1,5 @@
 <template>
-  <card class="py-0 px-0">
+  <card class="py-1 px-0">
     <v-btn v-for="({link, title}, i) in profileLinks"
            :class="'justify-start ' + themes[activeTheme]['title']"
            :key="'profile-list-item-' + i"
@@ -17,7 +17,7 @@ import Card from "~/components/card.vue"
   components: { Card },
 })
 export default class HeaderComponentButtons extends Vue {
-  @Prop() userID: number
+  @Prop() userID!: number
   themes: any = this.$store.state.themes;
   activeTheme: string = this.$store.state.activeTheme;
 

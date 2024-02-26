@@ -1,5 +1,5 @@
 <template>
-  <card class="catalog-card">
+  <card :class="'catalog-card ' + themes[activeTheme]['text']">
     <div class="catalog-card__container">
 
       <v-carousel class="catalog-card__carousel"
@@ -14,13 +14,13 @@
       <div class="catalog-card__content">
         <div class="catalog-card__content-container">
 
-          <v-btn class="catalog-card__title" elevation="0" text>
-            <v-icon class="catalog-card__icon">mdi-home</v-icon>
+          <v-btn :class="'catalog-card__title ' + themes[activeTheme]['title']" elevation="0" text>
+            <v-icon class="catalog-card__icon" :color="themes[activeTheme]['primaryColor']">mdi-home</v-icon>
             <span>Название объявления</span>
           </v-btn>
 
           <div class="catalog-card__address">
-            <v-icon class="catalog-card__icon">mdi-map-marker</v-icon>
+            <v-icon class="catalog-card__icon" :color="themes[activeTheme]['color']">mdi-map-marker</v-icon>
             <span>Краснодар, ул. Красная, 123. кв 7</span>
           </div>
 
@@ -28,7 +28,7 @@
 
           <div class="catalog-card__price">
             <div class="catalog-card__price-container">
-              <v-icon class="catalog-card__icon">mdi-currency-rub</v-icon>
+              <v-icon class="catalog-card__icon" :color="themes[activeTheme]['color']">mdi-currency-rub</v-icon>
               <div class="catalog-card__price-total">10 000 000 р</div>
               <div class="catalog-card__price-perMeter">500 000 р/м2</div>
             </div>
@@ -66,6 +66,9 @@ import CatalogCardImage from "~/components/catalog-card-image.vue";
   components: { Card, CatalogCardImage }
 })
 export default class CatalogCard extends Vue {
+  themes: any = this.$store.state.themes
+  activeTheme: string = this.$store.state.activeTheme
+
   image: string = "https://etimg.etb2bimg.com/photo/69821429.cms";
   // image: string = 'https://s3.us-west-2.amazonaws.com/images.unsplash.com/small/photo-1566895291281-ea63efd4bdbc'
 

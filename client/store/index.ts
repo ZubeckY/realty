@@ -19,6 +19,15 @@ export const state = () => ({
       color: 'white',
       article: 'nightGlowArticle',
     },
+    dark: {
+      background: 'darkBack',
+      input: 'darkInput',
+      title: 'white--text',
+      primaryColor: 'white',
+      text: 'white--text',
+      color: 'white',
+      article: 'darkArticle',
+    }
   },
 })
 

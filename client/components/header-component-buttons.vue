@@ -29,9 +29,6 @@ export default class HeaderComponentButtons extends Vue {
     {
       title: 'Фиды',
       link: '/feeds'
-    },
-    {
-
     }
   ]
 

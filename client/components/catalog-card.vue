@@ -4,7 +4,7 @@
 
       <v-carousel class="catalog-card__carousel"
                   delimiter-icon="mdi-minus-thick"
-                  height="180px">
+                  height="150px">
         <v-carousel-item class="catalog-card__carousel-item"
                          v-for="i in 2" :key="i">
           <catalog-card-image :image="image" />

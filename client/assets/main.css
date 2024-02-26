@@ -160,7 +160,7 @@ input[type="number"]:focus {
 }
 
 .catalog-card__carousel {
-  width: 210px !important;
+  width: 200px !important;
   border-radius: var(--radius);
 }
 

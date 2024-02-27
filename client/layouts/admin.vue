@@ -39,11 +39,9 @@ export default class Admin extends Vue {
   closeDialog() {
     this.actionDialog = false
 
-    if (this.$router.options.routes?.length > 1) {
+    setTimeout(() => {
       this.$router.back()
-    } else {
-      this.$router.push('/')
-    }
+    }, 300)
   }
 
 }

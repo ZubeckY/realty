@@ -4,7 +4,7 @@
 
       <v-carousel class="catalog-card__carousel"
                   delimiter-icon="mdi-minus-thick"
-                  height="150px">
+                  height="180px">
         <v-carousel-item class="catalog-card__carousel-item"
                          v-for="i in 2" :key="i">
           <catalog-card-image :image="image" />
@@ -13,11 +13,20 @@
 
       <div class="catalog-card__content">
         <div class="catalog-card__content-container">
+          <div class="d-flex flex-row justify-space-between pr-1">
 
-          <v-btn :class="'catalog-card__title ' + themes[activeTheme]['title']" elevation="0" text>
-            <v-icon class="catalog-card__icon" :color="themes[activeTheme]['primaryColor']">mdi-home</v-icon>
-            <span>Название объявления</span>
-          </v-btn>
+            <v-btn :class="'catalog-card__title ' + themes[activeTheme]['title']" elevation="0" text>
+              <v-icon class="catalog-card__icon" :color="themes[activeTheme]['primaryColor']">mdi-home</v-icon>
+              <span>Название объявления</span>
+            </v-btn>
+
+            <div class="catalog-card__menu">
+              <v-btn icon small>
+                <v-icon>mdi-dots-horizontal</v-icon>
+              </v-btn>
+            </div>
+
+          </div>
 
           <div class="catalog-card__address">
             <v-icon class="catalog-card__icon" :color="themes[activeTheme]['color']">mdi-map-marker</v-icon>
@@ -31,6 +40,22 @@
               <v-icon class="catalog-card__icon" :color="themes[activeTheme]['color']">mdi-currency-rub</v-icon>
               <div class="catalog-card__price-total">10 000 000 р</div>
               <div class="catalog-card__price-perMeter">500 000 р/м2</div>
+            </div>
+          </div>
+
+          <div class="catalog-card__smallInfo">
+            <div class="catalog-card__smallInfo-container">
+
+              <div class="catalog-card__smallInfo-group">
+                <div class="catalog-card__smallInfo-key">Тип недвижимости:</div>
+                <div class="catalog-card__smallInfo-value">Квартира</div>
+              </div>
+
+              <div class="catalog-card__smallInfo-group">
+                <div class="catalog-card__smallInfo-key">Площадь:</div>
+                <div class="catalog-card__smallInfo-value">25 м2</div>
+              </div>
+
             </div>
           </div>
 
@@ -54,6 +79,7 @@
 
         </div>
       </div>
+
     </div>
   </card>
 </template>
@@ -66,11 +92,10 @@ import CatalogCardImage from "~/components/catalog-card-image.vue";
   components: { Card, CatalogCardImage }
 })
 export default class CatalogCard extends Vue {
-  themes: any = this.$store.state.themes
-  activeTheme: string = this.$store.state.activeTheme
+  themes: any = this.$store.state.themes;
+  activeTheme: string = this.$store.state.activeTheme;
 
-  image: string = "https://etimg.etb2bimg.com/photo/69821429.cms";
-  // image: string = 'https://s3.us-west-2.amazonaws.com/images.unsplash.com/small/photo-1566895291281-ea63efd4bdbc'
+  image: string = "https://via.placeholder.com/1920x1200/66db18?text=16:10";
 
 }
 </script>

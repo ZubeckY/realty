@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="defaultDialog" max-width="275px" persistent>
+  <v-dialog v-model="defaultDialog" max-width="360px" persistent>
 
     <card class="actionForm">
       <v-form class="actionForm__container">
@@ -29,7 +29,7 @@
         </div>
 
         <div class="actionForm__actions">
-          <div class="actionForm__actions-container small-input">
+          <div class="actionForm__actions-container">
 
             <v-btn class="radius-small white primary--text text--darken-1"
                    elevation="0" small>
@@ -90,6 +90,11 @@ export default class ActionForm extends Vue {
 };
 </script>
 <style>
+.actionForm__container {
+  margin-top: 3px;
+  margin-left: 3px;
+}
+
 .actionForm__title {
   font-weight: bold;
 }
@@ -104,15 +109,16 @@ export default class ActionForm extends Vue {
 .actionForm__textField,
 .actionForm__actions {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   flex-direction: column;
 }
 
 
 .actionForm__actions-container {
   display: flex;
+  width: 100%;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 
 </style>

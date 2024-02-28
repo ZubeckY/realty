@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import HeaderComponentButtons from "~/components/header-component-buttons";
+import HeaderComponentButtons from "~/components/header-component-buttons.vue";
 
 @Component({
   components: {

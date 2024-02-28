@@ -14,7 +14,7 @@
         <div class="create-dialog__card-container">
           <a class="create-dialog__link"
              v-for="(item, i) in types"
-             :href="'/create/' + item[0]"
+             :href="'/realty/create/' + item[0]"
              :key="'link-create' + i"
              v-text="item[1]" />
         </div>

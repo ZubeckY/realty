@@ -11,7 +11,7 @@
             </card>
 
             <card class="radius-small mb-2">
-              <filter-price v-model="price"/>
+              <filter-price v-model="price" />
             </card>
 
             <card class="radius-small">
@@ -63,12 +63,12 @@ export default class Pages extends Vue {
   loading: boolean = true;
   realtyType: string[] = ["all"];
 
-  // диапазон цен
+  // Диапазон цен
   price: any = {
     min: 1_000_000,
     max: 45_000_000,
     range: [1_000_000, 45_000_000]
-  }
+  };
 
   // Менеджер
   managerCurrent: any = [];

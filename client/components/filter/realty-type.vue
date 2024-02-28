@@ -3,7 +3,7 @@
     <div class="params-title">Тип недвижимости</div>
 
     <div class="params-content mt-2">
-      <v-btn-toggle v-model="defaultRealtyType"
+      <v-btn-toggle v-model="realtyType"
                     color="primary darken-1"
                     class="d-flex flex-column ma-0 pa-0"
                     multiple group dense tile>
@@ -37,25 +37,10 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import { Component, VModel, Vue } from "vue-property-decorator";
 
 @Component
 export default class FilterRealtyType extends Vue {
-  @Prop() realtyType!: any
-  defaultRealtyType: string[] = ["all"];
-
-  created() {
-    this.changeDefaultValue()
-  }
-
-  @Watch('defaultRealtyType')
-  changeValue(value: any) {
-    return this.$emit('changeValueRealtyType', value)
-  }
-
-  @Watch('realtyType')
-  changeDefaultValue() {
-    this.defaultRealtyType = this.realtyType ?? this.defaultRealtyType
-  }
+  @VModel() realtyType!: any
 };
 </script>

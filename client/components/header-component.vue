@@ -27,18 +27,8 @@
 
       <v-spacer />
 
-      <v-menu offset-y>
-        <template v-slot:activator="{ attrs, on }">
-          <v-btn class="radius-small white primary--text text--darken-1"
-                 elevation="0" height="32px"
-                 v-bind="attrs" v-on="on" small>
-            Пользователь
-          </v-btn>
-        </template>
+      <header-component-menu />
 
-        <header-component-buttons :userID="1" />
-
-      </v-menu>
     </div>
   </header>
 </template>
@@ -46,22 +36,20 @@
 import { Component, Vue } from "vue-property-decorator"
 import DialogCreate from "~/components/dialog/create.vue"
 import DialogFilter from "~/components/dialog/filter.vue"
-import HeaderComponentButtons from "~/components/header-component-buttons.vue"
+import HeaderComponentMenu from "~/components/header-component-menu.vue"
 
 @Component({
   components: {
     DialogCreate,
     DialogFilter,
-    HeaderComponentButtons
+    HeaderComponentMenu
   }
 })
 export default class HeaderComponent extends Vue {
   themes: any = this.$store.state.themes
   activeTheme: string = this.$store.state.activeTheme
-
 }
 </script>
-
 <style>
 .header {
   display: flex;
@@ -94,16 +82,4 @@ export default class HeaderComponent extends Vue {
   flex-direction: row;
   align-items: center;
 }
-
-/*.header-search__input {*/
-/*  display: block;*/
-/*  width: 100vw;*/
-/*  height: 32px;*/
-/*  outline: none;*/
-/*  padding: 0 7px;*/
-/*  cursor: pointer;*/
-/*  max-width: 450px;*/
-/*  background: white;*/
-/*  border-radius: var(--radius-small);*/
-/*}*/
 </style>

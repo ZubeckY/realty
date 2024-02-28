@@ -85,7 +85,6 @@ input[type="number"]:focus {
   min-height: 32px !important;
 }
 
-
 .v-select__selections {
   min-height: 32px !important;
 }
@@ -117,6 +116,15 @@ input[type="number"]:focus {
 .small-input {
   width: 100%;
   max-width: 250px !important;
+}
+
+/* table */
+thead tr {
+  background: #f0f0f0;
+}
+
+tr:nth-child(odd) {
+  background: #f3f3f3;
 }
 
 /* card */

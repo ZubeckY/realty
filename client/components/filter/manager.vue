@@ -41,11 +41,12 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, VModel, Vue } from "vue-property-decorator";
 
 @Component
 export default class FilterManager extends Vue {
-  managerCurrent: any = [];
+  @VModel() managerCurrent!: any;
+
   srcs = {
     1: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
     2: "https://cdn.vuetifyjs.com/images/lists/2.jpg",

@@ -7,18 +7,15 @@
           <card class="params-container pa-2">
 
             <card class="radius-small mb-2">
-              <filter-realty-type :realtyType="realtyType"
-                                  @changeValueRealtyType="changeValueRealtyType" />
+              <filter-realty-type v-model="realtyType" />
             </card>
 
             <card class="radius-small mb-2">
-              <filter-price :minPrice="minPrice"
-                            :maxPrice="maxPrice"
-                            :rangePrice="rangePrice" />
+              <filter-price v-model="price"/>
             </card>
 
             <card class="radius-small">
-              <filter-manager />
+              <filter-manager v-model="managerCurrent" />
             </card>
 
             <div class="d-flex flex-row justify-end">
@@ -53,7 +50,6 @@ import HeaderComponent from "~/components/header-component.vue";
 import CatalogCard from "~/components/catalog-card.vue";
 import Card from "~/components/card.vue";
 
-
 @Component({
   components: {
     Card,
@@ -68,10 +64,13 @@ export default class Pages extends Vue {
   realtyType: string[] = ["all"];
 
   // диапазон цен
-  minPrice: number = 1_000_000;
-  maxPrice: number = 45_000_000;
-  rangePrice: number[] = [1_000_000, 45_000_000];
+  price: any = {
+    min: 1_000_000,
+    max: 45_000_000,
+    range: [1_000_000, 45_000_000]
+  }
 
+  // Менеджер
   managerCurrent: any = [];
 
   reloadCatalog() {
@@ -81,15 +80,11 @@ export default class Pages extends Vue {
   setDefaultParams() {
     this.realtyType = ["all"];
 
-    this.minPrice = 1_000_000;
-    this.maxPrice = 45_000_000;
-    this.rangePrice = [1_000_000, 45_000_000];
+    this.price.min = 1_000_000;
+    this.price.max = 45_000_000;
+    this.price.range = [1_000_000, 45_000_000];
 
     this.managerCurrent = [];
-  }
-
-  changeValueRealtyType(value: any) {
-    return this.realtyType = value;
   }
 }
 </script>

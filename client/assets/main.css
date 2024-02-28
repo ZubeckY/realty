@@ -77,7 +77,16 @@ input[type="number"]:focus {
   font-size: 13px !important;
 }
 
+.v-input__slot {
+  padding: 0 8px !important;
+}
+
 * .v-text-field .v-input__slot {
+  min-height: 32px !important;
+}
+
+
+.v-select__selections {
   min-height: 32px !important;
 }
 
@@ -85,8 +94,16 @@ input[type="number"]:focus {
   padding: 0 !important;
 }
 
+.v-label {
+  left: 4px !important;
+}
+
 .v-text-field--outlined.v-input--dense .v-label {
   top: 6px !important;
+}
+
+.v-input__append-inner {
+  margin-top: 5px !important;
 }
 
 .v-text-field__details {
@@ -130,6 +147,41 @@ input[type="number"]:focus {
 
 .create-dialog__link + .create-dialog__link {
   margin-top: 10px;
+}
+
+/* body */
+.body {
+  width: 100%;
+  border-radius: var(--radius);
+}
+
+.body-container {
+  display: flex;
+  width: inherit;
+  flex-direction: row;
+}
+
+/* params */
+.params {
+  width: 100%;
+  max-width: 25%;
+  border-radius: var(--radius);
+}
+
+.params-container {
+  width: 100%;;
+  border-radius: var(--radius);
+}
+
+@media (max-width: 940px) {
+  .params {
+    display: none;
+  }
+}
+
+.params-title {
+  font-size: 14px;
+  font-weight: bold;
 }
 
 /* catalog */
@@ -178,7 +230,6 @@ input[type="number"]:focus {
     width: 100% !important;
   }
 }
-
 
 .catalog-card__carousel-item-container {
   display: block;

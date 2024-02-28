@@ -4,7 +4,7 @@
       <v-container>
 
         <Nuxt />
-        <action-form :dialog="actionDialog"
+        <action-dialog :dialog="actionDialog"
                      :confirm="actionConfirm"
                      :title="actionTitle"
                      :text="actionText"
@@ -18,10 +18,10 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import ActionForm from "~/components/action-form.vue";
+import ActionDialog from "~/components/action-dialog.vue";
 
 @Component({
-  components: { ActionForm }
+  components: { ActionDialog }
 })
 export default class Admin extends Vue {
   themes: any = this.$store.state.themes;

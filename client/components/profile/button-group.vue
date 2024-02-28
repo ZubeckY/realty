@@ -35,7 +35,7 @@
         Выйти из профиля
       </v-btn>
 
-      <action-form :dialog="exitDialog"
+      <action-dialog :dialog="exitDialog"
                    @changeDialog="changeExitDialog"
                    @isCanceled="closeExitDialog"
                    title="Выход из аккаунта"
@@ -47,10 +47,10 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import ActionForm from "~/components/action-form.vue";
+import ActionDialog from "~/components/action-dialog.vue";
 
 @Component({
-  components: { ActionForm }
+  components: { ActionDialog }
 })
 export default class ProfileButtonGroup extends Vue {
   @Prop() editMode!: boolean;

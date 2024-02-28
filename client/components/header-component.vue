@@ -1,17 +1,16 @@
 <template>
   <header :class="'header ' + themes[activeTheme]['article']">
     <div class="header-container">
-
-      <v-btn color="white" elevation="0" x-small fab>
-        <v-icon color="primary darken-1">mdi-application-outline</v-icon>
-      </v-btn>
-
       <div class="header-panel">
         <div class="header-search">
-          <label class="header-search__label mx-2" for="search">
-            <input :class="'header-search__input ' + themes[activeTheme]['input']"
-                   placeholder="Поиск" type="text" id="search" />
-          </label>
+
+          <div class="small-input">
+            <v-autocomplete label="Поиск"
+                            append-icon=""
+                            hide-details
+                            outlined
+                            dense />
+          </div>
 
           <!-- Фильтр -->
           <dialog-filter />
@@ -96,15 +95,15 @@ export default class HeaderComponent extends Vue {
   align-items: center;
 }
 
-.header-search__input {
-  display: block;
-  width: 100vw;
-  height: 32px;
-  outline: none;
-  padding: 0 7px;
-  cursor: pointer;
-  max-width: 450px;
-  background: white;
-  border-radius: var(--radius-small);
-}
+/*.header-search__input {*/
+/*  display: block;*/
+/*  width: 100vw;*/
+/*  height: 32px;*/
+/*  outline: none;*/
+/*  padding: 0 7px;*/
+/*  cursor: pointer;*/
+/*  max-width: 450px;*/
+/*  background: white;*/
+/*  border-radius: var(--radius-small);*/
+/*}*/
 </style>

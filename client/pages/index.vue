@@ -3,11 +3,37 @@
     <header-component />
     <section class="body mt-3">
       <div class="body-container">
-        <card class="params">
-          <div class="params-container pa-2">
-            <card class="radius-small mb-2" v-for="i in 7" :key="i"></card>
-          </div>
-        </card>
+        <div class="params">
+          <card class="params-container pa-2">
+
+            <card class="radius-small mb-2">
+              <filter-realty-type :realtyType="realtyType"
+                                  @changeValueRealtyType="changeValueRealtyType" />
+            </card>
+
+            <card class="radius-small mb-2">
+              <filter-price :minPrice="minPrice"
+                            :maxPrice="maxPrice"
+                            :rangePrice="rangePrice" />
+            </card>
+
+            <card class="radius-small">
+              <filter-manager />
+            </card>
+
+            <div class="d-flex flex-row justify-end">
+              <v-btn class="radius-small white primary--text text--darken-1"
+                     elevation="0" small>
+                Применить
+              </v-btn>
+
+              <v-btn class="radius-small white error--text text--darken-1"
+                     elevation="0" small @click="setDefaultParams">
+                Сбросить
+              </v-btn>
+            </div>
+          </card>
+        </div>
 
         <article class="catalog">
           <div class="catalog-container">
@@ -19,42 +45,51 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import HeaderComponent from '~/components/header-component.vue'
-import CatalogCard from '~/components/catalog-card.vue'
-import Card from '~/components/card.vue'
+import { Component, Vue } from "vue-property-decorator";
+import FilterPrice from "~/components/filter/price.vue";
+import FilterManager from "~/components/filter/manager.vue";
+import FilterRealtyType from "~/components/filter/realty-type.vue";
+import HeaderComponent from "~/components/header-component.vue";
+import CatalogCard from "~/components/catalog-card.vue";
+import Card from "~/components/card.vue";
+
 
 @Component({
   components: {
     Card,
     HeaderComponent,
-    CatalogCard,
-  },
+    FilterRealtyType,
+    FilterManager,
+    CatalogCard
+  }
 })
-export default class Pages extends Vue {}
-</script>
-<style>
-.body {
-  width: 100%;
-  border-radius: var(--radius);
-}
+export default class Pages extends Vue {
+  loading: boolean = true;
+  realtyType: string[] = ["all"];
 
-.body-container {
-  display: flex;
-  width: inherit;
-  flex-direction: row;
-}
+  // диапазон цен
+  minPrice: number = 1_000_000;
+  maxPrice: number = 45_000_000;
+  rangePrice: number[] = [1_000_000, 45_000_000];
 
-.params {
-  width: 100%;
-  height: 80vh;
-  max-width: 25%;
-  border-radius: var(--radius);
-}
+  managerCurrent: any = [];
 
-@media (max-width: 940px) {
-  .params {
-    display: none;
+  reloadCatalog() {
+    this.loading = true;
+  }
+
+  setDefaultParams() {
+    this.realtyType = ["all"];
+
+    this.minPrice = 1_000_000;
+    this.maxPrice = 45_000_000;
+    this.rangePrice = [1_000_000, 45_000_000];
+
+    this.managerCurrent = [];
+  }
+
+  changeValueRealtyType(value: any) {
+    return this.realtyType = value;
   }
 }
-</style>
+</script>

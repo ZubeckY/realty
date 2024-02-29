@@ -6,10 +6,9 @@
           <div class="header-search">
             <div class="small-input">
               <v-text-field v-model="search"
-                            append-icon="mdi-magnify"
                             label="Поиск"
-                            outlined dense
-                            hide-details />
+                            hide-details
+                            outlined dense />
             </div>
           </div>
         </div>
@@ -113,7 +112,7 @@ export default class Leads extends Vue {
       created: "32.05.2024"
     },
     {
-      id: 4,
+      id: 5,
       name: "Василий Иваныч",
       phone: "+7(999)-666-69-69",
       comment: "",

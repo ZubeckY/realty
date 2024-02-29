@@ -1,5 +1,5 @@
 <template>
-  <v-menu offset-y>
+  <v-menu offset-y :close-on-content-click="false">
     <template v-slot:activator="{ attrs, on }">
       <v-btn class="radius-small white primary--text text--darken-1"
              elevation="0" height="32px"

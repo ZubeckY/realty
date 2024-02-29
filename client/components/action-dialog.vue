@@ -1,21 +1,20 @@
 <template>
-  <v-dialog v-model="defaultDialog" max-width="360px" :persistent="defaultPersistent">
+  <v-dialog v-model="defaultDialog" max-width="360px"
+            :persistent="defaultPersistent">
 
     <card class="actionDialog">
       <v-form class="actionDialog__container">
 
-        <div class="actionDialog__title"> {{ currentTitle }}</div>
-        <div class="actionDialog__text"> {{ currentText }}</div>
+        <div class="actionDialog__title"> {{ currentTitle }} </div>
+        <div class="actionDialog__text"> {{ currentText }} </div>
 
         <div class="actionDialog__textField mt-3" v-if="defaultConfirm">
           <div class="actionDialog__textField-item small-input">
-            <v-text-field
-              label="Имя"
-              type="text"
-              outlined
-              disabled
-              dense
-            />
+            <v-text-field label="Имя"
+                          type="text"
+                          outlined
+                          disabled
+                          dense />
           </div>
 
           <div class="actionDialog__textField-item small-input">

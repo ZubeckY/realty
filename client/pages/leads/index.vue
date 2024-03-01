@@ -57,8 +57,8 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import Card from "~/components/card.vue";
 import HeaderComponentMenu from "~/components/header-component-menu.vue"
+import Card from "~/components/card.vue";
 
 @Component({
   components: { Card, HeaderComponentMenu }

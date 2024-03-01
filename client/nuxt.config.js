@@ -2,7 +2,6 @@ import colors from 'vuetify/es5/util/colors'
 
 export default {
   // target: 'static',
-
   head: {
     titleTemplate: '%s - client',
     title: 'client',
@@ -17,15 +16,16 @@ export default {
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
+  components: true,
 
   css: [
     'assets/main.css',
     'assets/themes.css'
   ],
 
-  plugins: [],
-
-  components: true,
+  plugins: [
+    { src: '@/plugins/draggable'}
+  ],
 
   buildModules: [
     '@nuxt/typescript-build',

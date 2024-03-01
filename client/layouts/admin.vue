@@ -18,11 +18,8 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import ActionDialog from "~/components/action-dialog.vue";
 
-@Component({
-  components: { ActionDialog }
-})
+@Component
 export default class Admin extends Vue {
   themes: any = this.$store.state.themes;
   activeTheme: string = this.$store.state.activeTheme;

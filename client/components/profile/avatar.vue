@@ -49,11 +49,8 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Watch, Prop } from "vue-property-decorator"
-import AvatarLogoButtons from "~/components/profile/avatar-logo-buttons.vue"
 
-@Component({
-  components: { AvatarLogoButtons }
-})
+@Component
 export default class ProfileAvatar extends Vue {
   user: any = {
     avatar: "https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w1200/2023/10/free-images.jpg"

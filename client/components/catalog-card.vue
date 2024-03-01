@@ -85,12 +85,8 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import Card from "~/components/card.vue";
-import CatalogCardImage from "~/components/catalog-card-image.vue";
 
-@Component({
-  components: { Card, CatalogCardImage }
-})
+@Component
 export default class CatalogCard extends Vue {
   themes: any = this.$store.state.themes;
   activeTheme: string = this.$store.state.activeTheme;

@@ -47,11 +47,8 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
-import ActionDialog from "~/components/action-dialog.vue";
 
-@Component({
-  components: { ActionDialog }
-})
+@Component
 export default class ProfileButtonGroup extends Vue {
   @Prop() editMode!: boolean;
   localEditMode: boolean = false;

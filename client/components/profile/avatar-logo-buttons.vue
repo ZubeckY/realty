@@ -10,11 +10,8 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Watch, Prop } from "vue-property-decorator";
-import Card from "~/components/card.vue";
 
-@Component({
-  components: { Card }
-})
+@Component
 export default class AvatarLogoButtons extends Vue {
   themes: any = this.$store.state.themes;
   activeTheme: string = this.$store.state.activeTheme;

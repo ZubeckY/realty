@@ -21,17 +21,8 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator"
-import ProfileButtonGroup from "~/components/profile/button-group.vue"
-import ProfileAvatar from "~/components/profile/avatar.vue"
-import Card from "~/components/card.vue"
 
-@Component({
-  components: {
-    ProfileButtonGroup,
-    ProfileAvatar,
-    Card
-  }
-})
+@Component
 export default class Profile extends Vue {
   themes: any = this.$store.state.themes
   activeTheme: string = this.$store.state.activeTheme

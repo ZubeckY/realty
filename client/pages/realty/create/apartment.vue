@@ -297,11 +297,8 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import Card from "~/components/card.vue";
 
-@Component({
-  components: { Card }
-})
+@Component
 export default class CreateApartment extends Vue {
   params: any = {};
   themes: any = this.$store.state.themes;

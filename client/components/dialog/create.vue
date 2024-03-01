@@ -24,12 +24,8 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import ActionDialog from "~/components/action-dialog.vue";
-import Card from "~/components/card.vue";
 
-@Component({
-  components: { Card, ActionDialog }
-})
+@Component
 export default class DialogCreate extends Vue {
   types: any = [];
   dialog: boolean = false;

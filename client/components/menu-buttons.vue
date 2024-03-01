@@ -4,7 +4,7 @@
            :class="'justify-start ' + themes[activeTheme]['title']"
            :key="'profile-list-item-' + i"
            @click="$router.push(link)"
-           block x-small text>
+           block small text>
       <v-icon class="mr-1" x-small>{{ icon }}</v-icon>
       <span>{{ title }}</span>
     </v-btn>

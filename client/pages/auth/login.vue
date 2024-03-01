@@ -11,11 +11,8 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import Card from "~/components/card.vue";
 
-@Component({
-  components: { Card }
-})
+@Component
 export default class Login extends Vue {
 };
 </script>

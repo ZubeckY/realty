@@ -27,27 +27,18 @@
 
       <v-spacer />
 
-      <header-component-menu />
+      <personal-button />
 
     </div>
   </header>
 </template>
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator"
-import DialogCreate from "~/components/dialog/create.vue"
-import DialogFilter from "~/components/dialog/filter.vue"
-import HeaderComponentMenu from "~/components/header-component-menu.vue"
+import { Component, Vue } from "vue-property-decorator";
 
-@Component({
-  components: {
-    DialogCreate,
-    DialogFilter,
-    HeaderComponentMenu
-  }
-})
+@Component
 export default class HeaderComponent extends Vue {
-  themes: any = this.$store.state.themes
-  activeTheme: string = this.$store.state.activeTheme
+  themes: any = this.$store.state.themes;
+  activeTheme: string = this.$store.state.activeTheme;
 }
 </script>
 <style>

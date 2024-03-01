@@ -2,7 +2,13 @@
   <v-app :class="themes[activeTheme]['background']">
     <v-main>
       <v-container>
-        <Nuxt />
+        <header-component />
+
+        <div class="mt-3 d-flex" style="width: 100%;">
+          <menu-buttons class="mr-3"/>
+
+          <Nuxt style="width: 100%;" />
+        </div>
       </v-container>
     </v-main>
   </v-app>
@@ -10,6 +16,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+
 @Component
 export default class Default extends Vue {
   themes: any = this.$store.state.themes

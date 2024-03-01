@@ -1,95 +1,70 @@
 <template>
-  <div>
-    <header :class="'header mb-3 ' + themes[activeTheme]['article']">
-      <div class="header-container">
-        <div class="header-panel">
-          <div class="header-search">
-            <div class="small-input">
-              <!--              <v-text-field v-model="search"-->
-              <!--                            label="Поиск"-->
-              <!--                            hide-details-->
-              <!--                            outlined dense />-->
-            </div>
-          </div>
+  <div class="d-flex flex-row">
+
+    <div style="width: 100%">
+      <h3>Потенциальный клиент</h3>
+      <draggable class="list-group" :list="myArray1" group="people">
+        <div
+          class="list-group-item"
+          v-for="(element, index) in myArray1"
+          :key="element.id"
+        >
+          {{ element.text }}
         </div>
-
-        <v-spacer />
-
-        <header-component-menu />
-      </div>
-    </header>
-
-    <div class="d-flex flex-row">
-
-      <div style="width: 100%">
-        <h3>Потенциальный клиент</h3>
-        <draggable class="list-group" :list="myArray1" group="people">
-          <div
-            class="list-group-item"
-            v-for="(element, index) in myArray1"
-            :key="element.id"
-          >
-            {{ element.text }}
-          </div>
-        </draggable>
-      </div>
-
-      <div style="width: 100%">
-        <h3>Первый звонок</h3>
-        <draggable class="list-group" :list="myArray2" group="people">
-          <div class="list-group-item"
-               v-for="(element, index) in myArray2"
-               :key="element.id">
-            {{ element.text }}
-          </div>
-        </draggable>
-      </div>
-
-      <div style="width: 100%">
-        <h3>Покупатель прогрет</h3>
-        <draggable class="list-group" :list="myArray3" group="people">
-          <div class="list-group-item"
-               v-for="(element, index) in myArray3"
-               :key="element.id">
-            {{ element.text }}
-          </div>
-        </draggable>
-      </div>
-
-      <div style="width: 100%">
-        <h3>Переход в сделку</h3>
-        <draggable class="list-group" :list="myArray4" group="people">
-          <div class="list-group-item"
-               v-for="(element, index) in myArray4"
-               :key="element.id">
-            {{ element.text }}
-          </div>
-        </draggable>
-      </div>
-
-      <div style="width: 100%">
-        <h3>Закрыто не реализовано</h3>
-        <draggable class="list-group" :list="myArray5" group="people">
-          <div class="list-group-item"
-               v-for="(element, index) in myArray5"
-               :key="element.id">
-            {{ element.text }}
-          </div>
-        </draggable>
-      </div>
-
-
+      </draggable>
     </div>
+
+    <div style="width: 100%">
+      <h3>Первый звонок</h3>
+      <draggable class="list-group" :list="myArray2" group="people">
+        <div class="list-group-item"
+             v-for="(element, index) in myArray2"
+             :key="element.id">
+          {{ element.text }}
+        </div>
+      </draggable>
+    </div>
+
+    <div style="width: 100%">
+      <h3>Покупатель прогрет</h3>
+      <draggable class="list-group" :list="myArray3" group="people">
+        <div class="list-group-item"
+             v-for="(element, index) in myArray3"
+             :key="element.id">
+          {{ element.text }}
+        </div>
+      </draggable>
+    </div>
+
+    <div style="width: 100%">
+      <h3>Переход в сделку</h3>
+      <draggable class="list-group" :list="myArray4" group="people">
+        <div class="list-group-item"
+             v-for="(element, index) in myArray4"
+             :key="element.id">
+          {{ element.text }}
+        </div>
+      </draggable>
+    </div>
+
+    <div style="width: 100%">
+      <h3>Закрыто не реализовано</h3>
+      <draggable class="list-group" :list="myArray5" group="people">
+        <div class="list-group-item"
+             v-for="(element, index) in myArray5"
+             :key="element.id">
+          {{ element.text }}
+        </div>
+      </draggable>
+    </div>
+
+
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import HeaderComponentMenu from "~/components/header-component-menu.vue";
-import Card from "~/components/card.vue";
 
-@Component({
-  components: { Card, HeaderComponentMenu }
-})
+@Component
 export default class Funnel extends Vue {
   themes: any = this.$store.state.themes;
   activeTheme: string = this.$store.state.activeTheme;

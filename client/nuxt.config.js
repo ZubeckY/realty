@@ -1,7 +1,6 @@
 import colors from 'vuetify/es5/util/colors'
 
 export default {
-  // target: 'static',
   head: {
     titleTemplate: '%s - client',
     title: 'client',
@@ -24,7 +23,7 @@ export default {
   ],
 
   plugins: [
-    { src: '@/plugins/draggable'}
+    { src: '@/plugins/draggable'},
   ],
 
   buildModules: [

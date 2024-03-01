@@ -10,7 +10,7 @@
     </v-btn>
 
     <v-btn :class="'justify-start ' + themes[activeTheme]['text']"
-           @click="changeDialog" block x-small text>
+           @click="changeDialog" block small text>
       <v-icon class="mr-1" x-small>mdi-cog</v-icon>
       <span>Настроить меню</span>
     </v-btn>
@@ -28,19 +28,21 @@
 
             <template v-slot:item.position="{ item }">
               <td class="text-start">
-                <div class="d-flex flex-column">
+                <div class="d-flex flex-row">
                   <v-btn class="ma-0 pa-0" elevation="0"
                          @click="changePositionUp(item)"
                          :disabled="isFirstElement(item)"
-                         width="auto" height="auto" x-small text>
-                    <v-icon>mdi-arrow-up-bold-circle</v-icon>
+                         width="auto" height="auto"
+                         color="primary darken-1" x-small text>
+                    <v-icon>mdi-arrow-up-bold</v-icon>
                   </v-btn>
 
                   <v-btn class="ma-0 pa-0" elevation="0"
                          @click="changePositionDown(item)"
                          :disabled="isLastElement(item)"
-                         width="auto" height="auto" x-small text>
-                    <v-icon>mdi-arrow-down-bold-circle</v-icon>
+                         width="auto" height="auto"
+                         color="error darken-1" x-small text>
+                    <v-icon>mdi-arrow-down-bold</v-icon>
                   </v-btn>
                 </div>
               </td>
@@ -73,16 +75,14 @@ import Card from "~/components/card.vue";
 @Component({
   components: { Card, ActionDialog }
 })
-export default class HeaderComponentButtons extends Vue {
-  @Prop() userID!: number;
-
+export default class MenuButtons extends Vue {
   dialog: boolean = false;
   themes: any = this.$store.state.themes;
   activeTheme: string = this.$store.state.activeTheme;
 
   headers: any = [
     {
-      text: "",
+      text: "Позиция",
       value: "position",
       sortable: false
     },
@@ -101,14 +101,30 @@ export default class HeaderComponentButtons extends Vue {
   profileLinks = [
     {
       position: 10,
-      icon: "mdi-account",
-      title: "Профиль",
-      link: this.getProfileLink(),
+      icon: "mdi-newspaper-variant",
+      title: "Новости",
+      link: '/news',
       access: true,
       showItem: true
     },
     {
       position: 20,
+      icon: "mdi-account",
+      title: "Профиль",
+      link: '/profile/1',
+      access: true,
+      showItem: true
+    },
+    {
+      position: 30,
+      icon: "mdi-chart-scatter-plot-hexbin",
+      title: "Админ панель",
+      link: '/admin',
+      access: true,
+      showItem: true
+    },
+    {
+      position: 40,
       icon: "mdi-city",
       title: "Недвижимость",
       link: "/",
@@ -116,23 +132,23 @@ export default class HeaderComponentButtons extends Vue {
       showItem: true
     },
     {
-      position: 30,
+      position: 50,
       icon: "mdi-lead-pencil",
       title: "Лиды",
       link: "/leads",
-      access: this.leadCondition,
+      access: true,
       showItem: true
     },
     {
-      position: 40,
-      icon: "mdi-triangle-down",
+      position: 60,
+      icon: "mdi-filter-variant",
       title: "Воронка",
       link: "/funnel",
       access: true,
       showItem: true
     },
     {
-      position: 50,
+      position: 70,
       icon: "mdi-account-multiple-outline",
       title: "Клиенты",
       link: "/clients",
@@ -140,7 +156,7 @@ export default class HeaderComponentButtons extends Vue {
       showItem: true
     },
     {
-      position: 60,
+      position: 80,
       icon: "mdi-ticket-confirmation",
       title: "Бронь",
       link: "/reservation",
@@ -148,7 +164,7 @@ export default class HeaderComponentButtons extends Vue {
       showItem: true
     },
     {
-      position: 70,
+      position: 90,
       icon: "mdi-file-arrow-left-right",
       title: "Фиды",
       link: "/feeds",
@@ -156,7 +172,7 @@ export default class HeaderComponentButtons extends Vue {
       showItem: true
     },
     {
-      position: 80,
+      position: 100,
       icon: "mdi-chess-rook",
       title: "Шахматка",
       link: "/chess",
@@ -173,21 +189,12 @@ export default class HeaderComponentButtons extends Vue {
       });
   }
 
-
   get filterProfileLinksToSettings() {
     return this.profileLinks
       .filter((item) => item.access)
       .sort(function(a: any, b: any) {
         return a.position - b.position;
       });
-  }
-
-  getProfileLink(): string {
-    return "/profile/" + this.userID;
-  }
-
-  get leadCondition() {
-    return true;
   }
 
   changeDialog() {
@@ -245,11 +252,11 @@ export default class HeaderComponentButtons extends Vue {
   }
 
   isFirstElement(item: any): boolean {
-    return (this.profileLinks.findIndex(el => el.position === item.position)) === 0;
+    return (this.profileLinks.indexOf(item)) === 0;
   }
 
   isLastElement(item: any): boolean {
-    return (this.profileLinks.findIndex(el => el.position === item.position)) === (this.profileLinks.length - 1);
+    return (this.profileLinks.indexOf(item)) === (this.profileLinks.length - 1);
   }
 
 }

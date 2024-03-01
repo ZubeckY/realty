@@ -26,7 +26,7 @@ export const state = () => ({
     },
     {
       position: 40,
-      icon: "mdi-triangle-down",
+      icon: "mdi-filter-variant",
       title: "Воронка",
       link: "/funnel",
       access: true,

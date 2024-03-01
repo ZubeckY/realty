@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="defaultDialog" max-width="360px"
+  <v-dialog v-model="defaultDialog" max-width="380px"
             :persistent="defaultPersistent">
 
     <card class="actionDialog">

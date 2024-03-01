@@ -7,47 +7,11 @@
 
           <div class="profile-photo">
             <div class="profile-photo__container">
-
               <profile-avatar />
-
               <profile-button-group :editMode="editMode"
                                     @changeEditMode="changeEditMode" />
-
             </div>
           </div>
-
-          <card class="profile-data">
-            <div class="profile-data__container">
-              <div class="profile-data__name">
-                <!-- Имя -->
-                <div v-if="!editMode" :class="themes[activeTheme]['title']">Имя</div>
-                <div v-else class="profile-data__group">
-                  <div class="profile-data__title">Имя</div>
-                  <div class="small-input mr-3">
-                    <v-text-field :disabled="!editMode"
-                                  label="Имя"
-                                  outlined
-                                  counter
-                                  dense />
-                  </div>
-                </div>
-
-                <!-- Фамилия -->
-                <div v-if="!editMode" :class="'ml-3 ' + themes[activeTheme]['title']">Фамилия</div>
-                <div v-else class="profile-data__group ml-3">
-                  <div class="profile-data__title">Фамилия</div>
-                  <div class="small-input mr-3">
-                    <v-text-field :disabled="!editMode"
-                                  label="Фамилия"
-                                  outlined
-                                  counter
-                                  dense />
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </card>
 
         </div>
       </div>
@@ -110,22 +74,5 @@ export default class Profile extends Vue {
   transform: scale(1);
   object-position: 50% 50%;
   border-radius: var(--radius);
-}
-
-.profile-data {
-  width: calc(100% - 265px);
-  margin-left: 15px;
-}
-
-.profile-data__name {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-}
-
-.profile-data__title {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 8px;
 }
 </style>

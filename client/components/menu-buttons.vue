@@ -1,5 +1,5 @@
 <template>
-  <card class="py-1 px-0">
+  <article :class="'' + themes[activeTheme]['article']" style="height: calc(100vh - 60px)">
     <v-btn v-for="({link, title, icon}, i) in filterProfileLinks"
            :class="'justify-start ' + themes[activeTheme]['title']"
            :key="'profile-list-item-' + i"
@@ -62,7 +62,7 @@
       </div>
     </action-dialog>
 
-  </card>
+  </article>
 </template>
 
 <script lang="ts">

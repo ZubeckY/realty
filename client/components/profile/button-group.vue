@@ -11,7 +11,7 @@
         Сохранить
       </v-btn>
 
-      <v-btn class="radius-small white primary--text text--darken-1 mt-2"
+      <v-btn class="radius-small white error--text text--darken-1 mt-2"
              v-if="localEditMode" elevation="0" @click="changeEditMode" small block>
         Отмена
       </v-btn>

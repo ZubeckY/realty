@@ -2,7 +2,7 @@
   <v-app :class="themes[activeTheme]['background']">
     <v-main>
       <div class="main-container">
-        <header-component >
+        <header-component>
           <div class="small-input">
             <v-autocomplete label="Поиск"
                             append-icon=""
@@ -23,10 +23,12 @@
           </v-btn>
         </header-component>
 
-        <div class="mt-3 d-flex" style="width: 100%;">
-          <menu-buttons v-model="profileLinks" class="mr-3" />
+        <div class="d-flex" style="width: 100%;">
+          <menu-buttons v-model="profileLinks" class="pt-1" />
 
-          <Nuxt style="width: 100%;" />
+          <div class="pa-2 pr-0" style="width: 100%;">
+            <Nuxt />
+          </div>
         </div>
 
       </div>
@@ -49,12 +51,3 @@ export default class Default extends Vue {
 
 }
 </script>
-<style>
-.main-container {
-  width: 100%;
-  padding: 5px;
-  margin: 0 auto;
-  max-width: 1920px;
-}
-
-</style>

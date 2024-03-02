@@ -1,0 +1,79 @@
+/* vuetify */
+/* v-dialog */
+.v-dialog {
+  box-shadow: none !important;
+}
+
+/* v-data-table */
+.v-data-footer {
+  border-top: none !important;
+}
+
+.v-data-footer__select .v-select {
+  margin: 1px 0 4px 12px !important;
+}
+
+/* v-carousel */
+.v-carousel__controls {
+  height: 30px !important;
+}
+
+.v-carousel__controls .v-btn--icon.v-size--small {
+  width: auto !important;
+  height: auto !important;
+}
+
+/* v-window */
+.v-window__next *,
+.v-window__prev * {
+  font-size: 28px !important;
+}
+
+.v-window__next .v-btn,
+.v-window__prev .v-btn {
+  width: 32px !important;
+  height: 32px !important;
+}
+
+/* v-text-field */
+.v-text-field,
+.v-text-field * {
+  font-size: 13px !important;
+}
+
+.v-input__slot {
+  padding: 0 8px !important;
+}
+
+* .v-text-field .v-input__slot {
+  min-height: 32px !important;
+}
+
+.v-text-field input {
+  padding: 0 !important;
+}
+
+.v-label {
+  left: 4px !important;
+}
+
+.v-text-field--outlined.v-input--dense .v-label {
+  top: 6px !important;
+}
+
+.v-input__append-inner {
+  margin-top: 5px !important;
+}
+
+.v-text-field__details {
+  margin-bottom: 0 !important;
+}
+
+.v-text-field__details * {
+  font-size: 10px !important;
+}
+
+/* v-select */
+.v-select__selections {
+  min-height: 32px !important;
+}

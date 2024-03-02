@@ -19,7 +19,8 @@ export default {
 
   css: [
     'assets/main.css',
-    'assets/themes.css'
+    'assets/themes.css',
+    'assets/vuetify.css',
   ],
 
   plugins: [

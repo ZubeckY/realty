@@ -5,11 +5,11 @@
 
         <Nuxt />
         <action-dialog :dialog="actionDialog"
-                     :confirm="actionConfirm"
-                     :title="actionTitle"
-                     :text="actionText"
-                     @changeDialog="changeDialog"
-                     @isCanceled="closeDialog"
+                       :confirm="true"
+                       :title="actionTitle"
+                       :text="actionText"
+                       @changeDialog="changeDialog"
+                       @isCanceled="closeDialog"
         />
       </v-container>
     </v-main>
@@ -24,21 +24,20 @@ export default class Admin extends Vue {
   themes: any = this.$store.state.themes;
   activeTheme: string = this.$store.state.activeTheme;
 
-  actionDialog: boolean = true;
-  actionConfirm: boolean = true;
+  actionDialog: boolean = false;
   actionTitle: string = "Вход в админ панель";
   actionText: string = "Вы пытаетесь войти в админ панель! \n Для того, чтобы удостовериться, что действия выполняете Вы, введите пароль от своей учётной записи.";
 
   changeDialog(value: boolean) {
-    this.actionDialog = value
+    this.actionDialog = value;
   }
 
   closeDialog() {
-    this.actionDialog = false
+    this.actionDialog = false;
 
     setTimeout(() => {
-      this.$router.back()
-    }, 300)
+      this.$router.back();
+    }, 300);
   }
 
 }

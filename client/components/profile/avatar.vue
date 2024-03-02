@@ -16,9 +16,9 @@
         </div>
       </template>
 
-      <avatar-logo-buttons @showPhotoDialog="showPhotoDialog"
-                           @changePhotoDialog="changePhotoDialog"
-                           @deletePhotoDialog="deletePhotoDialog"/>
+      <profile-avatar-logo-buttons @showPhotoDialog="showPhotoDialog"
+                                   @changePhotoDialog="changePhotoDialog"
+                                   @deletePhotoDialog="deletePhotoDialog" />
 
     </v-menu>
 
@@ -48,7 +48,7 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue, Watch, Prop } from "vue-property-decorator"
+import { Component, Vue, Watch, Prop } from "vue-property-decorator";
 
 @Component
 export default class ProfileAvatar extends Vue {
@@ -68,17 +68,17 @@ export default class ProfileAvatar extends Vue {
 
   // Открыть диалоговое окно с фотографией
   showPhotoDialog() {
-    this.dialogShowPhoto = !this.dialogShowPhoto
+    this.dialogShowPhoto = !this.dialogShowPhoto;
   }
 
   // Заменить фотографию
   changePhotoDialog() {
-    this.dialogChangePhoto = !this.dialogChangePhoto
+    this.dialogChangePhoto = !this.dialogChangePhoto;
   }
 
   // Удалить фотографию из профиля
   deletePhotoDialog() {
-    this.dialogDeletePhoto = !this.dialogDeletePhoto
+    this.dialogDeletePhoto = !this.dialogDeletePhoto;
   }
 
 

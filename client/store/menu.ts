@@ -2,6 +2,14 @@ export const state = () => ({
   menu: [
     {
       position: 10,
+      icon: "mdi-newspaper-variant",
+      title: "Новости",
+      link: '/news',
+      access: true,
+      showItem: true
+    },
+    {
+      position: 20,
       icon: "mdi-account",
       title: "Профиль",
       link: '/profile/1',
@@ -9,7 +17,15 @@ export const state = () => ({
       showItem: true
     },
     {
-      position: 20,
+      position: 30,
+      icon: "mdi-chart-scatter-plot-hexbin",
+      title: "Админ панель",
+      link: '/admin',
+      access: true,
+      showItem: true
+    },
+    {
+      position: 40,
       icon: "mdi-city",
       title: "Недвижимость",
       link: "/",
@@ -17,7 +33,7 @@ export const state = () => ({
       showItem: true
     },
     {
-      position: 30,
+      position: 50,
       icon: "mdi-lead-pencil",
       title: "Лиды",
       link: "/leads",
@@ -25,15 +41,15 @@ export const state = () => ({
       showItem: true
     },
     {
-      position: 40,
+      position: 60,
       icon: "mdi-filter-variant",
-      title: "Воронка",
-      link: "/funnel",
+      title: "Сделки",
+      link: "/deals",
       access: true,
       showItem: true
     },
     {
-      position: 50,
+      position: 70,
       icon: "mdi-account-multiple-outline",
       title: "Клиенты",
       link: "/clients",
@@ -41,7 +57,7 @@ export const state = () => ({
       showItem: true
     },
     {
-      position: 60,
+      position: 80,
       icon: "mdi-ticket-confirmation",
       title: "Бронь",
       link: "/reservation",
@@ -49,7 +65,7 @@ export const state = () => ({
       showItem: true
     },
     {
-      position: 70,
+      position: 90,
       icon: "mdi-file-arrow-left-right",
       title: "Фиды",
       link: "/feeds",
@@ -57,7 +73,7 @@ export const state = () => ({
       showItem: true
     },
     {
-      position: 80,
+      position: 100,
       icon: "mdi-chess-rook",
       title: "Шахматка",
       link: "/chess",
@@ -72,6 +88,6 @@ export const mutations = {
 export const actions = {};
 export const getters = {
   getMenu(state: any) {
-    return state.menu
+    return JSON.parse(JSON.stringify(state.menu))
   }
 };

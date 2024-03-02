@@ -32,16 +32,14 @@
                   <v-btn class="ma-0 pa-0" elevation="0"
                          @click="changePositionUp(item)"
                          :disabled="isFirstElement(item)"
-                         width="auto" height="auto"
-                         color="primary darken-1" x-small text>
+                         color="primary darken-1" small icon>
                     <v-icon>mdi-arrow-up-bold</v-icon>
                   </v-btn>
 
                   <v-btn class="ma-0 pa-0" elevation="0"
                          @click="changePositionDown(item)"
                          :disabled="isLastElement(item)"
-                         width="auto" height="auto"
-                         color="error darken-1" x-small text>
+                         color="error darken-1" small icon>
                     <v-icon>mdi-arrow-down-bold</v-icon>
                   </v-btn>
                 </div>
@@ -68,7 +66,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, VModel, Vue } from "vue-property-decorator";
 import ActionDialog from "~/components/action-dialog.vue";
 import Card from "~/components/card.vue";
 
@@ -76,6 +74,7 @@ import Card from "~/components/card.vue";
   components: { Card, ActionDialog }
 })
 export default class MenuButtons extends Vue {
+  @VModel() profileLinks!: any
   dialog: boolean = false;
   themes: any = this.$store.state.themes;
   activeTheme: string = this.$store.state.activeTheme;
@@ -95,89 +94,6 @@ export default class MenuButtons extends Vue {
       text: "Показывать",
       value: "showItem",
       sortable: false
-    }
-  ];
-
-  profileLinks = [
-    {
-      position: 10,
-      icon: "mdi-newspaper-variant",
-      title: "Новости",
-      link: '/news',
-      access: true,
-      showItem: true
-    },
-    {
-      position: 20,
-      icon: "mdi-account",
-      title: "Профиль",
-      link: '/profile/1',
-      access: true,
-      showItem: true
-    },
-    {
-      position: 30,
-      icon: "mdi-chart-scatter-plot-hexbin",
-      title: "Админ панель",
-      link: '/admin',
-      access: true,
-      showItem: true
-    },
-    {
-      position: 40,
-      icon: "mdi-city",
-      title: "Недвижимость",
-      link: "/",
-      access: true,
-      showItem: true
-    },
-    {
-      position: 50,
-      icon: "mdi-lead-pencil",
-      title: "Лиды",
-      link: "/leads",
-      access: true,
-      showItem: true
-    },
-    {
-      position: 60,
-      icon: "mdi-filter-variant",
-      title: "Воронка",
-      link: "/funnel",
-      access: true,
-      showItem: true
-    },
-    {
-      position: 70,
-      icon: "mdi-account-multiple-outline",
-      title: "Клиенты",
-      link: "/clients",
-      access: true,
-      showItem: true
-    },
-    {
-      position: 80,
-      icon: "mdi-ticket-confirmation",
-      title: "Бронь",
-      link: "/reservation",
-      access: true,
-      showItem: true
-    },
-    {
-      position: 90,
-      icon: "mdi-file-arrow-left-right",
-      title: "Фиды",
-      link: "/feeds",
-      access: true,
-      showItem: true
-    },
-    {
-      position: 100,
-      icon: "mdi-chess-rook",
-      title: "Шахматка",
-      link: "/chess",
-      access: true,
-      showItem: true
     }
   ];
 

@@ -52,6 +52,21 @@ input[type="number"]:focus {
 }
 
 /* vuetify */
+/* v-dialog */
+.v-dialog {
+  box-shadow: none !important;
+}
+
+/* v-data-table */
+.v-data-footer {
+  border-top: none !important;
+}
+
+.v-data-footer__select .v-select {
+  margin: 1px 0 4px 12px !important;
+}
+
+/* v-carousel */
 .v-carousel__controls {
   height: 30px !important;
 }
@@ -61,6 +76,7 @@ input[type="number"]:focus {
   height: auto !important;
 }
 
+/* v-window */
 .v-window__next *,
 .v-window__prev * {
   font-size: 28px !important;
@@ -72,6 +88,7 @@ input[type="number"]:focus {
   height: 32px !important;
 }
 
+/* v-text-field */
 .v-text-field,
 .v-text-field * {
   font-size: 13px !important;
@@ -82,10 +99,6 @@ input[type="number"]:focus {
 }
 
 * .v-text-field .v-input__slot {
-  min-height: 32px !important;
-}
-
-.v-select__selections {
   min-height: 32px !important;
 }
 
@@ -118,13 +131,30 @@ input[type="number"]:focus {
   max-width: 250px !important;
 }
 
+/* v-select */
+.v-select__selections {
+  min-height: 32px !important;
+}
+
 /* table */
+th, td {
+  border-bottom: none !important;
+}
+
 thead tr {
-  background: #f0f0f0;
+  background: white !important;
+}
+
+thead * {
+  white-space: nowrap !important;
 }
 
 tr:nth-child(odd) {
-  background: #f3f3f3;
+  background: #f9f9f9;
+}
+
+tbody tr:hover {
+  background: #f7f7f7 !important;
 }
 
 /* card */
@@ -140,10 +170,6 @@ tr:nth-child(odd) {
 
 .radius-small {
   border-radius: var(--radius-small) !important;
-}
-
-.v-dialog {
-  box-shadow: none !important;
 }
 
 /* dialog */
@@ -364,4 +390,38 @@ tr:nth-child(odd) {
   font-size: 14px;
 }
 
-/* profile */
+/* actionDialog */
+ .actionDialog__container {
+   margin-top: 3px;
+   margin-left: 3px;
+ }
+
+.actionDialog__title {
+  font-weight: bold;
+}
+
+.actionDialog__text {
+  margin-block: 3px;
+  font-size: 13px;
+  word-break: normal;
+  white-space: pre-line;
+}
+
+.actionDialog__textField,
+.actionDialog__actions {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+}
+
+.actionDialog__customContent,
+.actionDialog__customContent * {
+  font-size: 13px;
+}
+
+.actionDialog__actions-container {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: flex-end;
+}

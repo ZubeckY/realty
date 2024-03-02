@@ -3,30 +3,11 @@
     <div class="header-container">
       <div class="header-panel">
         <div class="header-search">
-
-          <div class="small-input">
-            <v-autocomplete label="Поиск"
-                            append-icon=""
-                            hide-details
-                            outlined
-                            dense />
-          </div>
-
-          <!-- Фильтр -->
-          <dialog-filter />
-
-          <!-- Создать -->
-          <dialog-create />
-
-          <!-- Корзина -->
-          <v-btn color="white" elevation="0" x-small fab>
-            <v-icon color="primary darken-1">mdi-delete</v-icon>
-          </v-btn>
+          <slot></slot>
         </div>
       </div>
 
       <v-spacer />
-
       <personal-button />
 
     </div>

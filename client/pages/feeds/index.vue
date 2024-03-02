@@ -18,14 +18,6 @@
                     ]
                   }" dense>
 
-    <template v-slot:item.status="{ item }">
-      <td class="text-start">
-        <v-chip :color="getColor(item.status)" small dark>
-          {{ item.status }}
-        </v-chip>
-      </td>
-    </template>
-
     <template v-slot:item.actions="{ item }">
       <v-icon small color="primary darken-1" class="mr-2">mdi-pencil</v-icon>
       <v-icon small color="error darken-1">mdi-delete</v-icon>
@@ -79,21 +71,6 @@ export default class Feeds extends Vue {
       active: true
     }
   ];
-
-  getColor(item: string) {
-    switch (item.toLowerCase()) {
-      case "потенциальный клиент":
-        return "yellow darken-1";
-      case "первый звонок":
-        return "orange";
-      case "покупатель прогрет":
-        return "red";
-      case "переход в сделку":
-        return "lime";
-      case "закрыто и не реализовано":
-        return "green";
-    }
-  }
 
 };
 </script>

@@ -6,9 +6,10 @@
     </v-btn>
     <action-dialog :dialog="dialog"
                    :persistent="false"
-                   @isCanceled="changeDialog"
                    title="Фильтры"
-                   text="">
+                   text=""
+                   cancel-text="Сбросить"
+                   @isCanceled="setDefaultParams">
       <div class="create-dialog__card">
         <div class="create-dialog__card-container">
 
@@ -23,19 +24,6 @@
           <card class="radius-small">
             <filter-manager v-model="managerCurrent" />
           </card>
-
-          <div class="d-flex flex-row justify-end">
-            <v-btn class="radius-small white primary--text text--darken-1"
-                   elevation="0" small>
-              Применить
-            </v-btn>
-
-            <v-btn class="radius-small white error--text text--darken-1"
-                   elevation="0" small @click="setDefaultParams">
-              Сбросить
-            </v-btn>
-
-          </div>
         </div>
       </div>
     </action-dialog>
@@ -45,7 +33,7 @@
 import { Component, Vue } from "vue-property-decorator";
 
 @Component
-export default class DialogFilter extends Vue {
+export default class FilterDialog extends Vue {
   dialog: boolean = false;
 
   changeDialog() {
@@ -77,6 +65,8 @@ export default class DialogFilter extends Vue {
     this.price.range = [1_000_000, 45_000_000];
 
     this.managerCurrent = [];
+
+    this.changeDialog()
   }
 }
 </script>

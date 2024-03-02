@@ -26,7 +26,7 @@
 import { Component, Vue } from "vue-property-decorator";
 
 @Component
-export default class DialogCreate extends Vue {
+export default class RealtyCreate extends Vue {
   types: any = [];
   dialog: boolean = false;
 

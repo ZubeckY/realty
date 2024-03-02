@@ -1,17 +1,5 @@
 <template>
   <div>
-    <div class="profile-photo__group" v-if="!localEditMode">
-      <v-btn class="radius-small white primary--text text--darken-1 mt-2"
-             elevation="0" @click="$router.push('/')" small block>
-        Перейти в каталог
-      </v-btn>
-
-      <v-btn class="radius-small white primary--text text--darken-1 mt-2"
-             elevation="0" @click="$router.push('/admin')" small block>
-        Админ панель
-      </v-btn>
-    </div>
-
     <div class="profile-photo__group">
       <v-btn class="radius-small white primary--text text--darken-1 mt-2"
              v-if="!localEditMode" elevation="0" @click="changeEditMode" small block>
@@ -36,10 +24,10 @@
       </v-btn>
 
       <action-dialog :dialog="exitDialog"
-                   @changeDialog="changeExitDialog"
-                   @isCanceled="closeExitDialog"
-                   title="Выход из аккаунта"
-                   text="Вы действительно хотите выйти из аккаунта?" />
+                     @changeDialog="changeExitDialog"
+                     @isCanceled="closeExitDialog"
+                     title="Выход из аккаунта"
+                     text="Вы действительно хотите выйти из аккаунта?" />
 
     </div>
 
@@ -49,7 +37,7 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 
 @Component
-export default class ProfileButtonGroup extends Vue {
+export default class ButtonGroup extends Vue {
   @Prop() editMode!: boolean;
   localEditMode: boolean = false;
   exitDialog: boolean = false;
@@ -70,11 +58,11 @@ export default class ProfileButtonGroup extends Vue {
   }
 
   changeExitDialog(value: boolean) {
-    return this.exitDialog = value
+    return this.exitDialog = value;
   }
 
   closeExitDialog() {
-    return this.exitDialog = false
+    return this.exitDialog = false;
   }
 
   async checkIDToValid() {
@@ -88,8 +76,6 @@ export default class ProfileButtonGroup extends Vue {
       }
 
       await this.$axios.get("/api/users/findUserByID?userID=" + numericNeedID);
-
-      console.log("");
 
     } catch (e) {
       console.log(e);

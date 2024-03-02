@@ -1,13 +1,15 @@
 <template>
-  <article :class="'' + themes[activeTheme]['article']" style="height: calc(100vh - 60px)">
-    <v-btn v-for="({link, title, icon}, i) in filterProfileLinks"
-           :class="'justify-start ' + themes[activeTheme]['title']"
-           :key="'profile-list-item-' + i"
-           @click="$router.push(link)"
-           block small text>
-      <v-icon class="mr-1" x-small>{{ icon }}</v-icon>
-      <span>{{ title }}</span>
-    </v-btn>
+  <article :class="'' + themes[activeTheme]['article']" style="height: calc(100vh - 55px)">
+    <v-btn-toggle class="d-flex flex-column" dense group tile>
+      <v-btn v-for="({link, title, icon}, i) in filterProfileLinks"
+             :class="'justify-start my-0 ' + themes[activeTheme]['title']"
+             :key="'profile-list-item-' + i"
+             @click="$router.push(link)"
+             block small text>
+        <v-icon class="mr-1" x-small>{{ icon }}</v-icon>
+        <span>{{ title }}</span>
+      </v-btn>
+    </v-btn-toggle>
 
     <v-btn :class="'justify-start ' + themes[activeTheme]['text']"
            @click="changeDialog" block small text>
@@ -74,7 +76,7 @@ import Card from "~/components/card.vue";
   components: { Card, ActionDialog }
 })
 export default class MenuButtons extends Vue {
-  @VModel() profileLinks!: any
+  @VModel() profileLinks!: any;
   dialog: boolean = false;
   themes: any = this.$store.state.themes;
   activeTheme: string = this.$store.state.activeTheme;

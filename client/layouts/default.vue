@@ -3,24 +3,7 @@
     <v-main>
       <div class="main-container">
         <header-component>
-          <div class="small-input">
-            <v-autocomplete label="Поиск"
-                            append-icon=""
-                            hide-details
-                            outlined
-                            dense />
-          </div>
-
-          <!-- Фильтр -->
-          <filter-dialog />
-
-          <!-- Создать -->
-          <realty-create />
-
-          <!-- Корзина -->
-          <v-btn color="white" elevation="0" x-small fab>
-            <v-icon color="primary darken-1">mdi-delete</v-icon>
-          </v-btn>
+          <component :is="currentHeader"></component>
         </header-component>
 
         <div class="d-flex" style="width: 100%;">
@@ -44,6 +27,7 @@ export default class Default extends Vue {
   themes: any = this.$store.state.themes;
   activeTheme: string = this.$store.state.activeTheme;
   profileLinks = [];
+  currentHeader: string = 'realty-header'
 
   created() {
     this.profileLinks = this.$store.getters["menu/getMenu"];

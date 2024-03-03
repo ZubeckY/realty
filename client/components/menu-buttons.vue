@@ -1,11 +1,14 @@
 <template>
-  <article :class="'' + themes[activeTheme]['article']" style="height: calc(100vh - 55px)">
-    <v-btn-toggle class="d-flex flex-column" dense group tile>
-      <v-btn v-for="({link, title, icon}, i) in filterProfileLinks"
+  <article :class="'' + themes[activeTheme]['article']">
+    <v-btn-toggle v-model="currentHeaderLocal"
+                  class="d-flex flex-column"
+                  mandatory dense group tile>
+      <v-btn v-for="({link, title, icon, headerComponent}, i) in filterProfileLinks"
              :class="'justify-start my-0 ' + themes[activeTheme]['title']"
              :key="'profile-list-item-' + i"
+             :value="headerComponent"
              @click="$router.push(link)"
-             block small text>
+             small text>
         <v-icon class="mr-1" x-small>{{ icon }}</v-icon>
         <span>{{ title }}</span>
       </v-btn>
@@ -68,18 +71,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, VModel, Vue } from "vue-property-decorator";
-import ActionDialog from "~/components/action-dialog.vue";
-import Card from "~/components/card.vue";
+import { Component, Prop, VModel, Vue, Watch } from "vue-property-decorator";
 
-@Component({
-  components: { Card, ActionDialog }
-})
+@Component
 export default class MenuButtons extends Vue {
   @VModel() profileLinks!: any;
+  @Prop() currentHeader!: string;
   dialog: boolean = false;
   themes: any = this.$store.state.themes;
   activeTheme: string = this.$store.state.activeTheme;
+  currentHeaderLocal: string = ''
 
   headers: any = [
     {
@@ -99,9 +100,23 @@ export default class MenuButtons extends Vue {
     }
   ];
 
+  created() {
+    this.changeCurrentHeaderLocal()
+  }
+
+  @Watch('$router.currentRoute')
+  logRouter(){
+    console.log(this.$router.currentRoute);
+  }
+
+  @Watch('currentHeader')
+  changeCurrentHeaderLocal() {
+    this.currentHeaderLocal = this.currentHeader
+  }
+
   get filterProfileLinks() {
     return this.profileLinks
-      .filter((item) => item.access && item.showItem)
+      .filter((item: any) => item.access && item.showItem)
       .sort(function(a: any, b: any) {
         return a.position - b.position;
       });
@@ -109,7 +124,7 @@ export default class MenuButtons extends Vue {
 
   get filterProfileLinksToSettings() {
     return this.profileLinks
-      .filter((item) => item.access)
+      .filter((item: any) => item.access)
       .sort(function(a: any, b: any) {
         return a.position - b.position;
       });
@@ -124,8 +139,7 @@ export default class MenuButtons extends Vue {
     if (this.isFirstElement(item)) return;
 
     // Индекс текущего элемента
-    let currentIndex = this.profileLinks
-      .findIndex(el => el.position === item.position);
+    let currentIndex = this.profileLinks.indexOf(item)
 
     // Индекс вышестоящего элемента
     let previousIndex = currentIndex - 1;
@@ -149,8 +163,7 @@ export default class MenuButtons extends Vue {
     if (this.isLastElement(item)) return;
 
     // Индекс текущего элемента
-    let currentIndex = this.profileLinks
-      .findIndex(el => el.position === item.position);
+    let currentIndex = this.profileLinks.indexOf(item)
 
     // Индекс нижестоящего элемента
     let nextIndex = currentIndex + 1;

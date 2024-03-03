@@ -6,7 +6,9 @@ export const state = () => ({
       title: "Новости",
       link: '/news',
       access: true,
-      showItem: true
+      showItem: true,
+      routeName: 'news',
+      headerComponent: 'news-header'
     },
     {
       position: 20,
@@ -14,7 +16,9 @@ export const state = () => ({
       title: "Профиль",
       link: '/profile/1',
       access: true,
-      showItem: true
+      showItem: true,
+      routeName: 'profile-id',
+      headerComponent: 'profile-header'
     },
     {
       position: 30,
@@ -22,15 +26,19 @@ export const state = () => ({
       title: "Админ панель",
       link: '/admin',
       access: true,
-      showItem: true
+      showItem: true,
+      routeName: 'admin',
+      headerComponent: 'admin-header'
     },
     {
       position: 40,
       icon: "mdi-city",
       title: "Недвижимость",
-      link: "/",
+      link: "/realty",
       access: true,
-      showItem: true
+      showItem: true,
+      routeName: 'realty',
+      headerComponent: 'realty-header'
     },
     {
       position: 50,
@@ -38,7 +46,9 @@ export const state = () => ({
       title: "Лиды",
       link: "/leads",
       access: true,
-      showItem: true
+      showItem: true,
+      routeName: 'leads',
+      headerComponent: 'leads-header'
     },
     {
       position: 60,
@@ -46,7 +56,9 @@ export const state = () => ({
       title: "Сделки",
       link: "/deals",
       access: true,
-      showItem: true
+      showItem: true,
+      routeName: 'deals',
+      headerComponent: 'deals-header'
     },
     {
       position: 70,
@@ -54,7 +66,9 @@ export const state = () => ({
       title: "Клиенты",
       link: "/clients",
       access: true,
-      showItem: true
+      showItem: true,
+      routeName: 'clients',
+      headerComponent: 'clients-header'
     },
     {
       position: 80,
@@ -62,7 +76,9 @@ export const state = () => ({
       title: "Бронь",
       link: "/reservation",
       access: true,
-      showItem: true
+      showItem: true,
+      routeName: 'clients',
+      headerComponent: 'reservation-header'
     },
     {
       position: 90,
@@ -70,7 +86,9 @@ export const state = () => ({
       title: "Фиды",
       link: "/feeds",
       access: true,
-      showItem: true
+      showItem: true,
+      routeName: 'feeds',
+      headerComponent: 'feeds-header'
     },
     {
       position: 100,
@@ -78,7 +96,9 @@ export const state = () => ({
       title: "Шахматка",
       link: "/chess",
       access: true,
-      showItem: true
+      showItem: true,
+      routeName: 'chess',
+      headerComponent: 'chess-header'
     }
   ]
 });

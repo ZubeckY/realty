@@ -91,7 +91,7 @@ export default class CatalogCard extends Vue {
   themes: any = this.$store.state.themes;
   activeTheme: string = this.$store.state.activeTheme;
 
-  image: string = "https://via.placeholder.com/1920x1200/66db18?text=16:10";
+  image: string = "https://via.placeholder.com/1920x1200/eee?text=16:10";
 
 }
 </script>

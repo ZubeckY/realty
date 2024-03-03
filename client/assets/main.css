@@ -383,3 +383,33 @@ tbody tr:hover {
   flex-direction: row;
   justify-content: flex-end;
 }
+
+/* personal */
+.personal-button {
+  height: auto;
+  padding: 0 !important;
+  text-align: start !important;
+  text-transform: none !important;
+  border-radius: var(--radius-small) !important;
+}
+
+.personal-button__container {
+  display: flex;
+  height: 100%;
+  flex-direction: row;
+  align-items: center;
+}
+.personal-button__info {
+  display: flex;
+  margin-left: 5px;
+  flex-direction: column;
+}
+
+.personal-button__name {
+  font-weight: 600 !important;
+  margin-bottom: 3px;
+}
+
+.personal-button__role {
+  font-weight: 400 !important;
+}

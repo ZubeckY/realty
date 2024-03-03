@@ -1,24 +1,24 @@
 <template>
   <div>
     <div class="profile-photo__group">
-      <v-btn class="radius-small white primary--text text--darken-1 mt-2"
+      <v-btn class="radius-small primary darken-1 white--text mt-2"
              v-if="!localEditMode" elevation="0" @click="changeEditMode" small block>
         Редактировать
       </v-btn>
 
-      <v-btn class="radius-small white primary--text text--darken-1 mt-2"
+      <v-btn class="radius-small primary darken-1 white--text mt-2"
              v-if="localEditMode" elevation="0" @click="changeEditMode" small block>
         Сохранить
       </v-btn>
 
-      <v-btn class="radius-small white error--text text--darken-1 mt-2"
+      <v-btn class="radius-small error darken-1 white--text mt-2"
              v-if="localEditMode" elevation="0" @click="changeEditMode" small block>
         Отмена
       </v-btn>
     </div>
 
     <div class="profile-photo__group" v-if="!localEditMode">
-      <v-btn class="radius-small white error--text text--darken-1 mt-2"
+      <v-btn class="radius-small error darken-1 white--text mt-2"
              elevation="0" @click="exitDialog = !exitDialog" small block>
         Выйти из профиля
       </v-btn>

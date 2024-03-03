@@ -3,12 +3,11 @@
     <div class="header-container">
       <div style="width: 100%; max-width: 152px">
         <v-btn color="primary darken-1" elevation="0"
-               @click="$router.back()"
-               small text>
+               @click="$router.back()" small>
           <v-icon>mdi-arrow-left-bold</v-icon>
         </v-btn>
         <v-btn color="primary darken-1" elevation="0"
-               @click="$router.forward()" small text>
+               @click="$router.forward()" small>
           <v-icon>mdi-arrow-right-bold</v-icon>
         </v-btn>
       </div>

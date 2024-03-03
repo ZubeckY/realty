@@ -38,21 +38,21 @@
 
         <div class="actionDialog__actions">
           <div v-if="defaultPopup" class="actionDialog__actions-container">
-            <v-btn class="radius-small white primary--text text--darken-1"
-                   elevation="0" small block @click="isCanceled">
+            <v-btn class="radius-small primary darken-1 white--text"
+                   elevation="0" x-small block @click="isCanceled">
               {{ defaultCancelText }}
             </v-btn>
           </div>
 
           <div v-else class="actionDialog__actions-container">
-            <v-btn class="radius-small white primary--text text--darken-1"
-                   elevation="0" small>
-              {{ defaultConfirmText }}
+            <v-btn class="radius-small grey darken-1 white--text mr-2"
+                   elevation="0" x-small @click="isCanceled">
+              {{ defaultCancelText }}
             </v-btn>
 
-            <v-btn class="radius-small white error--text text--darken-1"
-                   elevation="0" small @click="isCanceled">
-              {{ defaultCancelText }}
+            <v-btn class="radius-small primary darken-1 white--text"
+                   elevation="0" x-small>
+              {{ defaultConfirmText }}
             </v-btn>
           </div>
         </div>

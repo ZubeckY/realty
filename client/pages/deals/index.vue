@@ -15,7 +15,7 @@
     </div>
 
     <div style="width: 100%">
-      <h3>Первый звонок</h3>
+      <h3>нет ответа</h3>
       <draggable class="list-group" :list="myArray2" group="people">
         <div class="list-group-item"
              v-for="(element, index) in myArray2"

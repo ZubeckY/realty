@@ -73,7 +73,7 @@ export default class Leads extends Vue {
 
   created() {
     // todo запрос на бек
-    // setTimeout(() => {
+    setTimeout(() => {
     this.leads = [
       {
         id: 1,
@@ -88,7 +88,7 @@ export default class Leads extends Vue {
         name: "Иван Васильевич",
         phone: "+7(800)-555-35-35",
         comment: "Хочу питсы",
-        status: "первый звонок",
+        status: "нет ответа",
         created: "32.05.2024"
       },
       {
@@ -117,7 +117,7 @@ export default class Leads extends Vue {
       }
     ];
     this.loading = false;
-    // }, 300)
+    }, 300)
   }
 
 };

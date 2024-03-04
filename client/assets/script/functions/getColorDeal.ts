@@ -1,15 +1,17 @@
+import { Stages } from "~/assets/script/models/Stages";
+
 export default function getColorDeal(item: string): string {
   switch (item) {
-    case "потенциальный клиент":
-      return "yellow darken-1 white--text";
-    case "первый звонок":
-      return "orange darken-1 white--text";
-    case "покупатель прогрет":
-      return "red darken-1 white--text";
-    case "переход в сделку":
-      return "lime darken-1 white--text";
-    case "закрыто и не реализовано":
+    case Stages['new_client']:
       return "green darken-1 white--text";
+    case Stages['no_answer']:
+      return "blue darken-1 white--text";
+    case Stages['is_warmed_up']:
+      return "amber darken-1 white--text";
+    case Stages['transition_to_deal']:
+      return "light-blue lighten-3 white--text";
+    case Stages['is_closed']:
+      return "red darken-1 white--text";
     default:
       return "";
   }

@@ -24,6 +24,7 @@ export default {
   ],
 
   plugins: [
+    { src: '@/plugins/v-mask'},
     { src: '@/plugins/draggable'},
   ],
 

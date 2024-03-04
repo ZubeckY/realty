@@ -4,26 +4,31 @@
       <div class="leadsForm-title">О сделке</div>
 
       <div class="leadsForm-wrapper mt-3">
-        <div class="small-input">
-          <v-text-field label="Название"
+        <div>
+          <v-text-field label="Имя Фамилия"
                         type="text"
                         outlined
                         dense />
         </div>
 
-        <div class="small-input">
-          <v-text-field label="Этап сделки"
+        <div>
+          <v-text-field label="Телефон"
+                        @click="setValue"
+                        v-model="model.phone"
+                        v-mask="'+7(###)-###-##-##'"
                         type="text"
                         outlined
                         dense />
         </div>
 
-
-        <div class="small-input">
-          <filter-manager :hide-title="true"/>
+        <div>
+          <v-text-field label="Стадия в воронке"
+                        type="text"
+                        outlined
+                        dense />
         </div>
 
-        <div class="small-input">
+        <div>
           <v-text-field label="Комментарий"
                         type="text"
                         outlined
@@ -36,11 +41,21 @@
 </template>
 
 <script lang="ts">
-import { Component, VModel, Vue } from "vue-property-decorator";
+import { Component, VModel, Vue, Watch } from "vue-property-decorator";
 
 @Component
 
 export default class LeadsForm extends Vue {
+  model: any = {
+    phone: '+7('
+  }
+
+  setValue() {
+    if (this.model.phone === '') {
+      this.model.phone = "+7("
+    }
+  }
+
 };
 </script>
 <style>

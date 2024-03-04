@@ -7,11 +7,11 @@
             top>
 
       <template v-slot:activator="{ on, attrs }">
-        <div class="profile-photo__wrapper"
+        <div class="profilePhoto__wrapper"
              v-bind="attrs"
              v-on="on">
-          <img class="profile-photo__img"
-               alt="profile-photo-avatar"
+          <img class="profilePhoto__img"
+               alt="profilePhoto-avatar"
                :src="profilePhoto" />
         </div>
       </template>
@@ -23,24 +23,24 @@
     </v-menu>
 
     <v-dialog v-model="dialogShowPhoto">
-      <card class="profile-photo__dialog-card">
-        <div class="profile-photo__dialog-card__container">
+      <card class="profilePhoto__dialog-card">
+        <div class="profilePhoto__dialog-card__container">
 
         </div>
       </card>
     </v-dialog>
 
     <v-dialog v-model="dialogChangePhoto">
-      <card class="profile-photo__dialog-card">
-        <div class="profile-photo__dialog-card__container">
+      <card class="profilePhoto__dialog-card">
+        <div class="profilePhoto__dialog-card__container">
 
         </div>
       </card>
     </v-dialog>
 
     <v-dialog v-model="dialogDeletePhoto">
-      <card class="profile-photo__dialog-card">
-        <div class="profile-photo__dialog-card__container">
+      <card class="profilePhoto__dialog-card">
+        <div class="profilePhoto__dialog-card__container">
 
         </div>
       </card>

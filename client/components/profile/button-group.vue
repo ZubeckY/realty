@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="profile-photo__group">
+    <div class="profilePhoto__group">
       <v-btn class="radius-small primary darken-1 white--text mt-2"
              v-if="!localEditMode" elevation="0" @click="changeEditMode" small block>
         Редактировать
@@ -17,7 +17,7 @@
       </v-btn>
     </div>
 
-    <div class="profile-photo__group" v-if="!localEditMode">
+    <div class="profilePhoto__group" v-if="!localEditMode">
       <v-btn class="radius-small error darken-1 white--text mt-2"
              elevation="0" @click="exitDialog = !exitDialog" small block>
         Выйти из профиля

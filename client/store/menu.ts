@@ -4,110 +4,119 @@ export const state = () => ({
       position: 10,
       icon: "mdi-newspaper-variant",
       title: "Новости",
-      link: '/news',
+      link: "/news",
       access: true,
       showItem: true,
-      routeName: 'news',
-      headerComponent: 'news-header'
+      routeName: "news",
+      headerComponent: "news-header"
     },
     {
       position: 20,
       icon: "mdi-account",
       title: "Профиль",
-      link: '/profile/1',
+      link: "/profile/1",
       access: true,
       showItem: true,
-      routeName: 'profile-id',
-      headerComponent: 'profile-header'
+      routeName: "profile-id",
+      headerComponent: "profile-header"
     },
     {
       position: 30,
-      icon: "mdi-chart-scatter-plot-hexbin",
-      title: "Админ панель",
-      link: '/admin',
+      icon: "mdi-list-status",
+      title: "Задачи",
+      link: "/todo",
       access: true,
       showItem: true,
-      routeName: 'admin',
-      headerComponent: 'admin-header'
+      routeName: "todo",
+      headerComponent: "todo-header"
     },
     {
       position: 40,
+      icon: "mdi-chart-scatter-plot-hexbin",
+      title: "Админ панель",
+      link: "/admin",
+      access: true,
+      showItem: true,
+      routeName: "admin",
+      headerComponent: "admin-header"
+    },
+    {
+      position: 50,
       icon: "mdi-city",
       title: "Недвижимость",
       link: "/realty",
       access: true,
       showItem: true,
-      routeName: 'realty',
-      headerComponent: 'realty-header'
+      routeName: "realty",
+      headerComponent: "realty-header"
     },
     {
-      position: 50,
+      position: 60,
       icon: "mdi-lead-pencil",
       title: "Лиды",
       link: "/leads",
       access: true,
       showItem: true,
-      routeName: 'leads',
-      headerComponent: 'leads-header'
+      routeName: "leads",
+      headerComponent: "leads-header"
     },
     {
-      position: 60,
+      position: 70,
       icon: "mdi-filter-variant",
       title: "Сделки",
       link: "/deals",
       access: true,
       showItem: true,
-      routeName: 'deals',
-      headerComponent: 'deals-header'
+      routeName: "deals",
+      headerComponent: "deals-header"
     },
     {
-      position: 70,
+      position: 80,
       icon: "mdi-account-multiple-outline",
       title: "Клиенты",
       link: "/clients",
       access: true,
       showItem: true,
-      routeName: 'clients',
-      headerComponent: 'clients-header'
+      routeName: "clients",
+      headerComponent: "clients-header"
     },
     {
-      position: 80,
+      position: 90,
       icon: "mdi-ticket-confirmation",
       title: "Бронь",
       link: "/reservation",
       access: true,
       showItem: true,
-      routeName: 'clients',
-      headerComponent: 'reservation-header'
+      routeName: "clients",
+      headerComponent: "reservation-header"
     },
     {
-      position: 90,
+      position: 100,
       icon: "mdi-file-arrow-left-right",
       title: "Фиды",
       link: "/feeds",
       access: true,
       showItem: true,
-      routeName: 'feeds',
-      headerComponent: 'feeds-header'
+      routeName: "feeds",
+      headerComponent: "feeds-header"
     },
     {
-      position: 100,
+      position: 110,
       icon: "mdi-chess-rook",
       title: "Шахматка",
       link: "/chess",
       access: true,
       showItem: true,
-      routeName: 'chess',
-      headerComponent: 'chess-header'
+      routeName: "chess",
+      headerComponent: "chess-header"
     }
   ]
 });
-export const mutations = {
-};
+export const mutations = {};
 
 export const actions = {};
 export const getters = {
   getMenu(state: any) {
-    return JSON.parse(JSON.stringify(state.menu))
+    return JSON.parse(JSON.stringify(state.menu));
   }
 };

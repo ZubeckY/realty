@@ -32,7 +32,9 @@
           </div>
         </div>
 
-        <div class="actionDialog__actions">
+        <v-divider />
+
+        <div class="actionDialog__actions mt-2">
           <div v-if="popup" class="actionDialog__actions-container">
             <v-btn class="radius-small primary darken-1 white--text"
                    elevation="0" x-small block @click="isCanceled">

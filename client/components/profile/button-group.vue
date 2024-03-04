@@ -23,9 +23,8 @@
         Выйти из профиля
       </v-btn>
 
-      <action-dialog :dialog="exitDialog"
+      <action-dialog v-model="exitDialog"
                      @changeDialog="changeExitDialog"
-                     @isCanceled="closeExitDialog"
                      title="Выход из аккаунта"
                      text="Вы действительно хотите выйти из аккаунта?" />
 
@@ -55,14 +54,6 @@ export default class ButtonGroup extends Vue {
   created() {
     this.localEditMode = this.editMode;
     this.checkIDToValid();
-  }
-
-  changeExitDialog(value: boolean) {
-    return this.exitDialog = value;
-  }
-
-  closeExitDialog() {
-    return this.exitDialog = false;
   }
 
   async checkIDToValid() {

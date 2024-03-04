@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="params-title">Ответственный менеджер</div>
+    <div v-if="!hideTitle" class="params-title">Ответственный менеджер</div>
     <div class="params-content mt-2">
       <v-autocomplete v-model="managerCurrent"
                       label="Выберите менеджера"
@@ -41,11 +41,12 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, VModel, Vue } from "vue-property-decorator";
+import { Component, VModel, Vue, Prop } from "vue-property-decorator";
 
 @Component
 export default class FilterManager extends Vue {
   @VModel() managerCurrent!: any;
+  @Prop({ default: false }) hideTitle?: boolean
 
   srcs = {
     1: "https://cdn.vuetifyjs.com/images/lists/1.jpg",

@@ -4,8 +4,7 @@
            color="white" elevation="0" x-small fab>
       <v-icon color="primary darken-1">mdi-filter-plus</v-icon>
     </v-btn>
-    <action-dialog :dialog="dialog"
-                   :persistent="false"
+    <action-dialog v-model="dialog"
                    title="Фильтры"
                    text=""
                    cancel-text="Сбросить"
@@ -65,8 +64,6 @@ export default class FilterDialog extends Vue {
     this.price.range = [1_000_000, 45_000_000];
 
     this.managerCurrent = [];
-
-    this.changeDialog()
   }
 }
 </script>

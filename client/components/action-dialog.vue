@@ -1,16 +1,12 @@
 <template>
-  <v-dialog v-model="defaultDialog"
-            width="100%"
-            :max-width="defaultMaxWidth"
-            :persistent="defaultPersistent">
-
-    <card class="actionDialog">
+  <div v-if="dialog" class="actionDialog">
+    <card class="actionDialog__card" :style="'max-width: ' + maxWidth">
       <v-form class="actionDialog__container">
 
-        <div class="actionDialog__title"> {{ defaultTitle }}</div>
-        <div class="actionDialog__text"> {{ defaultText }}</div>
+        <div class="actionDialog__title"> {{ title }}</div>
+        <div class="actionDialog__text"> {{ text }}</div>
 
-        <div class="actionDialog__textField mt-3" v-if="defaultConfirm">
+        <div class="actionDialog__textField mt-3" v-if="confirm">
           <div class="actionDialog__textField-item small-input">
             <v-text-field label="Имя"
                           type="text"
@@ -37,82 +33,55 @@
         </div>
 
         <div class="actionDialog__actions">
-          <div v-if="defaultPopup" class="actionDialog__actions-container">
+          <div v-if="popup" class="actionDialog__actions-container">
             <v-btn class="radius-small primary darken-1 white--text"
                    elevation="0" x-small block @click="isCanceled">
-              {{ defaultCancelText }}
+              {{ cancelText }}
             </v-btn>
           </div>
 
           <div v-else class="actionDialog__actions-container">
             <v-btn class="radius-small grey darken-1 white--text mr-2"
                    elevation="0" x-small @click="isCanceled">
-              {{ defaultCancelText }}
+              {{ cancelText }}
             </v-btn>
 
             <v-btn class="radius-small primary darken-1 white--text"
-                   elevation="0" x-small>
-              {{ defaultConfirmText }}
+                   elevation="0" x-small @click="isConfirm">
+              {{ confirmText }}
             </v-btn>
           </div>
         </div>
 
       </v-form>
     </card>
-  </v-dialog>
-
+  </div>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import { Component, Prop, VModel, Vue, Watch } from "vue-property-decorator";
 
 @Component
 export default class ActionDialog extends Vue {
-  @Prop() maxWidth?: string;
-  @Prop() title?: string;
-  @Prop() text?: string;
-  @Prop() cancelText?: string;
-  @Prop() confirmText?: string;
-  @Prop() popup?: boolean;
-  @Prop() dialog?: boolean;
-  @Prop() confirm?: boolean;
-  @Prop() persistent?: boolean;
-  @Prop() customContent?: boolean;
+  @VModel({ default: false }) dialog!: boolean;
+
+  @Prop({ default: false }) readonly popup?: boolean;
+  @Prop({ default: false }) readonly confirm?: boolean;
+  @Prop({ default: false }) customContent?: boolean;
+
+  @Prop({ default: "380px" }) maxWidth?: string;
+  @Prop({ default: "Подтвердите действие" }) title?: string;
+  @Prop({ default: "Вы пытаетесь совершить действие, с повышенными правами привилегии. \n Для того, чтобы удостовериться, что действия выполняете Вы, введите пароль от своей учётной записи." }) text?: string;
+  @Prop({ default: "Закрыть" }) cancelText?: string;
+  @Prop({ default: "Подтвердить" }) confirmText?: string;
 
   showPassword: boolean = false;
 
-  defaultPopup: boolean = false;
-  defaultDialog: boolean = false;
-  defaultConfirm: boolean = false;
-  defaultPersistent: boolean = true;
-
-  defaultMaxWidth: string = '380px'
-  defaultTitle: string = "Подтвердите действие";
-  defaultText: string = "Вы пытаетесь совершить действие, с повышенными правами привилегии. \n Для того, чтобы удостовериться, что действия выполняете Вы, введите пароль от своей учётной записи.";
-  defaultConfirmText: string = "Подтвердить";
-  defaultCancelText: string = this.defaultPopup ? "Закрыть" : "Отмена";
-
-  created() {
-    this.changeDefaultValues();
-  }
-
-  @Watch("dialog")
-  changeDefaultValues() {
-
-    this.defaultPopup = this.popup ?? this.defaultPopup;
-    this.defaultDialog = this.dialog ?? this.defaultDialog;
-    this.defaultConfirm = this.confirm ?? this.defaultConfirm;
-    this.defaultPersistent = this.confirm ? this.confirm : this.persistent ?? this.defaultPersistent;
-
-    this.defaultText = this.text ?? this.defaultText
-    this.defaultTitle = this.title ?? this.defaultTitle
-    this.defaultMaxWidth = this.maxWidth ?? this.defaultMaxWidth
-    this.defaultConfirmText = this.confirmText ?? this.defaultConfirmText;
-    this.defaultCancelText = this.cancelText ?? this.defaultCancelText;
-
-    this.$emit("changeDialog", this.defaultDialog);
+  isConfirm() {
+    this.$emit("isConfirm");
   }
 
   isCanceled() {
+    this.dialog = !this.dialog
     this.$emit("isCanceled");
   }
 

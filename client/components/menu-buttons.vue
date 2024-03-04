@@ -20,8 +20,7 @@
       <span>Настроить меню</span>
     </v-btn>
 
-    <action-dialog :dialog="dialog"
-                   @isCanceled="changeDialog"
+    <action-dialog v-model="dialog"
                    title="Настроить меню"
                    text="">
       <div class="changeMenu">

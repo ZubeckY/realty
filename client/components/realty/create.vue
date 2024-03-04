@@ -4,10 +4,8 @@
            color="white" elevation="0" x-small fab>
       <v-icon color="primary darken-1">mdi-plus-box-outline</v-icon>
     </v-btn>
-    <action-dialog :popup="true"
-                   :dialog="dialog"
-                   :persistent="false"
-                   @isCanceled="changeDialog"
+    <action-dialog v-model="dialog"
+                   :popup="true"
                    title="Добавить недвижимость"
                    text="">
       <div class="create-dialog__card">

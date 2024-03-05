@@ -143,7 +143,7 @@ export default class Profile extends Vue {
   themes: any = this.$store.state.themes;
   activeTheme: string = this.$store.state.activeTheme;
   editMode: boolean = false;
-  user: any = {
+  user: Record<string, unknown> = {
     name: "Иван",
     surname: "Иванов",
     patronymic: "Иванович",

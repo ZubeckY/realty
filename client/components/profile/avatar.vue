@@ -52,7 +52,7 @@ import { Component, Vue, Watch, Prop } from "vue-property-decorator";
 
 @Component
 export default class ProfileAvatar extends Vue {
-  user: any = {
+  user: Record<string, unknown> = {
     avatar: "https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w1200/2023/10/free-images.jpg"
   };
 
@@ -64,7 +64,6 @@ export default class ProfileAvatar extends Vue {
   dialogDeletePhoto: boolean = false;
 
   showProfilePhotoActions: boolean = false;
-  profilePhoto: string = this.user.avatar || "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png";
 
   // Открыть диалоговое окно с фотографией
   showPhotoDialog() {
@@ -81,6 +80,9 @@ export default class ProfileAvatar extends Vue {
     this.dialogDeletePhoto = !this.dialogDeletePhoto;
   }
 
+  get profilePhoto() {
+    return this.user.avatar || "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png";
+  }
 
 }
 </script>

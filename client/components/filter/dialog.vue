@@ -43,7 +43,7 @@ export default class FilterDialog extends Vue {
   realtyType: string[] = ["all"];
 
   // Диапазон цен
-  price: any = {
+  price: Record<string, unknown> = {
     min: 1_000_000,
     max: 45_000_000,
     range: [1_000_000, 45_000_000]

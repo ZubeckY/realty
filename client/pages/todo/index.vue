@@ -107,7 +107,7 @@ export default class Todo extends Vue {
   tasks: any = [];
 
   get completedTasks() {
-    return this.tasks.filter(task => task.done).length;
+    return this.tasks.filter((task: Record<string, unknown>) => task.done).length;
   }
 
   get progress() {

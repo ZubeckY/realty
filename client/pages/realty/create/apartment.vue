@@ -300,11 +300,11 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class CreateApartment extends Vue {
-  params: any = {};
+  params: Record<string, any> = {};
   themes: any = this.$store.state.themes;
   activeTheme: string = this.$store.state.activeTheme;
-  newBuildingParams: any = {};
-  secondaryBuildingParams: any = {};
+  newBuildingParams: Record<string, any> | null = {};
+  secondaryBuildingParams: Record<string, any> | null = {};
 
   rules = {
     email: (v: any) =>
@@ -385,84 +385,74 @@ export default class CreateApartment extends Vue {
       return (this.secondaryBuildingParams = null);
     }
     // Услуга продвижения Авито
-    this.secondaryBuildingParams["adStatusTypeText"] = Object.entries(
-      this.params["secondaryBuildingParams"]["adStatusTypeText"]
-    );
+    this.defineNewPropParams("adStatusTypeText", "adStatusTypeText");
+
     // Тип объявления
-    this.secondaryBuildingParams["operationTypeText"] = Object.entries(
-      this.params["secondaryBuildingParams"]["operationTypeText"]
-    );
+    this.defineNewPropParams("operationTypeText", "operationTypeText");
+
     // Принадлежность к рынку
-    this.secondaryBuildingParams["marketTypeText"] = Object.entries(
-      this.params["secondaryBuildingParams"]["marketTypeText"]
-    );
+    this.defineNewPropParams("marketTypeText", "marketTypeText");
+
     // Тип дома
-    this.secondaryBuildingParams["houseTypeText"] = Object.entries(
-      this.params["secondaryBuildingParams"]["houseTypeText"]
-    );
+    this.defineNewPropParams("houseTypeText", "houseTypeText");
+
     // Статус недвижимости
-    this.secondaryBuildingParams["statusTypeText"] = Object.entries(
-      this.params["secondaryBuildingParams"]["statusTypeText"]
-    );
+    this.defineNewPropParams("statusTypeText", "statusTypeText");
+
     // Тип комнат
-    this.secondaryBuildingParams["roomTypeText"] = Object.entries(
-      this.params["secondaryBuildingParams"]["roomTypeText"]
-    );
+    this.defineNewPropParams("roomTypeText", "roomTypeText");
+
     // Ремонт
-    this.secondaryBuildingParams["renovationTypeText"] = Object.entries(
-      this.params["secondaryBuildingParams"]["renovationTypeText"]
-    );
+    this.defineNewPropParams("renovationTypeText", "renovationTypeText");
+
     // Право собственности
-    this.secondaryBuildingParams["propertyRightsTypeText"] = Object.entries(
-      this.params["secondaryBuildingParams"]["propertyRightsTypeText"]
-    );
+    this.defineNewPropParams("propertyRightsTypeText", "propertyRightsTypeText");
+
     // Тип сделки
-    this.secondaryBuildingParams["dealTypeText"] = Object.entries(
-      this.params["secondaryBuildingParams"]["dealTypeText"]
-    );
+    this.defineNewPropParams("dealTypeText", "dealTypeText");
+
     // Балкон или лоджия
-    this.secondaryBuildingParams["balconyOrLoggiaTypeText"] = Object.entries(
-      this.params["secondaryBuildingParams"]["balconyOrLoggiaTypeText"]
-    );
+    this.defineNewPropParams("balconyOrLoggiaTypeText", "balconyOrLoggiaTypeText");
+
     // Бытовая техника
-    this.secondaryBuildingParams["leaseAppliancesTypeText"] = Object.entries(
-      this.params["secondaryBuildingParams"]["leaseAppliancesTypeText"]
-    );
+    this.defineNewPropParams("leaseAppliancesTypeText", "leaseAppliancesTypeText");
+
     // Вид из окон
-    this.secondaryBuildingParams["viewFromWindowsTypeText"] = Object.entries(
-      this.params["secondaryBuildingParams"]["viewFromWindowsTypeText"]
-    );
+    this.defineNewPropParams("viewFromWindowsTypeText", "viewFromWindowsTypeText");
+
     // Двор
-    this.secondaryBuildingParams["courtyardTypeText"] = Object.entries(
-      this.params["secondaryBuildingParams"]["courtyardTypeText"]
-    );
+    this.defineNewPropParams("courtyardTypeText", "courtyardTypeText");
+
     // Санузел
-    this.secondaryBuildingParams["bathroomMultiTypeText"] = Object.entries(
-      this.params["secondaryBuildingParams"]["bathroomMultiTypeText"]
-    );
+    this.defineNewPropParams("bathroomMultiTypeText", "bathroomMultiTypeText");
+
     // Способ продажи
-    this.secondaryBuildingParams["saleOptionsTypeText"] = Object.entries(
-      this.params["secondaryBuildingParams"]["saleOptionsTypeText"]
-    );
+    this.defineNewPropParams("saleOptionsTypeText", "saleOptionsTypeText");
+
     // Дополнительно
-    this.secondaryBuildingParams["NDAdditionallyTypeText"] = Object.entries(
-      this.params["secondaryBuildingParams"]["NDAdditionallyTypeText"]
-    );
+    this.defineNewPropParams("NDAdditionallyTypeText", "NDAdditionallyTypeText");
+
     // В доме
-    this.secondaryBuildingParams["inHouseTypeText"] = Object.entries(
-      this.params["secondaryBuildingParams"]["inHouseTypeText"]
-    );
+    this.defineNewPropParams("inHouseTypeText", "inHouseTypeText");
+
     // Дополнительно
-    this.secondaryBuildingParams["SSAdditionallyTypeText"] = Object.entries(
-      this.params["secondaryBuildingParams"]["SSAdditionallyTypeText"]
-    );
+    this.defineNewPropParams("SSAdditionallyTypeText", "SSAdditionallyTypeText");
+
     // Способ связи
-    this.secondaryBuildingParams["contactMethodTypeText"] = Object.entries(
-      this.params["secondaryBuildingParams"]["contactMethodTypeText"]
-    );
+    this.defineNewPropParams("contactMethodTypeText", "contactMethodTypeText");
+
     // Запрещаем дальнейшее редактирование объекта
     Object.preventExtensions(this.secondaryBuildingParams);
     Object.freeze(this.secondaryBuildingParams);
+  }
+
+  defineNewPropParams(prop: string, value: string) {
+    Object.defineProperty(this['secondaryBuildingParams'], prop, {
+      value: Object.entries(
+        this.params["secondaryBuildingParams"][value]
+      ),
+      writable: false
+    });
   }
 }
 </script>

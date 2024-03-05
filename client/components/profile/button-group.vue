@@ -24,7 +24,6 @@
       </v-btn>
 
       <action-dialog v-model="exitDialog"
-                     @changeDialog="changeExitDialog"
                      title="Выход из аккаунта"
                      text="Вы действительно хотите выйти из аккаунта?" />
 
@@ -41,7 +40,7 @@ export default class ButtonGroup extends Vue {
   localEditMode: boolean = false;
   exitDialog: boolean = false;
 
-  user: any = {
+  user: Record<string, unknown> = {
     id: 1,
     name: "Иван",
     surname: "Иванов",

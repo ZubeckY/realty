@@ -72,7 +72,7 @@ export default class FilterManager extends Vue {
     { name: "Sandra Williams", group: "Менеджер", avatar: this.srcs[3] }
   ];
 
-  remove(item: any) {
+  remove(item: Record<string, unknown>) {
     const index = this.managerCurrent.indexOf(item.name);
     if (index >= 0) this.managerCurrent.splice(index, 1);
   }

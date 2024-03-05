@@ -1,12 +1,11 @@
 <template>
 
 </template>
-
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 
 @Component
-export default class Reservation extends Vue {
+export default class HeaderDefaultEmpty extends Vue {
 };
 </script>
 

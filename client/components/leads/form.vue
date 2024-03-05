@@ -46,7 +46,7 @@ import { Component, VModel, Vue, Watch } from "vue-property-decorator";
 @Component
 
 export default class LeadsForm extends Vue {
-  model: any = {
+  model: Record<string, unknown> = {
     phone: '+7('
   }
 

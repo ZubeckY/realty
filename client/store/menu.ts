@@ -28,7 +28,7 @@ export const state = () => ({
       access: true,
       showItem: true,
       routeName: "todo",
-      headerComponent: "todo-header"
+      headerComponent: ""
     },
     {
       position: 40,
@@ -87,7 +87,7 @@ export const state = () => ({
       link: "/reservation",
       access: true,
       showItem: true,
-      routeName: "clients",
+      routeName: "reservation",
       headerComponent: "reservation-header"
     },
     {
@@ -115,8 +115,9 @@ export const state = () => ({
 export const mutations = {};
 
 export const actions = {};
+
 export const getters = {
   getMenu(state: any) {
-    return JSON.parse(JSON.stringify(state.menu));
+    return state.menu;
   }
 };

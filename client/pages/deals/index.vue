@@ -69,7 +69,7 @@ export default class Funnel extends Vue {
   themes: any = this.$store.state.themes;
   activeTheme: string = this.$store.state.activeTheme;
 
-  dragOptions: any = {
+  dragOptions: Record<string, unknown> = {
     animation: 0,
     group: "description",
     disabled: false,

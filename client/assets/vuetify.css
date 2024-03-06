@@ -36,40 +36,42 @@
 }
 
 /* v-text-field */
-.v-text-field,
-.v-text-field * {
-  font-size: 13px !important;
-}
-
-.v-input__slot {
+.v-text-field.v-text-field--enclosed:not(.v-text-field--rounded) > .v-input__control > .v-input__slot {
   padding: 0 8px !important;
 }
 
-* .v-text-field .v-input__slot {
+/* v-text-field dense */
+.v-text-field.v-input--dense,
+.v-text-field.v-input--dense * {
+  font-size: 13px !important;
+}
+
+.v-input__slot.v-input--dense {
+  padding: 0 8px !important;
+}
+
+* .v-text-field.v-input--dense .v-input__slot {
   min-height: 32px !important;
 }
 
-.v-text-field input {
+.v-text-field.v-input--dense input {
   padding: 0 !important;
 }
 
-.v-label {
+.v-text-field.v-input--dense .v-label {
+  top: 6px !important;
   left: 4px !important;
 }
 
-.v-text-field--outlined.v-input--dense .v-label {
-  top: 6px !important;
-}
-
-.v-input__append-inner {
+.v-input__append-inner.v-input--dense {
   margin-top: 5px !important;
 }
 
-.v-text-field__details {
+.v-text-field__details.v-input--dense {
   margin-bottom: 0 !important;
 }
 
-.v-text-field__details * {
+.v-text-field__details.v-input--dense * {
   font-size: 10px !important;
 }
 

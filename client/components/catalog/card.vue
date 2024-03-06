@@ -15,10 +15,10 @@
         <div class="catalog-card__content-container">
           <div class="d-flex flex-row justify-space-between pr-1">
 
-            <v-btn :class="'catalog-card__title ' + themes[activeTheme]['title']" elevation="0" text>
+            <a :class="'catalog-card__title ' + themes[activeTheme]['title']">
               <v-icon class="catalog-card__icon" :color="themes[activeTheme]['primaryColor']">mdi-home</v-icon>
               <span>Название объявления</span>
-            </v-btn>
+            </a>
 
             <div class="catalog-card__menu">
               <v-btn icon small>

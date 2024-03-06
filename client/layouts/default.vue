@@ -47,11 +47,11 @@ export default class Default extends Vue {
     const { name, path }: any = this.$router.currentRoute;
     const i = this.findIndexElement(name);
 
-    const profileLinks = this.profileLinks
+    const profileLinks: any = this.profileLinks
     const element = profileLinks[i];
 
     if (!element) {
-      const { position } = profileLinks.reduce((prev, cur) => cur.position > prev.position ? cur : prev, { position: -Infinity });
+      const { position } = profileLinks.reduce((prev: any, cur: any) => cur.position > prev.position ? cur : prev, { position: -Infinity });
       const newPosition = position + 10;
 
       profileLinks.push({

@@ -18,7 +18,9 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
-@Component
+@Component({
+  layout: 'auth'
+})
 export default class Reg extends Vue {
   continueDialog: boolean = false
 };

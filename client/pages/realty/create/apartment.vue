@@ -303,8 +303,8 @@ export default class CreateApartment extends Vue {
   params: Record<string, any> = {};
   themes: any = this.$store.state.themes;
   activeTheme: string = this.$store.state.activeTheme;
-  newBuildingParams: Record<string, any> | null = {};
-  secondaryBuildingParams: Record<string, any> | null = {};
+  newBuildingParams: any | null = {};
+  secondaryBuildingParams: any | null = {};
 
   rules = {
     email: (v: any) =>

@@ -1,10 +1,10 @@
 <template>
   <section :class="'auth-login ' + animationToLogin">
     <div
-      class="auth-login__background"
+      class="auth-background"
       :style="currentBackgroundImage"
     ></div>
-    <div class="auth-login__container">
+    <div class="auth-container">
       <div :class="'auth-card ' + (isDarkValue ? 'dark' : 'light')">
         <v-form
           v-model="valid"
@@ -96,7 +96,7 @@
           </a>
         </v-form>
 
-        <h3 :class="'auth-login__message ' + welcomeMessageAnimation + (isDarkValue ? ' dark' : ' light')">
+        <h3 :class="'auth-message ' + welcomeMessageAnimation + (isDarkValue ? ' dark' : ' light')">
           {{ welcomeMessage }}
         </h3>
       </div>

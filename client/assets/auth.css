@@ -3,12 +3,13 @@
   --bkgAuth__dark: #1f1f1f50;
 }
 
+.auth-reg,
 .auth-login {
   height: 100vh;
   overflow: hidden;
 }
 
-.auth-login__background {
+.auth-background {
   width: 100%;
   height: inherit;
   background-size: auto 80%;
@@ -18,7 +19,7 @@
   transform: scale(1.3);
 }
 
-.auth-login__container {
+.auth-container {
   position: absolute;
   display: flex;
   top: 0;
@@ -82,26 +83,31 @@
   display: none;
 }
 
-.auth-login__message {
+
+.auth-form__textField {
+  width: 100%;
+}
+
+.auth-message {
   margin: 0 auto;
   text-align: center;
 }
 
-.auth-login__message.dark {
+.auth-message.dark {
   color: white;
 }
 
-.auth-login__message.light {
+.auth-message.light {
   color: black;
 }
 
-.auth-login__message.scale-and-transparent__inner {
+.auth-message.scale-and-transparent__inner {
   animation-name: scale-and-transparent__inner;
   animation-duration: 0.75s;
 }
 
 .auth-login.transparent__out,
-.auth-login__message.transparent__out {
+.auth-message.transparent__out {
   animation-name: transparent__out;
   animation-duration: 0.75s;
 }

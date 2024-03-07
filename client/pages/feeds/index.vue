@@ -45,8 +45,7 @@ import { Component, Vue } from "vue-property-decorator";
 @Component
 export default class Feeds extends Vue {
   loading: boolean = true
-  themes: any = this.$store.state.themes;
-  activeTheme: string = this.$store.state.activeTheme;
+
 
   search: string = "";
   headers: any = [

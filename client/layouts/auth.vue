@@ -1,14 +1,23 @@
 <template>
-  <v-app :class="themes[activeTheme]['background']">
-    <Nuxt />
+  <v-app >
+    <section class="auth">
+      <div class="auth-background" :style="currentBackgroundImage"></div>
+      <Nuxt />
+    </section>
   </v-app>
 </template>
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
+import { TimesOfDay } from '~/assets/script/functions/timesOfDay'
 
 @Component
 export default class Auth extends Vue {
-  themes: any = this.$store.state.themes;
-  activeTheme: string = this.$store.state.activeTheme;
+  get currentBackgroundImage() {
+    return (
+      `background-image: url('` +
+      require('~/static/times/' + TimesOfDay().time + '.png') +
+      `')`
+    )
+  }
 }
 </script>

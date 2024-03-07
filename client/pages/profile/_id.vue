@@ -140,8 +140,7 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class Profile extends Vue {
-  themes: any = this.$store.state.themes;
-  activeTheme: string = this.$store.state.activeTheme;
+
   editMode: boolean = false;
   user: Record<string, unknown> = {
     name: "Иван",

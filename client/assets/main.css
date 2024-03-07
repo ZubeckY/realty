@@ -82,10 +82,35 @@ tbody tr:hover {
 }
 
 /* main */
-.main-container {
+.main {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.main-background {
   width: 100%;
-  margin: 0 auto;
-  max-width: 1920px;
+  height: inherit;
+  background-size: auto 80%;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(5px) grayscale(80%);
+  transform: scale(1.3);
+}
+
+.main-container {
+  position: absolute;
+  display: flex;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: inherit;
+  height: inherit;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-end;
+  z-index: 100;
 }
 
 /* header */
@@ -122,9 +147,25 @@ tbody tr:hover {
 
 /* card */
 .card {
+  position: static;
   padding: 5px;
+  backdrop-filter: blur(15px);
   border-radius: var(--radius);
+  z-index: 100;
 }
+
+.card.dark {
+  color: white;
+  background: var(--bkg__dark);
+  box-shadow: 0 0 7px var(--bkg__light);
+}
+
+.card.light {
+  color: black;
+  background: var(--bkg__light);
+  box-shadow: 0 0 7px var(--bkg__dark);
+}
+
 
 /* radius */
 .radius {
@@ -354,9 +395,8 @@ tbody tr:hover {
 
 /* actionDialog */
 .actionDialog {
-  position: absolute;
+  position: fixed;
   display: flex;
-  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
@@ -367,7 +407,7 @@ tbody tr:hover {
   backdrop-filter: blur(10px);
   background: #3337;
   overflow: hidden;
-  z-index: 10000;
+  z-index: 1000;
 }
 
 .actionDialog__card {

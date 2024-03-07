@@ -66,8 +66,7 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class Funnel extends Vue {
-  themes: any = this.$store.state.themes;
-  activeTheme: string = this.$store.state.activeTheme;
+
 
   dragOptions: Record<string, unknown> = {
     animation: 0,

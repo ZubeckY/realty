@@ -1,5 +1,5 @@
 <template>
-  <section class="catalog">
+  <section class="catalog pa-2">
     <div class="catalog-container">
       <catalog-card v-for="i in 4" :key="i" />
     </div>

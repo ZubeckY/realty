@@ -1,9 +1,6 @@
 <template>
-  <section class="auth-reg">
-    <div
-      class="auth-background"
-      :style="currentBackgroundImage"
-    ></div>
+  <section class="auth">
+    <div class="auth-background" :style="currentBackgroundImage"></div>
     <div class="auth-container">
       <div :class="'auth-card ' + (isDarkValue ? 'dark' : 'light')">
         <v-form
@@ -12,7 +9,6 @@
           @submit.prevent
           :class="'auth-form ' + (isDarkValue ? ' dark' : ' light')"
         >
-
           <h2 class="auth-title mt-2 mb-8">Регистрация</h2>
 
           <div class="d-flex">
@@ -95,7 +91,7 @@
             >
               Создайте его прямо сейчас!
               <v-icon color="primary darken-1" small
-              >mdi-arrow-top-right-thin
+                >mdi-arrow-top-right-thin
               </v-icon>
             </a>
           </div>
@@ -106,7 +102,7 @@
           >
             Забыли пароль
             <v-icon color="primary darken-1" small
-            >mdi-arrow-top-right-thin
+              >mdi-arrow-top-right-thin
             </v-icon>
           </a>
         </v-form>
@@ -119,69 +115,69 @@
   </section>
 </template>
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { TimesOfDay } from "~/assets/script/functions/timesOfDay";
+import { Component, Vue } from 'vue-property-decorator'
+import { TimesOfDay } from '~/assets/script/functions/timesOfDay'
 
 @Component({
-  layout: "auth"
+  layout: 'auth',
 })
 export default class Reg extends Vue {
-
-  valid: boolean = false;
+  valid: boolean = false
 
   show: Record<string, any> = {
-    password: false
+    password: false,
   }
 
   model: Record<string, any> = {
-    name: "",
-    surname: "",
-    email: "",
-    password: ""
-  };
+    name: '',
+    surname: '',
+    email: '',
+    password: '',
+  }
 
   rules = {
     email: (v: any) =>
-      !!(v || "").match(/@/) ||
-      "Введите действительный адрес электронной почты",
+      !!(v || '').match(/@/) ||
+      'Введите действительный адрес электронной почты',
     length: (len: any) => (v: any) =>
-      (v || "").length >= (len ?? 8) ||
+      (v || '').length >= (len ?? 8) ||
       `Недопустимая длина символов, требуется ${len} символов`,
     maxValue: (len: any) => (v: any) =>
-      (v || "") < len ||
+      (v || '') < len ||
       `Недопустимое значение, максимальное значение - ${len}`,
     password: (v: any) =>
-      !!(v || "").match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/) ||
-      "Пароль должен содержать заглавную букву, цифру и специальный символ.",
-    required: (v: any) => !!v || "Это поле обязательно к заполнению"
-  };
-
-  stepper() {
-
+      !!(v || '').match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/) ||
+      'Пароль должен содержать заглавную букву, цифру и специальный символ.',
+    required: (v: any) => !!v || 'Это поле обязательно к заполнению',
   }
+
+  stepper() {}
 
   get isDarkValue() {
     switch (TimesOfDay().time) {
-      case "morning":
-      case "afternoon":
-        return false;
-      case "evening":
-      case "night":
-        return true;
+      case 'morning':
+      case 'afternoon':
+        return false
+      case 'evening':
+      case 'night':
+        return true
     }
   }
 
   get getTimeBackground() {
-    return TimesOfDay().time;
+    return TimesOfDay().time
   }
 
   get currentBackgroundImage() {
-    return `background-image: url('` + require("~/static/times/" + this.getTimeBackground + ".png") + `')`;
+    return (
+      `background-image: url('` +
+      require('~/static/times/' + this.getTimeBackground + '.png') +
+      `')`
+    )
   }
 
   get welcomeMessage() {
-    return TimesOfDay().greetings;
+    return TimesOfDay().greetings
   }
-
-};
+}
 </script>

@@ -1,7 +1,7 @@
 <template>
   <card class="py-1 px-0">
     <v-btn v-for="({text, func}, i) in profileActionsList"
-           :class="'justify-start ' + themes[activeTheme]['title']"
+           class="justify-start"
            :key="'profile-list-item-' + i"
            @click="$emit(func)"
            block x-small text
@@ -13,8 +13,7 @@ import { Component, Vue, Watch, Prop } from "vue-property-decorator";
 
 @Component
 export default class AvatarLogoButtons extends Vue {
-  themes: any = this.$store.state.themes;
-  activeTheme: string = this.$store.state.activeTheme;
+
 
   profileActionsList = [
     {

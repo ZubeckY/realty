@@ -1,5 +1,4 @@
-.auth-reg,
-.auth-login {
+.auth {
   height: 100vh;
   overflow: hidden;
 }
@@ -78,7 +77,6 @@
   display: none;
 }
 
-
 .auth-form__textField {
   width: 100%;
 }
@@ -101,7 +99,7 @@
   animation-duration: 0.75s;
 }
 
-.auth-login.transparent__out,
+.auth-container.transparent__out,
 .auth-message.transparent__out {
   animation-name: transparent__out;
   animation-duration: 0.75s;

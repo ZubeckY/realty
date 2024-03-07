@@ -1,14 +1,16 @@
 <template>
-  <article :class="'card ' + themes[activeTheme]['article']">
+  <article :class="'card ' + usableBlock">
     <slot></slot>
   </article>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { ColorTheme } from "~/assets/script/functions/colorTheme";
 
 @Component
 export default class Card extends Vue {
-  themes: any = this.$store.state.themes
-  activeTheme: string = this.$store.state.activeTheme
+  get usableBlock() {
+    return new ColorTheme().block()
+  }
 }
 </script>

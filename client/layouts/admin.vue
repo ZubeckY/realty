@@ -1,5 +1,5 @@
 <template>
-  <v-app :class="themes[activeTheme]['background']">
+  <v-app>
     <v-main>
       <v-container>
 
@@ -21,8 +21,7 @@ import { Component, Vue } from "vue-property-decorator";
 
 @Component
 export default class Admin extends Vue {
-  themes: any = this.$store.state.themes;
-  activeTheme: string = this.$store.state.activeTheme;
+
 
   actionDialog: boolean = false;
   actionTitle: string = "Вход в админ панель";

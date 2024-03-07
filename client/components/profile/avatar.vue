@@ -56,8 +56,7 @@ export default class ProfileAvatar extends Vue {
     avatar: "https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w1200/2023/10/free-images.jpg"
   };
 
-  themes: any = this.$store.state.themes;
-  activeTheme: string = this.$store.state.activeTheme;
+
 
   dialogShowPhoto: boolean = false;
   dialogChangePhoto: boolean = false;

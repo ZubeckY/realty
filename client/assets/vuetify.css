@@ -5,6 +5,10 @@
 }
 
 /* v-data-table */
+.v-data-table {
+  background-color: transparent !important;
+}
+
 .v-data-footer {
   border-top: none !important;
 }

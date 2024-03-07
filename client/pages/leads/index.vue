@@ -55,8 +55,7 @@ import { Component, Vue } from "vue-property-decorator";
 export default class Leads extends Vue {
 
   loading: boolean = true;
-  themes: any = this.$store.state.themes;
-  activeTheme: string = this.$store.state.activeTheme;
+
 
   search: string = "";
   headers: any = [

@@ -1,0 +1,147 @@
+:root {
+  --bkgAuth__light: #f1f1f150;
+  --bkgAuth__dark: #1f1f1f50;
+}
+
+.auth-login {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.auth-login__background {
+  width: 100%;
+  height: inherit;
+  background-size: auto 80%;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(5px) grayscale(80%);
+  transform: scale(1.3);
+}
+
+.auth-login__container {
+  position: absolute;
+  display: flex;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: inherit;
+  height: inherit;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.auth-card {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  max-width: 60%;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  backdrop-filter: blur(15px);
+}
+
+.auth-card.dark {
+  background: var(--bkgAuth__dark);
+  box-shadow: 0 0 26px 3px var(--bkgAuth__light);
+}
+
+.auth-card.light {
+  background: var(--bkgAuth__light);
+  box-shadow: 0 0 26px 3px var(--bkgAuth__dark);
+}
+
+.auth-form {
+  display: flex;
+  width: 100%;
+  max-width: 460px;
+  padding: 5px 10px;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: var(--radius);
+}
+
+.auth-form.dark {
+  color: white;
+  box-shadow: 0 0 26px 3px var(--bkgAuth__light);
+}
+
+.auth-form.light {
+  color: black;
+  box-shadow: 0 0 26px 3px var(--bkgAuth__dark);
+}
+
+.auth-form.scale-and-transparent__out {
+  animation-name: scale-and-transparent__out;
+  animation-duration: 0.75s;
+}
+
+.auth-form.opacity-hide {
+  display: none;
+}
+
+.auth-login__message {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.auth-login__message.dark {
+  color: white;
+}
+
+.auth-login__message.light {
+  color: black;
+}
+
+.auth-login__message.scale-and-transparent__inner {
+  animation-name: scale-and-transparent__inner;
+  animation-duration: 0.75s;
+}
+
+.auth-login.transparent__out,
+.auth-login__message.transparent__out {
+  animation-name: transparent__out;
+  animation-duration: 0.75s;
+}
+
+.auth-checkbox__wrapper {
+  display: flex;
+  width: 100%;
+  justify-content: center
+}
+
+@keyframes scale-and-transparent__inner {
+  0% {
+    scale: 0.7;
+    opacity: 0;
+  }
+
+  100% {
+    scale: 1;
+    opacity: 1;
+  }
+}
+
+@keyframes scale-and-transparent__out {
+  0% {
+    scale: 1;
+    opacity: 1;
+  }
+
+  100% {
+    scale: 0.7;
+    opacity: 0;
+  }
+}
+
+@keyframes transparent__out {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}

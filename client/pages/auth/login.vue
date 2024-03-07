@@ -2,11 +2,7 @@
   <section :class="'auth-login ' + animationToLogin">
     <div
       class="auth-login__background"
-      :style="
-        `background-image: url('` +
-        require('~/static/times/' + getTimeBackground + '.png') +
-        `')`
-      "
+      :style="currentBackgroundImage"
     ></div>
     <div class="auth-login__container">
       <div :class="'auth-card ' + (isDarkValue ? 'dark' : 'light')">
@@ -16,7 +12,7 @@
           @submit.prevent="stepper"
           :class="'auth-form ' + getAnimationAndHide + (isDarkValue ? ' dark' : ' light')"
         >
-          <h2 class="mt-2 mb-8">Вход в систему</h2>
+          <h2 class="auth-title mt-2 mb-8">Вход в систему</h2>
 
           <div class="auth-form__textField">
             <v-text-field
@@ -34,6 +30,7 @@
               :loading="loading.email"
               :disabled="loading.email"
               :dark="isDarkValue"
+              type="email"
               outlined
             />
           </div>
@@ -53,7 +50,7 @@
           </div>
 
           <v-btn
-            class="radius-small primary darken-1 white--text mt-2"
+            class="radius-small primary darken-1 white--text"
             :dark="isDarkValue"
             :disabled="!valid"
             @click="stepper"
@@ -64,342 +61,204 @@
             Войти
           </v-btn>
 
-          <div
-            class="my-6"
-            style="width: 100%; display: flex; justify-content: center"
-          >
+          <div class="auth-checkbox__wrapper my-4">
             <v-checkbox
+              class="auth-checkbox"
               color="primary darken-1"
-              label="Запомнить меня!"
+              label="Запомнить меня"
               :dark="isDarkValue"
               hide-details
               dense
             />
           </div>
 
-          <div>
-            <span>Нет аккаунта? </span>
+          <div class="auth-actions">
+            <span class="auth-actions__title">Нет аккаунта? </span>
             <a
               @click="$router.push('/auth/reg')"
-              class="primary--text text--darken-1"
+              class="auth-link primary--text text--darken-1"
             >
               Создайте его прямо сейчас!
               <v-icon color="primary darken-1" small
-                >mdi-arrow-top-right-thin
+              >mdi-arrow-top-right-thin
               </v-icon>
             </a>
           </div>
 
           <a
             @click="$router.push('/auth/forgot')"
-            class="primary--text text--darken-1 my-2"
+            class="auth-link primary--text text--darken-1 my-1"
           >
             Забыли пароль
             <v-icon color="primary darken-1" small
-              >mdi-arrow-top-right-thin
+            >mdi-arrow-top-right-thin
             </v-icon>
           </a>
         </v-form>
 
-        <h2 :class="'auth-login__message ' + welcomeMessageAnimation + (isDarkValue ? ' dark' : ' light')">
+        <h3 :class="'auth-login__message ' + welcomeMessageAnimation + (isDarkValue ? ' dark' : ' light')">
           {{ welcomeMessage }}
-        </h2>
+        </h3>
       </div>
     </div>
   </section>
 </template>
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator'
-import { TimesOfDay } from '~/assets/script/functions/timesOfDay'
+import { Component, Vue, Watch } from "vue-property-decorator";
+import { TimesOfDay } from "~/assets/script/functions/timesOfDay";
 
 @Component({
-  layout: 'auth',
+  layout: "auth"
 })
 export default class Login extends Vue {
-  step: number = 1
+  step: number = 1;
 
-  valid: boolean = false
-  showPassword: boolean = false
+  valid: boolean = false;
+  showPassword: boolean = false;
 
   loading: Record<string, unknown> = {
     email: false,
-    password: false,
-  }
+    password: false
+  };
 
   model: Record<string, any> = {
-    email: '',
-    password: '',
-  }
+    email: "",
+    password: ""
+  };
 
   rules = {
     email: (v: any) =>
-      !!(v || '').match(/@/) ||
-      'Введите действительный адрес электронной почты',
+      !!(v || "").match(/@/) ||
+      "Введите действительный адрес электронной почты",
     length: (len: any) => (v: any) =>
-      (v || '').length >= (len ?? 8) ||
+      (v || "").length >= (len ?? 8) ||
       `Недопустимая длина символов, требуется ${len} символов`,
     maxValue: (len: any) => (v: any) =>
-      (v || '') < len ||
+      (v || "") < len ||
       `Недопустимое значение, максимальное значение - ${len}`,
     password: (v: any) =>
-      !!(v || '').match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/) ||
-      'Пароль должен содержать заглавную букву, цифру и специальный символ.',
-    required: (v: any) => !!v || 'Это поле обязательно к заполнению',
-  }
+      !!(v || "").match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/) ||
+      "Пароль должен содержать заглавную букву, цифру и специальный символ.",
+    required: (v: any) => !!v || "Это поле обязательно к заполнению"
+  };
 
   stepper() {
     switch (this.step) {
       case 1:
-        return this.findEmailToLogin()
+        return this.findEmailToLogin();
       case 2:
-        return this.tryLogin()
+        return this.tryLogin();
+    }
+  }
+
+  findEmailToLogin() {
+    // todo проверка email в бд
+
+    if (typeof this.rules.email(this.model.email) != "string") {
+      this.loading.email = !this.loading.email;
+
+      setTimeout(() => {
+        this.loading.email = !this.loading.email;
+
+        this.step++;
+      }, 500);
     }
   }
 
   tryLogin() {
-    this.step++
+    // todo функция логина
+    this.step++;
   }
 
-  findEmailToLogin() {
-    if (typeof this.rules.email(this.model.email) != 'string') {
-      this.loading.email = !this.loading.email
-
-      setTimeout(() => {
-        this.loading.email = !this.loading.email
-
-        this.step++
-      }, 500)
-    }
-  }
-
-  @Watch('model.email')
+  @Watch("model.email")
   showLoginButton() {
     if (this.model.email.length <= 0) {
-      this.step--
+      this.step = 1;
     }
   }
 
-  @Watch('step')
+  @Watch("step")
   startWelcomeAnimation() {
     switch (this.step) {
       case 3:
-        return this.welcomeAnimationHideForm()
+        return this.nextStepTimeout();
       case 4:
-        return this.step++
+        return this.step++;
       case 5:
       case 6:
       case 7:
-        return this.startMessageAnimation()
+        return this.nextStepTimeout();
       case 8:
-        return this.$router.push('/news')
+        return this.$router.push("/news");
     }
   }
 
   get getTimeBackground() {
-    return TimesOfDay().time
+    return TimesOfDay().time;
+  }
+
+  get currentBackgroundImage() {
+    return `background-image: url('` + require("~/static/times/" + this.getTimeBackground + ".png") + `')`;
   }
 
   get getAnimationAndHide() {
     switch (this.step) {
       case 3:
-        return 'scale-and-transparent__out'
+        return "scale-and-transparent__out";
       case 4:
       case 5:
       case 6:
       case 7:
       case 8:
-        return 'opacity-hide'
+        return "opacity-hide";
       default:
-        return ''
+        return "";
     }
   }
 
   get isDarkValue() {
     switch (TimesOfDay().time) {
-      case 'morning':
-      case 'afternoon':
-        return false
-      case 'evening':
-      case 'night':
-        return true
+      case "morning":
+      case "afternoon":
+        return false;
+      case "evening":
+      case "night":
+        return true;
     }
   }
 
   get welcomeMessage() {
-    return TimesOfDay().greetings
+    return TimesOfDay().greetings;
   }
 
   get welcomeMessageAnimation() {
     switch (this.step) {
       case 5:
-        return 'scale-and-transparent__inner'
+        return "scale-and-transparent__inner";
       case 6:
-        return ''
+        return "";
       case 7:
-        return 'transparent__out'
+        return "transparent__out";
       case 8:
-        return 'd-none'
+        return "d-none";
       default:
-        return 'd-none'
+        return "d-none";
     }
   }
 
   get animationToLogin() {
     switch (this.step) {
       case 7:
-        return 'transparent__out'
+        return "transparent__out";
       case 8:
-        return 'd-none'
+        return "d-none";
     }
   }
 
-  welcomeAnimationHideForm() {
+  nextStepTimeout() {
     setTimeout(() => {
-      this.step++
-    }, 750)
-  }
-
-  startMessageAnimation() {
-    setTimeout(() => {
-      this.step++
-    }, 750)
+      this.step++;
+    }, 750);
   }
 }
 </script>
-<style>
-.auth-login {
-  height: 100vh;
-  overflow: hidden;
-}
-
-.auth-login__background {
-  width: 100%;
-  height: inherit;
-  background-size: auto 80%;
-  background-position: center;
-  background-repeat: no-repeat;
-  filter: blur(5px) grayscale(80%);
-  transform: scale(1.3);
-}
-
-.auth-login__container {
-  position: absolute;
-  display: flex;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: inherit;
-  height: inherit;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-.auth-card {
-  display: flex;
-  width: 100%;
-  height: 100vh;
-  max-width: 60%;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  backdrop-filter: blur(15px);
-}
-
-.auth-card.dark {
-  background: #1f1f1f50;
-}
-
-.auth-card.light {
-  background: #f1f1f150;
-}
-
-.auth-form {
-  display: flex;
-  width: 100%;
-  max-width: 450px;
-  margin-left: 20px;
-  padding: 5px 10px;
-  text-align: center;
-  flex-direction: column;
-  justify-content: center;
-  border-radius: var(--radius);
-}
-
-.auth-form.dark {
-  color: white;
-  border: 1px solid white;
-}
-
-.auth-form.light {
-  color: black;
-  border: 1px solid black;
-}
-
-.auth-form.scale-and-transparent__out {
-  animation-name: scale-and-transparent__out;
-  animation-duration: 0.75s;
-}
-
-.auth-form.opacity-hide {
-  display: none;
-}
-
-.auth-login__message {
-  margin: 0 auto;
-  text-align: center;
-}
-
-.auth-login__message.dark {
-  color: white;
-}
-
-.auth-login__message.light {
-  color: black;
-}
-
-.auth-login__message.scale-and-transparent__inner {
-  animation-name: scale-and-transparent__inner;
-  animation-duration: 0.75s;
-}
-
-.auth-login.transparent__out,
-.auth-login__message.transparent__out {
-  animation-name: transparent__out;
-  animation-duration: 0.75s;
-}
-
-@keyframes scale-and-transparent__inner {
-  0% {
-    scale: 0.7;
-    opacity: 0;
-  }
-
-  100% {
-    scale: 1;
-    opacity: 1;
-  }
-}
-
-@keyframes scale-and-transparent__out {
-  0% {
-    scale: 1;
-    opacity: 1;
-  }
-
-  100% {
-    scale: 0.7;
-    opacity: 0;
-  }
-}
-
-@keyframes transparent__out {
-  0% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-  }
-}
-</style>

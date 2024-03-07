@@ -19,6 +19,7 @@ export default {
 
   css: [
     'assets/main.css',
+    'assets/auth.css',
     'assets/themes.css',
     'assets/vuetify.css',
   ],

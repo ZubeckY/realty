@@ -11,26 +11,3 @@
 .defaultArticle {
   background: white !important;
 }
-
-/* nightGlow theme */
-.nightGlowBack {
-  background: var(--night-glow) !important;
-}
-
-.nightGlowArticle {
-  backdrop-filter: blur(8px) !important;
-  background: rgba(0, 76, 120, 0.6) !important;
-}
-
-/* dark theme */
-.darkBack {
-  background: #202124 !important;
-}
-
-.darkInput {
-  background: #3c4043 !important;
-}
-
-.darkArticle {
-  background: #303134 !important;
-}

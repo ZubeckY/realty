@@ -7,6 +7,10 @@
 :root {
   --radius: 13px;
   --radius-small: 8px;
+
+  --bkg__light: #f1f1f150;
+  --bkg__dark: #1f1f1f50;
+
   --default-back: #f2f1f6;
   --night-glow: linear-gradient(
     156deg,

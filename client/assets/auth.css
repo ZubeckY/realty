@@ -1,8 +1,3 @@
-:root {
-  --bkgAuth__light: #f1f1f150;
-  --bkgAuth__dark: #1f1f1f50;
-}
-
 .auth-reg,
 .auth-login {
   height: 100vh;
@@ -44,13 +39,13 @@
 }
 
 .auth-card.dark {
-  background: var(--bkgAuth__dark);
-  box-shadow: 0 0 26px 3px var(--bkgAuth__light);
+  background: var(--bkg__dark);
+  box-shadow: 0 0 26px 3px var(--bkg__light);
 }
 
 .auth-card.light {
-  background: var(--bkgAuth__light);
-  box-shadow: 0 0 26px 3px var(--bkgAuth__dark);
+  background: var(--bkg__light);
+  box-shadow: 0 0 26px 3px var(--bkg__dark);
 }
 
 .auth-form {
@@ -66,12 +61,12 @@
 
 .auth-form.dark {
   color: white;
-  box-shadow: 0 0 26px 3px var(--bkgAuth__light);
+  box-shadow: 0 0 26px 3px var(--bkg__light);
 }
 
 .auth-form.light {
   color: black;
-  box-shadow: 0 0 26px 3px var(--bkgAuth__dark);
+  box-shadow: 0 0 26px 3px var(--bkg__dark);
 }
 
 .auth-form.scale-and-transparent__out {

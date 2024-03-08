@@ -7,10 +7,8 @@
 :root {
   --radius: 13px;
   --radius-small: 8px;
-
   --bkg__light: #f1f1f150;
   --bkg__dark: #1f1f1f50;
-
   --default-back: #f2f1f6;
   --night-glow: linear-gradient(
     156deg,
@@ -479,6 +477,34 @@ tbody tr:hover {
   transform: scale(1);
   object-position: 50% 50%;
   border-radius: var(--radius);
+}
+
+.profileSection {
+  display: flex;
+  flex-wrap: wrap;
+  height: fit-content;
+}
+
+.profileCard {
+  width: 250px;
+  height: fit-content;
+}
+
+.profileInfo-infoGroup {
+  margin-bottom: 7px;
+}
+
+.profileInfo-infoGroup:last-child {
+  margin-bottom: 0;
+}
+
+.profileInfo-infoGroup__title {
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.profileInfo-infoGroup__value {
+  font-size: 14px;
 }
 
 /* personal */

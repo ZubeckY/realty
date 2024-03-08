@@ -10,10 +10,9 @@
         <div class="d-flex" style="width: 100%; height: calc(100vh - 55px)">
           <menu-buttons v-model="profileLinks" class="py-1" />
           <div class="overflow-y-auto pa-2" style="width: 100%">
-            <Nuxt class="pr-2"/>
+            <Nuxt class="pr-2" />
           </div>
         </div>
-
       </div>
     </section>
   </v-app>

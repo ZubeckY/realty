@@ -9,16 +9,19 @@
         <div class="actionDialog__textField mt-3" v-if="confirm">
           <div class="actionDialog__textField-item small-input">
             <v-text-field label="Имя"
+                          :dark="usableTheme"
                           type="text"
                           outlined
                           disabled
-                          dense />
+                          dense
+                          />
           </div>
 
           <div class="actionDialog__textField-item small-input">
             <v-text-field :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                           :type="showPassword ? 'text' : 'password'"
                           @click:append="showPassword = !showPassword"
+                          :dark="usableTheme"
                           label="Пароль"
                           outlined
                           counter
@@ -61,6 +64,7 @@
 </template>
 <script lang="ts">
 import { Component, Prop, VModel, Vue, Watch } from "vue-property-decorator";
+import { ColorTheme } from "~/assets/script/functions/colorTheme";
 
 @Component
 export default class ActionDialog extends Vue {
@@ -85,6 +89,10 @@ export default class ActionDialog extends Vue {
   isCanceled() {
     this.dialog = !this.dialog
     this.$emit("isCanceled");
+  }
+
+  get usableTheme() {
+    return new ColorTheme().isDark()
   }
 
 };

@@ -59,24 +59,36 @@ input[type="number"]:focus {
 }
 
 /* table */
-th, td {
-  border-bottom: none !important;
+.custom-table.light thead tr {
+  background: var(--bkg__light) !important;
 }
 
-thead tr {
-  background: white !important;
+.custom-table.dark thead tr {
+  background: var(--bkg__dark) !important;
+}
+
+th, td {
+  border-bottom: none !important;
 }
 
 thead * {
   white-space: nowrap !important;
 }
 
-tr:nth-child(odd) {
-  background: #f9f9f9;
+.custom-table.light tr:nth-child(odd) {
+  background: #f9f9f950;
 }
 
-tbody tr:hover {
-  background: #f7f7f7 !important;
+.custom-table.dark tr:nth-child(odd) {
+  background: #1f1f1f50;
+}
+
+.custom-table.light tbody tr:hover {
+  background: #f7f7f770 !important;
+}
+
+.custom-table.dark tbody tr:hover {
+  background: #1f1f1f70 !important;
 }
 
 /* main */

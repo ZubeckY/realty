@@ -1,26 +1,29 @@
 <template>
   <div>
-    <v-skeleton-loader v-if="loading" type="table"></v-skeleton-loader>
+    <v-skeleton-loader
+      v-if="loading"
+      :dark="usableTheme"
+      type="table"
+    ></v-skeleton-loader>
 
-    <v-data-table v-else
-                  :headers="headers"
-                  :items="feeds"
-                  :search="search"
-                  :footer-props="{
-                    showFirstLastPage: true,
-                    firstIcon: 'mdi-arrow-collapse-left',
-                    lastIcon: 'mdi-arrow-collapse-right',
-                    prevIcon: 'mdi-minus',
-                    nextIcon: 'mdi-plus',
-                    itemsPerPageText: 'Кол-во элементов',
-                    itemsPerPageOptions: [
-                      10,
-                      25,
-                      50,
-                      100,
-                      -1
-                    ]
-                  }" dense>
+    <v-data-table
+      v-else
+      :dark="usableTheme"
+      :headers="headers"
+      :items="feeds"
+      :search="search"
+      :class="'custom-table ' + usableBlock"
+      :footer-props="{
+        showFirstLastPage: true,
+        firstIcon: 'mdi-arrow-collapse-left',
+        lastIcon: 'mdi-arrow-collapse-right',
+        prevIcon: 'mdi-minus',
+        nextIcon: 'mdi-plus',
+        itemsPerPageText: 'Кол-во элементов',
+        itemsPerPageOptions: [10, 25, 50, 100, -1],
+      }"
+      dense
+    >
       <template v-slot:item.link="{ item }">
         <a :href="item.link" target="_blank">{{ item.link }}</a>
       </template>
@@ -33,32 +36,30 @@
       <template v-slot:item.active="{ item }">
         <v-checkbox v-model="item.active" hide-details dense />
       </template>
-
     </v-data-table>
-
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue } from 'vue-property-decorator'
+import { ColorTheme } from '~/assets/script/functions/colorTheme'
 
 @Component
 export default class Feeds extends Vue {
   loading: boolean = true
 
-
-  search: string = "";
+  search: string = ''
   headers: any = [
-    { text: "id", value: "id" },
-    { text: "Название", value: "title" },
-    { text: "Комментарий", value: "comment" },
-    { text: "Ссылка", value: "link" },
-    { text: "Дата создания", value: "created" },
-    { text: "Активный фид", value: "active" },
-    { text: "", value: "actions", sortable: false }
-  ];
+    { text: 'id', value: 'id' },
+    { text: 'Название', value: 'title' },
+    { text: 'Комментарий', value: 'comment' },
+    { text: 'Ссылка', value: 'link' },
+    { text: 'Дата создания', value: 'created' },
+    { text: 'Активный фид', value: 'active' },
+    { text: '', value: 'actions', sortable: false },
+  ]
 
-  feeds: any = [];
+  feeds: any = []
 
   created() {
     // todo запрос на бек
@@ -66,33 +67,39 @@ export default class Feeds extends Vue {
       this.feeds = [
         {
           id: 1,
-          title: "Avito feed 1",
-          comment: "Фид всех элементов",
-          link: "https://localhost:3000/api/feeds/12312421/",
-          created: "32.05.2024",
-          active: true
+          title: 'Avito feed 1',
+          comment: 'Фид всех элементов',
+          link: 'https://localhost:3000/api/feeds/12312421/',
+          created: '32.05.2024',
+          active: true,
         },
         {
           id: 2,
           title: "ЖК 'Черёмушка'",
-          comment: "Только объекты к жк черёмушка",
-          link: "https://localhost:3000/api/feeds/12312421/",
-          created: "32.05.2024",
-          active: true
+          comment: 'Только объекты к жк черёмушка',
+          link: 'https://localhost:3000/api/feeds/12312421/',
+          created: '32.05.2024',
+          active: true,
         },
         {
           id: 3,
-          title: "Название",
-          comment: "Комментарий",
-          link: "https://localhost:3000/api/feeds/12312421/",
-          created: "32.05.2024",
-          active: true
-        }
+          title: 'Название',
+          comment: 'Комментарий',
+          link: 'https://localhost:3000/api/feeds/12312421/',
+          created: '32.05.2024',
+          active: true,
+        },
       ]
       this.loading = false
     }, 300)
   }
 
-};
-</script>
+  get usableBlock() {
+    return new ColorTheme().block()
+  }
 
+  get usableTheme() {
+    return new ColorTheme().isDark()
+  }
+}
+</script>

@@ -86,7 +86,7 @@ export const state = () => ({
       title: "Бронь",
       link: "/reservation",
       access: true,
-      showItem: true,
+      showItem: false,
       routeName: "reservation",
       headerComponent: "reservation-header"
     },
@@ -106,7 +106,7 @@ export const state = () => ({
       title: "Шахматка",
       link: "/chess",
       access: true,
-      showItem: true,
+      showItem: false,
       routeName: "chess",
       headerComponent: "chess-header"
     }

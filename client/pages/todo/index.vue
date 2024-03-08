@@ -5,6 +5,7 @@
         v-model="newTask"
         label="Впишите сюда новую задачу"
         @keydown.enter="create"
+        :dark="usableTheme"
         outlined
         dense
       >
@@ -103,11 +104,21 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { ColorTheme } from "~/assets/script/functions/colorTheme";
 
 @Component
 export default class Todo extends Vue {
   newTask: any = null;
   tasks: any = [];
+
+  create() {
+    this.tasks.push({
+      done: false,
+      text: this.newTask
+    });
+
+    this.newTask = null;
+  }
 
   get completedTasks() {
     return this.tasks.filter((task: Record<string, unknown>) => task.done).length;
@@ -121,18 +132,9 @@ export default class Todo extends Vue {
     return this.tasks.length - this.completedTasks;
   }
 
-  create() {
-    this.tasks.push({
-      done: false,
-      text: this.newTask
-    });
-
-    this.newTask = null;
+  get usableTheme() {
+    return new ColorTheme().isDark()
   }
 
 };
 </script>
-
-<style scoped>
-
-</style>

@@ -39,6 +39,8 @@
         <div class="changeMenu-container">
           <v-data-table
             :headers="headers"
+            :dark="usableTheme"
+            :class="'custom-table ' + usableBlock"
             :items="filterProfileLinksToSettings"
             hide-default-footer
             dense

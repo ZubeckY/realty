@@ -1,22 +1,25 @@
 <template>
   <div>
-    <v-text-field
-      v-model="newTask"
-      label="What are you working on?"
-      solo
-      @keydown.enter="create"
-    >
-      <template v-slot:append>
-        <v-fade-transition>
-          <v-icon
-            v-if="newTask"
-            @click="create"
-          >
-            mdi-plus-circle
-          </v-icon>
-        </v-fade-transition>
-      </template>
-    </v-text-field>
+    <div class="small-input">
+      <v-text-field
+        v-model="newTask"
+        label="Впишите сюда новую задачу"
+        @keydown.enter="create"
+        outlined
+        dense
+      >
+        <template v-slot:append>
+          <v-fade-transition>
+            <v-icon
+              v-if="newTask"
+              @click="create"
+            >
+              mdi-plus-circle
+            </v-icon>
+          </v-fade-transition>
+        </template>
+      </v-text-field>
+    </div>
 
     <h2 class="text-h4 success--text pl-4">
       Задачи:&nbsp;
@@ -55,7 +58,7 @@
 
     <card v-if="tasks.length > 0">
       <v-slide-y-transition
-        class="py-0"
+        class="py-0 transparent"
         group
         tag="v-list"
       >
@@ -65,7 +68,7 @@
             :key="`${i}-divider`"
           ></v-divider>
 
-          <v-list-item :key="`${i}-${task.text}`">
+          <v-list-item  :key="`${i}-${task.text}`">
             <v-list-item-action>
               <v-checkbox
                 v-model="task.done"

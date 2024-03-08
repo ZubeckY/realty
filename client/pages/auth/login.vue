@@ -3,7 +3,6 @@
     <div :class="'auth-card ' + usableBlock">
       <v-form
         v-model="valid"
-        lazy-validation
         @submit.prevent="stepper"
         :class="'auth-form' + ' ' + usableBlock + ' ' + getAnimationAndHide"
       >

@@ -8,10 +8,15 @@ export class AgencyController {
 
   @Get('/:id')
   @OnUndefined(204)
-  getOne(@Param('id') id: number) {
+  async getOne(@Param('id') id: number) {
     try {
-      const agencyRepository = AppDataSource.getRepository(Agency)
-    } catch (e) {}
+      const agencyRepository = await AppDataSource.getRepository(Agency)
+    } catch (e) {
+      return {
+        message: 'Ошибка сервера',
+        error: e,
+      }
+    }
   }
 
   @Post('/create')

@@ -23,9 +23,9 @@ export class Address {
   @Column('varchar', { comment: 'Номер квартиры' })
   flat?: string | null
 
-  @Column('double', { comment: 'Широта' })
+  @Column('decimal', { comment: 'Широта' })
   lat?: number
 
-  @Column('double', { comment: 'Долгота' })
+  @Column('decimal', { comment: 'Долгота' })
   lon?: number
 }

@@ -324,7 +324,7 @@ export class Realty {
   contactMethod?: ContactMethod[]
 
   @ManyToOne(() => User)
-  manager?: User
+  manager?: Relation<User>
 
   @CreateDateColumn({ comment: 'Дата создания' })
   created!: Date

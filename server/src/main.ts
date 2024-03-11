@@ -1,4 +1,5 @@
-import express from 'express'
+import 'reflect-metadata'
+import * as express from 'express'
 import compression from 'compression'
 import logger from './modules/logger.js'
 import { createExpressServer } from 'routing-controllers'

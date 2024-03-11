@@ -5,12 +5,11 @@ import { AppDataSource } from '../connectDataBase.js'
 
 @Controller('/agency')
 export class AgencyController {
-
   @Get('/:id')
   @OnUndefined(204)
   async getOne(@Param('id') id: number) {
     try {
-      const agencyRepository = await AppDataSource.getRepository(Agency)
+      const agencyRepository = AppDataSource.getRepository(Agency)
     } catch (e) {
       return {
         message: 'Ошибка сервера',

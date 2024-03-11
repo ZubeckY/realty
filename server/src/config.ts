@@ -5,7 +5,7 @@ const config = {
   CLIENT_URL: 'http://localhost',
   //
   DB_HOST: 'localhost',
-  DB_USERNAME: 'root',
+  DB_USERNAME: 'postgres',
   DB_PASSWORD: '',
   DB_DATABASE: 'test_realty',
   //

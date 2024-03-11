@@ -4,9 +4,10 @@
     <div class="auth-container">
       <div :class="'auth-card ' + (isDarkValue ? 'dark' : 'light')">
         <v-form
+          ref="valid"
           v-model="valid"
           lazy-validation
-          @submit.prevent
+          @submit.prevent="stepper"
           :class="'auth-form ' + (isDarkValue ? ' dark' : ' light')"
         >
           <h2 class="auth-title mt-2 mb-8">Регистрация</h2>
@@ -15,7 +16,7 @@
             <div class="auth-form__textField">
               <v-text-field
                 label="Имя"
-                v-model="model.name"
+                v-model="model.firstName"
                 :rules="[rules.required]"
                 :dark="isDarkValue"
                 outlined
@@ -27,7 +28,7 @@
             <div class="auth-form__textField">
               <v-text-field
                 label="Фамилия"
-                v-model="model.surname"
+                v-model="model.lastName"
                 :rules="[rules.required]"
                 :dark="isDarkValue"
                 outlined
@@ -69,45 +70,108 @@
             small
             block
           >
-            Войти
+            Регистрация
           </v-btn>
 
-          <div class="auth-checkbox__wrapper my-4">
+          <!--          <div class="auth-bySocial mt-4">-->
+          <!--            <div class="auth-bySocial__container">-->
+          <!--              <card-->
+          <!--                class="auth-bySocial__card"-->
+          <!--                v-for="(item, key) in authServices"-->
+          <!--                :key="'auth-link-' + key"-->
+          <!--              >-->
+          <!--                <div-->
+          <!--                  class="auth-bySocial__card-container"-->
+          <!--                  @click="tryRegBySocial(item.icon)"-->
+          <!--                >-->
+          <!--                  <div class="auth-bySocial__icon">-->
+          <!--                    <img :src="getItemIcon(item.icon)" :alt="item.icon" />-->
+          <!--                  </div>-->
+
+          <!--                  <div class="auth-bySocial__text">-->
+          <!--                    Продолжить с {{ item.text }}-->
+          <!--                  </div>-->
+          <!--                </div>-->
+          <!--              </card>-->
+          <!--            </div>-->
+          <!--          </div>-->
+
+          <div class="auth-checkbox__wrapper mt-4">
             <v-checkbox
               class="auth-checkbox"
               color="primary darken-1"
-              label="Запомнить меня"
+              v-model="model.IAgreeToPrivacyPolicy"
+              :rules="[rules.required]"
               :dark="isDarkValue"
               hide-details
               dense
-            />
+            >
+              <template v-slot:label>
+                <div>
+                  Согласие на
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                      <a target="_blank" href="" @click.stop v-on="on">
+                        обработку персональных данных
+                      </a>
+                    </template>
+                  </v-tooltip>
+                </div>
+              </template>
+            </v-checkbox>
           </div>
 
-          <div class="auth-actions">
-            <span class="auth-actions__title">Нет аккаунта? </span>
+
+          <div class="auth-checkbox__wrapper mb-4">
+            <v-checkbox
+                class="auth-checkbox"
+                color="primary darken-1"
+                v-model="model.IAgreeToTermsOfUse"
+                :rules="[rules.required]"
+                :dark="isDarkValue"
+                hide-details
+                dense
+            >
+              <template v-slot:label>
+                <div>
+                  Согласие на
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                      <a
+                          target="_blank"
+                          href="https://vuetifyjs.com"
+                          @click.stop
+                          v-on="on"
+                      >
+                        пользовательские соглашения
+                      </a>
+                    </template>
+                  </v-tooltip>
+                </div>
+              </template>
+            </v-checkbox>
+          </div>
+
+
+          <div class="auth-actions mb-2">
+            <span class="auth-actions__title">Есть аккаунт? </span>
             <a
-              @click="$router.push('/auth/reg')"
+              @click="$router.push('/auth/login')"
               class="auth-link primary--text text--darken-1"
             >
-              Создайте его прямо сейчас!
+              Зайдите в него прямо сейчас!
               <v-icon color="primary darken-1" small
                 >mdi-arrow-top-right-thin
               </v-icon>
             </a>
           </div>
-
-          <a
-            @click="$router.push('/auth/forgot')"
-            class="auth-link primary--text text--darken-1 my-1"
-          >
-            Забыли пароль
-            <v-icon color="primary darken-1" small
-              >mdi-arrow-top-right-thin
-            </v-icon>
-          </a>
         </v-form>
 
-        <h3 :class="'auth-message ' + (isDarkValue ? ' dark' : ' light')">
+        <h3
+          :class="
+            'auth-message' + ' ' + usableBlock + ' ' + welcomeMessageAnimation
+          "
+        >
           {{ welcomeMessage }}
         </h3>
       </div>
@@ -117,41 +181,84 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { TimesOfDay } from '~/assets/script/functions/timesOfDay'
+import { ColorTheme } from '~/assets/script/functions/colorTheme'
 
 @Component({
   layout: 'auth',
 })
 export default class Reg extends Vue {
   valid: boolean = false
+  step: number = 1
 
   show: Record<string, any> = {
     password: false,
   }
 
   model: Record<string, any> = {
-    name: '',
-    surname: '',
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
+    IAgreeToTermsOfUse: false,
+    IAgreeToPrivacyPolicy: false,
   }
+
+  authServices: any = [
+    {
+      text: 'VK',
+      icon: 'vk',
+    },
+    {
+      text: 'Yandex',
+      icon: 'yandex',
+    },
+    {
+      text: 'Google',
+      icon: 'google',
+    },
+  ]
 
   rules = {
     email: (v: any) =>
       !!(v || '').match(/@/) ||
       'Введите действительный адрес электронной почты',
+
+    match: (match: any) => (v: any) =>
+      (!!v && v) === match || 'Пароли должны совпадать',
+
     length: (len: any) => (v: any) =>
       (v || '').length >= (len ?? 8) ||
       `Недопустимая длина символов, требуется ${len} символов`,
+
     maxValue: (len: any) => (v: any) =>
       (v || '') < len ||
       `Недопустимое значение, максимальное значение - ${len}`,
+
     password: (v: any) =>
       !!(v || '').match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/) ||
       'Пароль должен содержать заглавную букву, цифру и специальный символ.',
+
     required: (v: any) => !!v || 'Это поле обязательно к заполнению',
   }
 
-  stepper() {}
+  async stepper() {
+    await this.tryReg()
+  }
+
+  tryRegBySocial(value: string) {
+    console.log(value)
+  }
+
+  async tryReg() {
+    //@ts-ignore
+    this.$refs.valid.validate() && await this.$axios
+      .post('/api/auth/reg/', {
+        model: this.model,
+      })
+      .then((data: any) => {
+        console.log(data)
+      })
+  }
 
   get isDarkValue() {
     switch (TimesOfDay().time) {
@@ -168,6 +275,10 @@ export default class Reg extends Vue {
     return TimesOfDay().time
   }
 
+  getItemIcon(icon: string) {
+    return require('@/static/logo/' + icon + '.svg')
+  }
+
   get currentBackgroundImage() {
     return (
       `background-image: url('` +
@@ -178,6 +289,25 @@ export default class Reg extends Vue {
 
   get welcomeMessage() {
     return TimesOfDay().greetings
+  }
+
+  get usableBlock() {
+    return new ColorTheme().block()
+  }
+
+  get welcomeMessageAnimation() {
+    switch (this.step) {
+      case 5:
+        return 'scale-and-transparent__inner'
+      case 6:
+        return ''
+      case 7:
+        return 'transparent__out'
+      case 8:
+        return 'd-none'
+      default:
+        return 'd-none'
+    }
   }
 }
 </script>

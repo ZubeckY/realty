@@ -4,13 +4,13 @@ import logger from './modules/logger.js'
 import config from './config.js'
 
 export const AppDataSource: DataSource = new DataSource({
-  type: 'mysql',
+  type: "postgres",
   host: config.DB_HOST,
-  port: 3306,
+  port: 5432,
   username: config.DB_USERNAME,
   password: config.DB_PASSWORD,
   database: config.DB_DATABASE,
-  entities: ['/entity/*.js'],
+  entities: ["src/entity/**/*.ts"],
   synchronize: true,
   logging: false,
 })

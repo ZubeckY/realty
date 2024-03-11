@@ -111,6 +111,45 @@
   justify-content: center
 }
 
+.auth-bySocial__card {
+  display: flex;
+  cursor: pointer;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-bySocial__card + .auth-bySocial__card {
+  margin-top: 13px;
+}
+
+.auth-bySocial__card-container {
+  display: flex;
+  width: 100%;
+  max-width: 60%;
+  flex-direction: row;
+  align-items: center;
+}
+
+.auth-bySocial__icon {
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin-right: 15px;
+}
+
+.auth-bySocial__icon img {
+  display: block;
+  width: inherit;
+  height: inherit;
+}
+
+.auth-bySocial__text {
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
 @keyframes scale-and-transparent__inner {
   0% {
     scale: 0.7;

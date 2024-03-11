@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, Relation } from 'typeorm'
-import { User, Agency } from './entity'
+import { User, Agency } from './index.js'
 
 @Entity()
 export class News {
@@ -9,7 +9,7 @@ export class News {
   @Column({ comment: 'Текст поста' })
   text?: string
 
-  @Colum({ comment: 'Тэги' })
+  @Column("varchar", { array: true, comment: 'Тэги поста' })
   tags?: string[]
 
   @ManyToOne(() => User, { nullable: false })

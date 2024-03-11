@@ -21,6 +21,7 @@
                 : 'mdi-arrow-right-bold-circle'
             "
             @click:append="findEmailToLogin"
+            :error-messages="errorEmailMessage"
             :loading="loading.email"
             :disabled="loading.email"
             :dark="usableTheme"
@@ -54,6 +55,29 @@
         >
           Войти
         </v-btn>
+
+<!--        <div class="auth-bySocial mt-4">-->
+<!--          <div class="auth-bySocial__container">-->
+<!--            <card-->
+<!--              class="auth-bySocial__card"-->
+<!--              v-for="(item, key) in authServices"-->
+<!--              :key="'auth-link-' + key"-->
+<!--            >-->
+<!--              <div-->
+<!--                class="auth-bySocial__card-container"-->
+<!--                @click="tryRegBySocial(item.icon)"-->
+<!--              >-->
+<!--                <div class="auth-bySocial__icon">-->
+<!--                  <img :src="getItemIcon(item.icon)" :alt="item.icon" />-->
+<!--                </div>-->
+
+<!--                <div class="auth-bySocial__text">-->
+<!--                  Продолжить с {{ item.text }}-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </card>-->
+<!--          </div>-->
+<!--        </div>-->
 
         <div class="auth-checkbox__wrapper my-4">
           <v-checkbox
@@ -114,6 +138,8 @@ export default class Login extends Vue {
   valid: boolean = false
   showPassword: boolean = false
 
+  errorEmailMessage: string = ''
+
   loading: Record<string, unknown> = {
     email: false,
     password: false,
@@ -123,6 +149,21 @@ export default class Login extends Vue {
     email: '',
     password: '',
   }
+
+  authServices: any = [
+    {
+      text: 'VK',
+      icon: 'vk',
+    },
+    {
+      text: 'Yandex',
+      icon: 'yandex',
+    },
+    {
+      text: 'Google',
+      icon: 'google',
+    },
+  ]
 
   rules = {
     email: (v: any) =>
@@ -149,17 +190,28 @@ export default class Login extends Vue {
     }
   }
 
-  findEmailToLogin() {
-    // todo проверка email в бд
+  tryRegBySocial(value: string) {
+    console.log(value)
+  }
 
+  async findEmailToLogin() {
     if (typeof this.rules.email(this.model.email) != 'string') {
       this.loading.email = !this.loading.email
 
-      setTimeout(() => {
-        this.loading.email = !this.loading.email
+      await this.$axios
+        .post('/api/auth/user-exist/', {
+          email: this.model.email,
+        })
+        .then((data: any) => {
+          const result: boolean = data.data
+          if (!result) {
+            this.errorEmailMessage = 'Пользователя с таким email не существует!'
+          } else {
+            this.step++
+          }
+        })
 
-        this.step++
-      }, 500)
+      this.loading.email = !this.loading.email
     }
   }
 
@@ -168,8 +220,14 @@ export default class Login extends Vue {
     this.step++
   }
 
+  getItemIcon(icon: string) {
+    return require('@/static/logo/' + icon + '.svg')
+  }
+
   @Watch('model.email')
   showLoginButton() {
+    this.errorEmailMessage = ''
+
     if (this.model.email.length <= 0) {
       this.step = 1
     }

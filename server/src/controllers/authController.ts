@@ -1,10 +1,13 @@
-import { Body, Get, JsonController, Post } from 'routing-controllers'
+import { Body, Get, JsonController, Param, Post } from "routing-controllers";
 import { AppDataSource } from '../connectDataBase.js'
 import TokenService from '../service/tokenService.js'
+import MailService from '../service/mailService.js'
 import { Agency, User } from '../entity/index.js'
 import AuthDto from '../dtos/authDto.js'
+import config from '../config.js'
 import * as bcrypt from 'bcrypt'
 import * as uuid from 'uuid'
+
 
 // @ts-ignore
 @JsonController('/auth')
@@ -49,11 +52,12 @@ export class AuthController {
       user.lastName = lastName
       user.email = email
       user.password = await bcrypt.hash(password, 3)
+      user.hashActivate = activationLink
 
       const userDto = new AuthDto(user)
       const tokens = new TokenService().generateTokens({ ...userDto })
 
-      console.log(tokens)
+      await new MailService().sendActivationMail(email, `${config.API_URL}/api/activate/${activationLink}`);
 
       return tokens
 
@@ -66,9 +70,10 @@ export class AuthController {
     }
   }
 
-  @Get('/activate-account/:hash')
-  async activate() {
+  @Get('/activate/:hash')
+  async activate(@Param('hash') hash: number,) {
     try {
+
     } catch (e) {
       return {
         message: 'Ошибка сервера',

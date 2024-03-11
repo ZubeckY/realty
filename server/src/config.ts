@@ -1,12 +1,13 @@
 const config = {
   PORT: 4000,
   //
-  API_URL: '',
+  API_URL: 'http://localhost' + config.PORT,
   CLIENT_URL: 'http://localhost',
   //
   DB_HOST: 'localhost',
+  DB_PORT: 5432,
   DB_USERNAME: 'postgres',
-  DB_PASSWORD: '',
+  DB_PASSWORD: 'root1234',
   DB_DATABASE: 'test_realty',
   //
   JWT_ACCESS_SECRET: 'realty_phrase_access_token',

@@ -40,6 +40,9 @@ export class User {
   @Column('varchar', { comment: 'Пароль' })
   password!: string
 
+  @Column('varchar', { comment: 'хэш активации', unique: true })
+  hashActivate!: string
+
   @ManyToOne(() => Address, (address) => address)
   address?: Relation<Address>
 

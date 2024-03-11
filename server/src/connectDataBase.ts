@@ -4,9 +4,9 @@ import logger from './modules/logger.js'
 import config from './config.js'
 
 export const AppDataSource: DataSource = new DataSource({
-  type: "postgres",
+  type: 'postgres',
   host: config.DB_HOST,
-  port: 5432,
+  port: config.DB_PORT,
   username: config.DB_USERNAME,
   password: config.DB_PASSWORD,
   database: config.DB_DATABASE,

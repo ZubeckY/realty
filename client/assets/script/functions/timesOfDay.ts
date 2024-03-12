@@ -1,43 +1,46 @@
 export function TimesOfDay() {
-  const hours = new Date().getHours();
+  const hours = new Date().getHours()
 
-  if (hours >= 0 || hours < 6) {
+  if (hours >= 0 && hours < 5) {
     return {
-      greetings: "Доброй ночи, ",
-      time: "night"
-    };
-  }
-
-  if (hours >= 6 && hours < 11) {
+      greetings: 'Доброй ночи, ',
+      time: 'night',
+    }
+  } else if (hours >= 5 && hours < 7) {
     return {
-      greetings: "Доброе утро, ",
-      time: "morning"
-    };
-  }
-
-  if (hours >= 11 && hours < 17) {
+      greetings: 'Добрый утро, ',
+      time: 'evening',
+    }
+  } else if (hours >= 7 && hours < 11) {
     return {
-      greetings: "Добрый день, ",
-      time: "afternoon"
-    };
-  }
-
-  if (hours >= 17 && hours < 20) {
+      greetings: 'Доброе утро, ',
+      time: 'morning',
+    }
+  } else if (hours >= 11 && hours < 16) {
+    console.log('afternoon')
     return {
-      greetings: "Добрый вечер, ",
-      time: "evening"
-    };
-  }
-
-  if (hours >= 20 || hours <= 23) {
+      greetings: 'Добрый день, ',
+      time: 'afternoon',
+    }
+  } else if (hours >= 16 && hours < 18) {
     return {
-      greetings: "Доброй ночи, ",
-      time: "night"
-    };
+      greetings: 'Доброе вечер, ',
+      time: 'morning',
+    }
+  } else if (hours >= 18 && hours < 20) {
+    return {
+      greetings: 'Добрый вечер, ',
+      time: 'evening',
+    }
+  } else if (hours >= 20 && hours <= 23) {
+    return {
+      greetings: 'Доброй ночи, ',
+      time: 'night',
+    }
   }
 
   return {
-    greetings: "Добрый день, ",
-    time: "afternoon"
-  };
+    greetings: 'Добрый день, ',
+    time: 'afternoon',
+  }
 }

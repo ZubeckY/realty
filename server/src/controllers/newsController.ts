@@ -19,7 +19,7 @@ export class NewsController {
       })
     } catch (e) {
       return {
-        message: 'Ошибка сервера',
+        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
         error: e,
       }
     }
@@ -30,7 +30,7 @@ export class NewsController {
     try {
     } catch (e) {
       return {
-        message: 'Ошибка сервера',
+        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
         error: e,
       }
     }

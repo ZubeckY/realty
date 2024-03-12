@@ -32,7 +32,7 @@ export class RealtyController {
       }
     } catch (e) {
       return {
-        message: 'Ошибка сервера',
+        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
         error: e
       }
     }
@@ -82,7 +82,7 @@ export class RealtyController {
       }
     } catch (e) {
       return {
-        message: 'Ошибка сервера',
+        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
         error: e,
       }
     }

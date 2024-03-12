@@ -6,7 +6,7 @@ export function checkAuth(req: any, res: any, next: (err?: any) => any): any {
     return next();
   } catch (e) {
     return res.send({
-      message: 'Ошибка сервера',
+      message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
       error: e
     })
   }

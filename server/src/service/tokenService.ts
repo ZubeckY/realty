@@ -18,7 +18,7 @@ export default class TokenService {
       }
     } catch (e) {
       return {
-        message: 'Ошибка сервера',
+        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
         error: e,
       }
     }
@@ -58,7 +58,7 @@ export default class TokenService {
       return await this.authTokenRepository.save(createToken)
     } catch (e) {
       return {
-        message: 'Ошибка сервера',
+        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
         error: e,
       }
     }
@@ -79,7 +79,7 @@ export default class TokenService {
       return await this.authTokenRepository.remove(findToken)
     } catch (e) {
       return {
-        message: 'Ошибка сервера',
+        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
         error: e,
       }
     }

@@ -14,10 +14,10 @@ export class User {
   @Column('varchar', { length: 100, comment: 'Фамилия' })
   lastName!: string
 
-  @Column('varchar', { length: 100, comment: 'Отчество' })
+  @Column('varchar', { length: 100, comment: 'Отчество', nullable: true })
   patronymic?: string
 
-  @Column({ comment: 'Дата рождения' })
+  @Column({ comment: 'Дата рождения', nullable: true })
   dateBirthday?: Date
 
   @Column({
@@ -25,23 +25,21 @@ export class User {
     type: 'enum',
     enum: Nationality,
     default: Nationality['RUSSIA'],
+    nullable: true
   })
-  nationality!: Nationality
+  nationality?: Nationality
 
   @ManyToOne(() => File, (file) => file.path)
   photo?: Relation<File>
 
-  @Column('int', { width: 20, comment: 'Телефон' })
+  @Column('int', { width: 20, comment: 'Телефон', nullable: true })
   phone?: number
 
   @Column('varchar', { length: 100, comment: 'Email' })
-  email?: string
+  email!: string
 
   @Column('varchar', { comment: 'Пароль' })
   password!: string
-
-  @Column('varchar', { comment: 'хэш активации', unique: true })
-  hashActivate!: string
 
   @ManyToOne(() => Address, (address) => address)
   address?: Relation<Address>
@@ -58,9 +56,9 @@ export class User {
   agency?: Relation<Agency>
 
   @Column({ nullable: true, comment: 'Код активации' })
-  activationCode?: number
+  activationCode?: string
 
-  @Column({ nullable: true, comment: 'Ссылка для активации' })
+  @Column({ nullable: true, comment: 'Ссылка для активации', unique: true })
   activationLink?: string
 
   @Column({ default: false, comment: 'Активированный аккаунт' })

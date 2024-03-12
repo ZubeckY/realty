@@ -121,16 +121,15 @@
             </v-checkbox>
           </div>
 
-
           <div class="auth-checkbox__wrapper mb-4">
             <v-checkbox
-                class="auth-checkbox"
-                color="primary darken-1"
-                v-model="model.IAgreeToTermsOfUse"
-                :rules="[rules.required]"
-                :dark="isDarkValue"
-                hide-details
-                dense
+              class="auth-checkbox"
+              color="primary darken-1"
+              v-model="model.IAgreeToTermsOfUse"
+              :rules="[rules.required]"
+              :dark="isDarkValue"
+              hide-details
+              dense
             >
               <template v-slot:label>
                 <div>
@@ -138,10 +137,10 @@
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
                       <a
-                          target="_blank"
-                          href="https://vuetifyjs.com"
-                          @click.stop
-                          v-on="on"
+                        target="_blank"
+                        href="https://vuetifyjs.com"
+                        @click.stop
+                        v-on="on"
                       >
                         пользовательские соглашения
                       </a>
@@ -151,7 +150,6 @@
               </template>
             </v-checkbox>
           </div>
-
 
           <div class="auth-actions mb-2">
             <span class="auth-actions__title">Есть аккаунт? </span>
@@ -166,6 +164,16 @@
             </a>
           </div>
         </v-form>
+
+        <v-snackbar
+          v-model="snackbar"
+          :color="snackbarColor"
+          :timeout="2000"
+          outlined
+          text
+        >
+          {{ snackbarMessage }}
+        </v-snackbar>
 
         <h3
           :class="
@@ -189,6 +197,10 @@ import { ColorTheme } from '~/assets/script/functions/colorTheme'
 export default class Reg extends Vue {
   valid: boolean = false
   step: number = 1
+
+  snackbar: boolean = false
+  snackbarColor: string = ''
+  snackbarMessage: string = ''
 
   show: Record<string, any> = {
     password: false,
@@ -251,13 +263,25 @@ export default class Reg extends Vue {
 
   async tryReg() {
     //@ts-ignore
-    this.$refs.valid.validate() && await this.$axios
-      .post('/api/auth/reg/', {
-        model: this.model,
-      })
-      .then((data: any) => {
-        console.log(data)
-      })
+    this.$refs.valid.validate() &&
+      (await this.$axios
+        .post('/api/auth/reg/', {
+          model: this.model,
+        })
+        .then((data: any) => {
+          if (data.data?.message) {
+            this.setSnackbarValues('error darken-1', data.data.message)
+            console.log(data.data.error)
+            return
+          }
+
+          this.setSnackbarValues('success darken-1', 'Успешно')
+
+          setTimeout(() => {
+            localStorage.setItem('hash', data.data?.linkHash)
+            this.$router.push('/auth/activate/' + data.data?.linkHash)
+          }, 300)
+        }))
   }
 
   get isDarkValue() {
@@ -308,6 +332,12 @@ export default class Reg extends Vue {
       default:
         return 'd-none'
     }
+  }
+
+  setSnackbarValues(color: string, message: string) {
+    this.snackbar = true
+    this.snackbarColor = color
+    this.snackbarMessage = message
   }
 }
 </script>

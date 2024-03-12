@@ -12,7 +12,7 @@ export class AgencyController {
       const agencyRepository = AppDataSource.getRepository(Agency)
     } catch (e) {
       return {
-        message: 'Ошибка сервера',
+        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
         error: e,
       }
     }
@@ -123,7 +123,7 @@ export class AgencyController {
       }
     } catch (e) {
       return {
-        message: 'Ошибка сервера',
+        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
         error: e,
       }
     }

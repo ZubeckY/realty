@@ -67,7 +67,7 @@ export class checkRole {
       }
     } catch (e) {
       return res.send({
-        message: 'Ошибка сервера',
+        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
         error: e,
       })
     }
@@ -77,7 +77,7 @@ export class checkRole {
     try {
     } catch (e) {
       return res.send({
-        message: 'Ошибка сервера',
+        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
         error: e,
       })
     }

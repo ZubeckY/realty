@@ -21,7 +21,7 @@ function start() {
   try {
     app.listen(PORT)
     connectDataBase()
-    logger.info(`Server started successfully - port: ${PORT}`)
+    logger.info(`Server started successfully`)
     logger.info(`${config.CLIENT_URL}:${PORT}`)
   } catch (error) {
     logger.error(`Unable to connect to the server:, ${error}`)

@@ -1,8 +1,9 @@
 const config = {
   PORT: 4000,
+  CLIENT_PORT: 3000,
   //
-  API_URL: 'http://localhost' + config.PORT,
-  CLIENT_URL: 'http://localhost',
+  API_URL: 'http://localhost',
+  CLIENT_URL:  'http://localhost',
   //
   DB_HOST: 'localhost',
   DB_PORT: 5432,
@@ -13,10 +14,9 @@ const config = {
   JWT_ACCESS_SECRET: 'realty_phrase_access_token',
   JWT_REFRESH_SECRET: 'realty_phrase_refresh_token',
   //
-  SMTP_HOST: '',
-  SMTP_PORT: '',
-  SMTP_USER: '',
-  SMTP_PASSWORD: '',
-  //
+  SMTP_HOST: 'smtp.gmail.com',
+  SMTP_PORT: 587,
+  SMTP_USER: 'help.realtycrm@gmail.com',
+  SMTP_PASSWORD: 'scry vpcs akwe lacf',
 }
 export default config

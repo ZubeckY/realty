@@ -1,5 +1,6 @@
-import { Body, Get, JsonController, Param, Post } from 'routing-controllers'
+import { Body, Get, JsonController, Param, Post, Req } from 'routing-controllers'
 import { AppDataSource } from '../connectDataBase.js'
+import SecurityService from "../service/securityService.js";
 import TokenService from '../service/tokenService.js'
 import MailService from '../service/mailService.js'
 import OTPService from '../service/OTPService.js'
@@ -134,7 +135,6 @@ export class AuthController {
       await new MailService().sendActivationCode(userFromDB.email, activationCode)
 
       return true
-
     } catch (e) {
       return {
         message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
@@ -187,20 +187,19 @@ export class AuthController {
 
       if (!userFromDB) {
         return {
-          message: 'Ошибка, пользователь не найден'
+          message: 'Ошибка, пользователь не найден',
         }
       }
 
       if (!userFromDB.IsActivatedAccount) {
         return {
-          message: 'Пользователь не активирован'
+          message: 'Пользователь не активирован',
         }
       }
 
       // Создаём токен
       const userDto = new AuthDto(userFromDB)
       return new TokenService().generateTokens({ ...userDto })
-
     } catch (e) {
       return {
         message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
@@ -210,7 +209,7 @@ export class AuthController {
   }
 
   @Post('/user-exist/')
-  async userExist(@Body() body: any) {
+  async userExist(@Req() req: any, @Body() body: any) {
     try {
       const { email } = body
 
@@ -218,6 +217,8 @@ export class AuthController {
       const emailExists: User | null = await userRepository.findOneBy({
         email: email,
       })
+
+      await new SecurityService().checkCurrentUser(req)
 
       return !!emailExists
     } catch (e) {

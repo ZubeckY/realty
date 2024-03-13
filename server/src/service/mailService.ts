@@ -46,7 +46,21 @@ export default class MailService {
     `,
       })
     } catch (e) {
+      console.log(e);
+    }
+  }
 
+  async sendSecurityMessage(to: string, text: string){
+    try {
+      await this.transporter.sendMail({
+        from: config.SMTP_USER,
+        to,
+        subject: 'Система оповещения и безопасности на ' + config.API_URL,
+        text: '',
+        html: text,
+      })
+    } catch (e) {
+      console.log(e);
     }
   }
 }

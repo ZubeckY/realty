@@ -12,10 +12,10 @@ import * as uuid from 'uuid'
 @JsonController('/auth')
 export class AuthController {
   @Post('/reg/')
-  async registration(@Body() data: any) {
+  async registration(@Body() body: any) {
     try {
       const userRepository = AppDataSource.getRepository(User)
-      const { firstName, lastName, email, password, IAgreeToTermsOfUse, IAgreeToPrivacyPolicy } = data.model
+      const { firstName, lastName, email, password, IAgreeToTermsOfUse, IAgreeToPrivacyPolicy } = body.model
 
       const emailExists: User | null = await userRepository.findOneBy({
         email: email,
@@ -59,9 +59,9 @@ export class AuthController {
   }
 
   @Post('/activate-code/')
-  async activateByCode(@Body() data: any) {
+  async activateByCode(@Body() body: any) {
     try {
-      const { hash, otp } = data.model
+      const { hash, otp } = body.model
 
       if (!hash) {
         return {
@@ -210,8 +210,10 @@ export class AuthController {
   }
 
   @Post('/user-exist/')
-  async userExist(@Body() email: string) {
+  async userExist(@Body() body: any) {
     try {
+      const { email } = body
+
       const userRepository = AppDataSource.getRepository(User)
       const emailExists: User | null = await userRepository.findOneBy({
         email: email,

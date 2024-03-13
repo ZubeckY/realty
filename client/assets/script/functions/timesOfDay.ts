@@ -17,7 +17,6 @@ export function TimesOfDay() {
       time: 'morning',
     }
   } else if (hours >= 11 && hours < 16) {
-    console.log('afternoon')
     return {
       greetings: 'Добрый день, ',
       time: 'afternoon',

@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import { Controller, Param, Body, Get, Post, Put, Delete, OnUndefined, UseAfter } from 'routing-controllers'
+import { Param, Body, Get, Post, Put, Delete, OnUndefined, UseAfter, JsonController } from 'routing-controllers'
 import { checkAuth } from '../middleware/checkAuth.js'
 import { checkAgency } from '../middleware/checkAgency.js'
 import { checkPaymentToken } from '../middleware/checkPaymentToken.js'
@@ -7,7 +7,7 @@ import { checkPaymentToken } from '../middleware/checkPaymentToken.js'
 @UseAfter(checkAuth)
 @UseAfter(checkAgency)
 @UseAfter(checkPaymentToken)
-@Controller('/users')
+@JsonController('/users')
 export class UserController {
   @Get('/')
   getAll() {

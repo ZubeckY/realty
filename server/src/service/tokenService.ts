@@ -2,11 +2,10 @@ import jwt from 'jsonwebtoken'
 import { AuthToken, User } from '../entity/index.js'
 import { AppDataSource } from '../connectDataBase.js'
 import AuthDto from '../dtos/authDto.js'
-import { Repository } from 'typeorm'
 import config from '../config.js'
 
 export default class TokenService {
-  authTokenRepository: Repository<AuthToken> = AppDataSource.getRepository(AuthToken)
+
 
   generateTokens(payload: AuthDto) {
     try {
@@ -24,17 +23,17 @@ export default class TokenService {
     }
   }
 
-  validateAccessToken(token: string) {
+  validateAccessToken(token: any) {
     try {
-      return jwt.verify(token, config.JWT_ACCESS_SECRET)
+      return jwt.decode(token)
     } catch (e) {
       return null
     }
   }
 
-  validateRefreshToken(token: string) {
+  validateRefreshToken(token: any) {
     try {
-      return jwt.verify(token, config.JWT_REFRESH_SECRET)
+      return jwt.decode(token)
     } catch (e) {
       return null
     }
@@ -42,20 +41,21 @@ export default class TokenService {
 
   async saveToken(user: User, token: string) {
     try {
-      const tokenData = await this.authTokenRepository.findOneBy({
+      const authTokenRepository = AppDataSource.getRepository(AuthToken)
+      const tokenData = await authTokenRepository.findOneBy({
         user: user,
       })
 
       if (tokenData) {
         tokenData.value = token
-        return await this.authTokenRepository.save(tokenData)
+        return await authTokenRepository.save(tokenData)
       }
 
       const createToken = new AuthToken()
       createToken.value = token
       createToken.user = user
 
-      return await this.authTokenRepository.save(createToken)
+      return await authTokenRepository.save(createToken)
     } catch (e) {
       return {
         message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
@@ -66,17 +66,24 @@ export default class TokenService {
 
   async removeToken(token: string) {
     try {
-      const findToken = await this.authTokenRepository.findOneBy({
+      const authTokenRepository = AppDataSource.getRepository(AuthToken)
+      const tokenFromDB = await authTokenRepository.findOneBy({
         value: token,
       })
 
-      if (!findToken) {
+      if (!tokenFromDB) {
         return {
-          message: 'None token',
+          message: 'Токен несуществует',
+          auth: false,
         }
       }
 
-      return await this.authTokenRepository.remove(findToken)
+      await authTokenRepository.remove(tokenFromDB)
+
+      return {
+        message: 'Успешно',
+        auth: false,
+      }
     } catch (e) {
       return {
         message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
@@ -87,9 +94,16 @@ export default class TokenService {
 
   async findToken(token: string) {
     try {
-      return await this.authTokenRepository.findOneBy({
+      const authTokenRepository = AppDataSource.getRepository(AuthToken)
+      const tokenFromDB = await authTokenRepository.findOneBy({
         value: token,
       })
+
+      if (!tokenFromDB) {
+        return null
+      }
+
+      return tokenFromDB
     } catch (e) {
       return null
     }

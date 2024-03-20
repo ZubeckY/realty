@@ -114,6 +114,16 @@
         </a>
       </v-form>
 
+      <v-snackbar
+        v-model="snackbar"
+        :color="snackbarColor"
+        :timeout="2000"
+        outlined
+        text
+      >
+        {{ snackbarMessage }}
+      </v-snackbar>
+
       <h3
         :class="
           'auth-message' + ' ' + usableBlock + ' ' + welcomeMessageAnimation
@@ -138,12 +148,18 @@ export default class Login extends Vue {
   valid: boolean = false
   showPassword: boolean = false
 
+  linkHash: string = ''
+
   errorEmailMessage: string = ''
 
   loading: Record<string, unknown> = {
     email: false,
     password: false,
   }
+
+  snackbar: boolean = false
+  snackbarColor: string = ''
+  snackbarMessage: string = ''
 
   model: Record<string, any> = {
     email: '',
@@ -215,9 +231,26 @@ export default class Login extends Vue {
     }
   }
 
-  tryLogin() {
-    // todo функция логина
-    this.step++
+  async tryLogin() {
+    if (process.client) {
+    await this.$axios
+      .post('/api/auth/login/', {
+        model: this.model,
+      })
+      .then((data: any) => {
+        if (data.data?.message) {
+          this.setSnackbarValues('error darken-1', data.data.message)
+          console.log(data.data.error)
+          return
+        }
+
+        this.setSnackbarValues('success darken-1', 'Успешно')
+        localStorage.setItem('hash', data.data?.linkHash)
+        this.linkHash = data.data?.linkHash
+        this.step++
+      })
+    }
+
   }
 
   getItemIcon(icon: string) {
@@ -245,7 +278,7 @@ export default class Login extends Vue {
       case 7:
         return this.nextStepTimeout()
       case 8:
-        return this.$router.push('/news')
+        return this.$router.push('/auth/activate/' + this.linkHash)
     }
   }
 
@@ -308,6 +341,12 @@ export default class Login extends Vue {
     setTimeout(() => {
       this.step++
     }, 750)
+  }
+
+  setSnackbarValues(color: string, message: string) {
+    this.snackbar = true
+    this.snackbarColor = color
+    this.snackbarMessage = message
   }
 }
 </script>

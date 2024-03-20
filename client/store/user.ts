@@ -3,7 +3,10 @@ export const state = () => ({
     id: 0,
     firstName: '',
     lastName: '',
-    email: ''
+    email: '',
+    agency: {
+      id: 0
+    }
   }
 });
 

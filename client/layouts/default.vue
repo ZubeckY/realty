@@ -21,20 +21,40 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import { TimesOfDay } from '~/assets/script/functions/timesOfDay'
+import checkAuth from '~/assets/script/functions/checkAuth'
 
 @Component
 export default class Default extends Vue {
   profileLinks = []
   currentHeader: string = ''
+  user: any = {
+    id: 0,
+    firstName: '',
+    lastName: '',
+    email: '',
+    agency: {
+      id: 0,
+    },
+  }
 
-  created() {
+  async created() {
     this.profileLinks = JSON.parse(
       JSON.stringify(this.$store.getters['menu/getMenu'])
     )
   }
 
-  mounted() {
+  async mounted() {
     this.myRouterController()
+    if (process.client) {
+      let user = JSON.parse(JSON.stringify(this.$store.state.user.user))
+      let checkUser = await checkAuth(user)
+
+      if (!checkUser) {
+        return this.$router.push('/auth/login')
+      }
+
+      this.user = checkUser
+    }
   }
 
   @Watch('$route')

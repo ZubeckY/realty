@@ -10,6 +10,9 @@ export default class MailService {
       user: config.SMTP_USER,
       pass: config.SMTP_PASSWORD,
     },
+    tls: {
+      rejectUnauthorized: false
+    }
   })
 
   async sendActivationMail(to: string, link: string) {

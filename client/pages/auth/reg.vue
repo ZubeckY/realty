@@ -262,26 +262,28 @@ export default class Reg extends Vue {
   }
 
   async tryReg() {
-    //@ts-ignore
-    this.$refs.valid.validate() &&
-      (await this.$axios
-        .post('/api/auth/reg/', {
-          model: this.model,
-        })
-        .then((data: any) => {
-          if (data.data?.message) {
-            this.setSnackbarValues('error darken-1', data.data.message)
-            console.log(data.data.error)
-            return
-          }
+    if (process.client) {
+      //@ts-ignore
+      this.$refs.valid.validate() &&
+        (await this.$axios
+          .post('/api/auth/reg/', {
+            model: this.model,
+          })
+          .then((data: any) => {
+            if (data.data?.message) {
+              this.setSnackbarValues('error darken-1', data.data.message)
+              console.log(data.data.error)
+              return
+            }
 
-          this.setSnackbarValues('success darken-1', 'Успешно')
+            this.setSnackbarValues('success darken-1', 'Успешно')
 
-          setTimeout(() => {
-            localStorage.setItem('hash', data.data?.linkHash)
-            this.$router.push('/auth/activate/' + data.data?.linkHash)
-          }, 300)
-        }))
+            setTimeout(() => {
+              localStorage.setItem('hash', data.data?.linkHash)
+              this.$router.push('/auth/activate/' + data.data?.linkHash)
+            }, 300)
+          }))
+    }
   }
 
   get isDarkValue() {

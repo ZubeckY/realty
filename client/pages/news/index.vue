@@ -80,6 +80,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class News extends Vue {
+
   get postText() {
     let text: string = 'Пост '
     for (let i = 0; i < 40; i++) {
@@ -90,66 +91,3 @@ export default class News extends Vue {
   }
 }
 </script>
-
-<style>
-.newsCard {
-  max-width: 760px;
-}
-
-.newsCard-created {
-  font-size: 12px;
-  margin-top: 4px;
-  margin-left: 40px;
-}
-
-.newsCard-body {
-  margin-top: 7px;
-  margin-left: 40px;
-}
-
-.newsCard-text {
-  font-size: 14px;
-}
-
-.newsCard-content {
-  margin-top: 7px;
-}
-
-.newsCard-video {
-  width: 75%;
-}
-
-.newsCard-video__frameVideo {
-  position: relative;
-  padding: 0 0 56.25% 0;
-  height: 0;
-  overflow: hidden;
-}
-
-.newsCard-video__frameVideo iframe,
-.newsCard-video__frameVideo object,
-.newsCard-video__frameVideo embed {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.newsCard-video__tags {
-  display: flex;
-  margin-top: 7px;
-  flex-wrap: wrap;
-  flex-direction: row;
-}
-
-.newsCard-video__tags-title {
-  font-size: 12px;
-  font-weight: bold;
-  margin-right: 7px;
-}
-
-.newsCard-video__tags-items {
-  font-size: 12px;
-}
-</style>

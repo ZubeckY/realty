@@ -71,78 +71,84 @@ export default class _id extends Vue {
   timer: number = 59
 
   async mounted() {
-    const link = this.$router.currentRoute.path
-    const array = link.split('/')
-    let hash: string | unknown = array[array.length - 1]
+    if (process.client) {
+      const link = this.$router.currentRoute.path
+      const array = link.split('/')
+      let hash: string | unknown = array[array.length - 1]
 
-    if (!hash) {
-      hash = localStorage.getItem('hash')
-    }
-
-    await this.$axios.get('/api/auth/activate-status/' + hash).then((data) => {
-      if (data.data?.message) {
-        this.setSnackbarValues('error darken-1', data.data.message)
+      if (!hash) {
+        hash = localStorage.getItem('hash')
       }
-    })
 
-    this.startTimerOut()
+      await this.$axios
+        .get('/api/auth/activate-status/' + hash)
+        .then((data) => {
+          if (data.data?.message) {
+            this.setSnackbarValues('error darken-1', data.data.message)
+          }
+        })
+
+      this.startTimerOut()
+    }
   }
 
   async onFinish() {
-    this.loading = true
-    const hash = localStorage.getItem('hash')
+    if (process.client) {
+      this.loading = true
+      const hash = localStorage.getItem('hash')
 
-    await this.$axios
-      .post('/api/auth/activate-code/', {
-        model: {
-          hash: hash,
-          otp: this.otpCode.toUpperCase(),
-        },
-      })
-      .then(async (data) => {
-        if (data.data?.message) {
-          this.setSnackbarValues('error darken-1', data.data.message)
-          this.loading = false
-          return
-        }
-        if (data.data?.id) {
-          const needUserData = {
-            id: data.data?.id,
-            firstName: data.data?.firstName,
-            lastName: data.data?.lastName,
-            email: data.data?.email,
+      await this.$axios
+        .post('/api/auth/activate-code/', {
+          model: {
+            hash: hash,
+            otp: this.otpCode.toUpperCase(),
+          },
+        })
+        .then(async (data) => {
+          if (data.data?.message) {
+            this.setSnackbarValues('error darken-1', data.data.message)
+            this.loading = false
+            return
           }
+          if (data.data?.id) {
+            const needUserData = {
+              id: data.data?.id,
+              firstName: data.data?.firstName,
+              lastName: data.data?.lastName,
+              email: data.data?.email,
+            }
 
-          await this.$store.dispatch('user/userValues', {
-            payload: needUserData,
-          })
-
-          await this.$axios
-            .post('/api/auth/login-after-activations/' + hash)
-            .then((data) => {
-              if (data.data?.message) {
-                this.setSnackbarValues('error darken-1', data.data.message)
-                this.loading = false
-                return
-              }
-
-              localStorage.setItem('token', data.data?.tokens?.accessToken)
-              localStorage.removeItem('hash')
-
-              this.loading = false
-
-              this.setSnackbarValues(
-                'succes, darken-1',
-                this.getGreetingMessage
-              )
-
-              setTimeout(() => {
-                this.$router.push('/profile/' + this.userID)
-              }, 500)
+            await this.$store.dispatch('user/userValues', {
+              payload: needUserData,
             })
-        }
-        this.loading = false
-      })
+
+            await this.$axios
+              .post('/api/auth/login-after-activations/' + hash)
+              .then((data) => {
+                if (data.data?.message) {
+                  this.setSnackbarValues('error darken-1', data.data.message)
+                  this.loading = false
+                  return
+                }
+
+                localStorage.setItem('token', data.data?.accessToken)
+                localStorage.removeItem('hash')
+
+                this.loading = false
+
+                this.setSnackbarValues(
+                  'succes, darken-1',
+                  this.getGreetingMessage
+                )
+
+                setTimeout(() => {
+                  this.$router.push('/profile/' + this.userID)
+                }, 500)
+              })
+          }
+          this.loading = false
+        })
+    }
   }
 
   setSnackbarValues(color: string, message: string) {

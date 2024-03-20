@@ -1,4 +1,4 @@
-import { Controller, Get } from 'routing-controllers'
+import { Get, JsonController } from "routing-controllers";
 import { operationTypeText } from '../types/operationType.js'
 import { categoryTypeText } from '../types/category.js'
 import { marketTypeText } from '../types/marketType.js'
@@ -21,7 +21,7 @@ import { inHouseTypeText } from '../types/inHouse.js'
 import { SSAdditionallyTypeText } from '../types/SSAdditionally.js'
 import { contactMethodTypeText } from '../types/contactMethhod.js'
 
-@Controller('/realty')
+@JsonController('/realty')
 export class RealtyController {
 
   @Get('/types')

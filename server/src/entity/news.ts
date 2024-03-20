@@ -9,7 +9,10 @@ export class News {
   @Column({ comment: 'Текст поста' })
   text?: string
 
-  @Column("varchar", { array: true, comment: 'Тэги поста' })
+  @Column({ comment: 'Видео с ютуб', nullable: true })
+  youtube?: string
+
+  @Column('varchar', { array: true, comment: 'Тэги поста', nullable: true })
   tags?: string[]
 
   @ManyToOne(() => User, { nullable: false })

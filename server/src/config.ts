@@ -8,11 +8,12 @@ const config = {
   DB_HOST: 'localhost',
   DB_PORT: 5432,
   DB_USERNAME: 'postgres',
-  DB_PASSWORD: 'root1234',
+  // DB_PASSWORD: 'root1234',
+  DB_PASSWORD: '',
   DB_DATABASE: 'test_realty',
   //
-  JWT_ACCESS_SECRET: 'realty_phrase_access_token',
-  JWT_REFRESH_SECRET: 'realty_phrase_refresh_token',
+  JWT_ACCESS_SECRET: 'realtyPhraseAccessToken',
+  JWT_REFRESH_SECRET: 'realtyPhraseRefreshToken',
   //
   SMTP_HOST: 'smtp.gmail.com',
   SMTP_PORT: 587,

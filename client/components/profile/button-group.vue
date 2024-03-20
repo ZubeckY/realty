@@ -62,10 +62,10 @@ export default class ButtonGroup extends Vue {
 
       // Проверяем на цифру
       if (!Number.isInteger(Number(numericNeedID))) {
-        return console.log("Не верное значение id");
+        return console.log("Неверное значение id");
       }
 
-      await this.$axios.get("/api/users/findUserByID?userID=" + numericNeedID);
+      // await this.$axios.get("/api/users/findUserByID?userID=" + numericNeedID);
 
     } catch (e) {
       console.log(e);

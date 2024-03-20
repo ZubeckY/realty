@@ -1,9 +1,9 @@
 import 'reflect-metadata'
-import { Controller, Param, Body, Get, Post, Put, Delete, OnUndefined } from 'routing-controllers'
+import { Param, Body, Get, Post, Put, Delete, OnUndefined, JsonController } from "routing-controllers";
 import { Agency, Address, User } from '../entity/index.js'
 import { AppDataSource } from '../connectDataBase.js'
 
-@Controller('/agency')
+@JsonController('/agency')
 export class AgencyController {
   @Get('/:id')
   @OnUndefined(204)
@@ -19,8 +19,10 @@ export class AgencyController {
   }
 
   @Post('/create')
-  async post(@Body() agency: Agency, @Body() user: User, @Body() address: Address) {
+  async createAgency(@Body() body: any) {
     try {
+      const { agency, user, address } = body
+
       const errorList = []
       const userRepository = AppDataSource.getRepository(User)
       const agencyRepository = AppDataSource.getRepository(Agency)

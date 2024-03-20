@@ -18,9 +18,6 @@ export default class SecurityService {
 
   async checkDeviceUser(req: any) {
     try {
-      const ip = req.ip
-      console.log(ip);
-
       const agent = useragent.parse(req.headers['user-agent'])
       return agent.toString()
     } catch (e) {

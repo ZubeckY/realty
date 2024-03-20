@@ -13,6 +13,7 @@ const app = createExpressServer({
   controllers: [...controllers],
 })
 
+app.set('trust proxy', true)
 app.use(compression())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))

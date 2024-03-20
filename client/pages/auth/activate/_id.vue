@@ -59,7 +59,7 @@ import { TimesOfDay } from '~/assets/script/functions/timesOfDay'
 @Component({
   layout: 'auth',
 })
-export default class _id extends Vue {
+export default class Activate extends Vue {
   valid: boolean = false
   loading: boolean = false
   otpCode: string = ''
@@ -142,7 +142,7 @@ export default class _id extends Vue {
                 )
 
                 setTimeout(() => {
-                  this.$router.push('/profile/' + this.userID)
+                  return window.location.href = '/profile/' + this.userID
                 }, 500)
               })
           }

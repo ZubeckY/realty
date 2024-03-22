@@ -46,6 +46,8 @@ export class AuthController {
       await userRepository.save(user)
 
       // Отправляем код на email
+
+      await new MailService().sendWelcomeMail(email)
       await new MailService().sendActivationCode(email, activationCode)
 
       return {
@@ -133,7 +135,20 @@ export class AuthController {
       await userRepository.save(userFromDB)
 
       // Создаём токен
-      const userDto = new AuthDto(userFromDB)
+      let ip = req.ip
+      if (ip.substr(0, 7) == "::ffff:") {
+        ip = ip.substr(7)
+      }
+      const loginDevice: any = await new SecurityService().checkDeviceUser(req)
+
+      const DTO = {
+        id: userFromDB.id,
+        ip: ip,
+        email: userFromDB.email,
+        device: loginDevice
+      }
+
+      const userDto = new AuthDto(DTO)
       const tokens = new TokenService().generateTokens({ ...userDto })
 
       const { accessToken } = tokens
@@ -144,7 +159,14 @@ export class AuthController {
         }
       }
 
-      await new TokenService().saveToken(userFromDB, accessToken)
+      const model = {
+        ip: ip,
+        user: userFromDB,
+        value: accessToken,
+        device: loginDevice
+      }
+
+      await new TokenService().saveToken(model)
       const loginText: any = await new SecurityService().newLogin(req)
 
       // Отправляем email с уведомлением о новом входе

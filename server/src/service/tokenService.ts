@@ -5,8 +5,6 @@ import AuthDto from '../dtos/authDto.js'
 import config from '../config.js'
 
 export default class TokenService {
-
-
   generateTokens(payload: AuthDto) {
     try {
       const accessToken = jwt.sign(payload, config.JWT_ACCESS_SECRET, { expiresIn: '15s' })
@@ -39,20 +37,24 @@ export default class TokenService {
     }
   }
 
-  async saveToken(user: User, token: string) {
+  async saveToken(model: any) {
     try {
+      const { ip, user, device, value } = model
+
       const authTokenRepository = AppDataSource.getRepository(AuthToken)
       const tokenData = await authTokenRepository.findOneBy({
         user: user,
       })
 
       if (tokenData) {
-        tokenData.value = token
+        tokenData.value = value
         return await authTokenRepository.save(tokenData)
       }
 
       const createToken = new AuthToken()
-      createToken.value = token
+      createToken.ip = ip
+      createToken.value = value
+      createToken.device = device
       createToken.user = user
 
       return await authTokenRepository.save(createToken)
@@ -73,7 +75,7 @@ export default class TokenService {
 
       if (!tokenFromDB) {
         return {
-          message: 'Токен несуществует',
+          message: 'Токен не существует',
           auth: false,
         }
       }

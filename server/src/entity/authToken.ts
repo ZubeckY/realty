@@ -6,6 +6,12 @@ export class AuthToken {
   @PrimaryGeneratedColumn()
   id!: number
 
+  @Column({ nullable: false, comment: 'IP' })
+  ip!: string
+
+  @Column({ nullable: false, comment: 'Устройство входа' })
+  device!: string
+
   @Column({ nullable: false, unique: true, comment: 'Значение' })
   value!: string
 

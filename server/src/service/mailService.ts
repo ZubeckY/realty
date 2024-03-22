@@ -34,6 +34,10 @@ export default class MailService {
     }
   }
 
+  async sendWelcomeMail(model: any) {
+
+  }
+
   async sendActivationCode(to: string, code: string) {
     try {
       await this.transporter.sendMail({

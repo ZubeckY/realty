@@ -8,8 +8,8 @@ const config = {
   DB_HOST: 'localhost',
   DB_PORT: 5432,
   DB_USERNAME: 'postgres',
-  // DB_PASSWORD: 'root1234',
-  DB_PASSWORD: '',
+  DB_PASSWORD: 'root1234',
+  // DB_PASSWORD: '',
   DB_DATABASE: 'test_realty',
   //
   JWT_ACCESS_SECRET: 'realtyPhraseAccessToken',

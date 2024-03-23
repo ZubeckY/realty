@@ -1,13 +1,19 @@
 export default class AuthDto {
+  // user
   id
-  ip
   email
+
+  // userAgent
+  ip
   device
+  userAgent
 
   constructor(model: any) {
     this.id = model.id
+    this.email = model.email
+
     this.ip = model.ip
     this.device = model.device
-    this.email = model.email
+    this.userAgent = model.userAgent
   }
 }

@@ -1,6 +1,8 @@
 /* vuetify */
 /* v-dialog */
 .v-dialog {
+  display: flex !important;
+  justify-content: center !important;
   box-shadow: none !important;
 }
 

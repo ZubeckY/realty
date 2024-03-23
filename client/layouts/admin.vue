@@ -2,14 +2,14 @@
   <v-app>
     <v-main>
       <v-container>
-
         <Nuxt />
-        <action-dialog :dialog="actionDialog"
-                       :confirm="true"
-                       :title="actionTitle"
-                       :text="actionText"
-                       @changeDialog="changeDialog"
-                       @isCanceled="closeDialog"
+        <action-dialog
+          :dialog="actionDialog"
+          :confirm="true"
+          :title="actionTitle"
+          :text="actionText"
+          @changeDialog="changeDialog"
+          @isCanceled="closeDialog"
         />
       </v-container>
     </v-main>
@@ -17,27 +17,25 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue } from 'vue-property-decorator'
 
 @Component
 export default class Admin extends Vue {
-
-
-  actionDialog: boolean = false;
-  actionTitle: string = "Вход в админ панель";
-  actionText: string = "Вы пытаетесь войти в админ панель! \n Для того, чтобы удостовериться, что действия выполняете Вы, введите пароль от своей учётной записи.";
+  actionDialog: boolean = true
+  actionTitle: string = 'Вход в админ панель'
+  actionText: string =
+    'Вы пытаетесь войти в админ панель! \n Для того, чтобы удостовериться, что действия выполняете Вы, введите пароль от своей учётной записи.'
 
   changeDialog(value: boolean) {
-    this.actionDialog = value;
+    this.actionDialog = value
   }
 
   closeDialog() {
-    this.actionDialog = false;
+    this.actionDialog = false
 
     setTimeout(() => {
-      this.$router.back();
-    }, 300);
+      this.$router.back()
+    }, 300)
   }
-
 }
 </script>

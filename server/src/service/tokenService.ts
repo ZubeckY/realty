@@ -39,11 +39,14 @@ export default class TokenService {
 
   async saveToken(model: any) {
     try {
-      const { ip, user, device, value } = model
+      const { ip, value, device, userAgent, user } = model
 
       const authTokenRepository = AppDataSource.getRepository(AuthToken)
       const tokenData = await authTokenRepository.findOneBy({
+        ip: ip,
         user: user,
+        device: device,
+        userAgent: userAgent,
       })
 
       if (tokenData) {
@@ -55,6 +58,7 @@ export default class TokenService {
       createToken.ip = ip
       createToken.value = value
       createToken.device = device
+      createToken.userAgent = userAgent
       createToken.user = user
 
       return await authTokenRepository.save(createToken)

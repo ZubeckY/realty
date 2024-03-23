@@ -1,5 +1,5 @@
 <template>
-  <div v-if="dialog" class="actionDialog">
+  <v-dialog v-model="dialog" v-if="dialog" class="actionDialog" :persistent="confirm">
     <card class="actionDialog__card" :style="'max-width: ' + maxWidth">
       <v-form class="actionDialog__container">
 
@@ -60,7 +60,7 @@
 
       </v-form>
     </card>
-  </div>
+  </v-dialog>
 </template>
 <script lang="ts">
 import { Component, Prop, VModel, Vue, Watch } from "vue-property-decorator";

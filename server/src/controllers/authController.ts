@@ -135,17 +135,15 @@ export class AuthController {
       await userRepository.save(userFromDB)
 
       // Создаём токен
-      let ip = req.ip
-      if (ip.substr(0, 7) == "::ffff:") {
-        ip = ip.substr(7)
-      }
       const loginDevice: any = await new SecurityService().checkDeviceUser(req)
 
       const DTO = {
         id: userFromDB.id,
-        ip: ip,
         email: userFromDB.email,
-        device: loginDevice
+
+        ip: loginDevice.ip,
+        device: loginDevice.device,
+        userAgent: loginDevice.userAgent,
       }
 
       const userDto = new AuthDto(DTO)
@@ -160,10 +158,11 @@ export class AuthController {
       }
 
       const model = {
-        ip: ip,
-        user: userFromDB,
+        ip: loginDevice.ip,
         value: accessToken,
-        device: loginDevice
+        device: loginDevice.device,
+        userAgent: loginDevice.userAgent,
+        user: userFromDB
       }
 
       await new TokenService().saveToken(model)

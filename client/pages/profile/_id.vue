@@ -19,9 +19,9 @@
                   class="radius-small"
                   color="primary darken-1"
                   @click="editMode = !editMode"
+                  outlined
                   block
                   small
-                  dark
                 >
                   Редактировать
                 </v-btn>
@@ -35,9 +35,9 @@
                   class="radius-small"
                   color="primary darken-1"
                   @click="devicesList = !devicesList"
+                  outlined
                   block
                   small
-                  dark
                 >
                   Устройства
                 </v-btn>
@@ -50,8 +50,11 @@
                 >
                   <div class="profileCard-devicesList">
                     <v-list
+                      v-for="ud in deviceList"
+                      :key="'user-device-item-' + ud.id"
                       class="profileCard-devicesList__container"
                       color="transparent"
+                      :dark="usableTheme"
                       dense
                     >
                       <v-list-item
@@ -59,15 +62,25 @@
                         class="profileCard-devicesList__item pa-1"
                       >
                         <v-list-item-content>
-                          <v-list-item-title class="d-flex flex-row justify-space-between">
-                            <div>Other 0.0.0</div>
-                            <div>12.05</div>
+                          <v-list-item-title
+                            class="d-flex flex-row justify-space-between"
+                          >
+                            <div>{{ ud['device'] }}</div>
+                            <div>{{ normalizeLastSeen(ud['lastSeen']) }}</div>
                           </v-list-item-title>
-                          <v-list-item-subtitle>
-                            Chrome 122.0.0 / Windows 10.0.0
+                          <v-list-item-subtitle
+                            class="d-flex flex-row justify-space-between align-center py-1"
+                          >
+                            <div>{{ ud['userAgent'] }}</div>
+                            <div>
+                              <div v-if="isCurrentAgent(ud['value'])" class="success darken-1 pa-1 radius-small">Текущий</div>
+                              <v-btn v-else icon small color="error darken-1">
+                                <v-icon>mdi-trash</v-icon>
+                              </v-btn>
+                            </div>
                           </v-list-item-subtitle>
                           <v-list-item-subtitle>
-                            127.0.0.1
+                            {{ ud['ip'] }}
                           </v-list-item-subtitle>
                         </v-list-item-content>
                       </v-list-item>
@@ -82,9 +95,9 @@
                   class="radius-small"
                   color="primary darken-1"
                   @click="editMode = !editMode"
+                  outlined
                   block
                   small
-                  dark
                 >
                   Выйти из профиля
                 </v-btn>
@@ -231,6 +244,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { ColorTheme } from '~/assets/script/functions/colorTheme'
 
 @Component
 export default class Profile extends Vue {
@@ -241,6 +255,7 @@ export default class Profile extends Vue {
   devicesList: boolean = false
 
   user: Record<string, unknown> = {
+    id: 1,
     name: 'Иван',
     surname: 'Иванов',
     patronymic: 'Иванович',
@@ -270,6 +285,20 @@ export default class Profile extends Vue {
     this.checkIDToValid()
   }
 
+  async mounted() {
+    await this.getAuthUserDevices()
+  }
+
+  async getAuthUserDevices() {
+    await this.$axios
+      .post('/api/auth/get-my-devices/', {
+        id: this.user.id,
+      })
+      .then((data) => {
+        return (this.deviceList = data.data)
+      })
+  }
+
   async checkIDToValid() {
     try {
       const route: string[] = this.$router.currentRoute.path.split('/')
@@ -296,6 +325,44 @@ export default class Profile extends Vue {
       'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'
     )
   }
+
+  get usableTheme() {
+    return new ColorTheme().isDark()
+  }
+
+  normalizeLastSeen(date: any) {
+    const DATE = new Date(date)
+    const monthList = [
+      'янв',
+      'фев',
+      'мар',
+      'апр',
+      'май',
+      'июн',
+      'июл',
+      'авг',
+      'сен',
+      'окт',
+      'ноя',
+      'дек',
+    ]
+
+    return (
+      DATE.getDate() +
+      ' ' +
+      monthList[DATE.getMonth()] +
+      ' ' +
+      DATE.getFullYear()
+    )
+  }
+
+  isCurrentAgent(hash: string) {
+    if (process.client) {
+      const token: any = localStorage.getItem('token')
+      return token.includes(hash)
+    }
+  }
+
 }
 </script>
 <style>

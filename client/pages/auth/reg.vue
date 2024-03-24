@@ -2,13 +2,13 @@
   <section class="auth">
     <div class="auth-background" :style="currentBackgroundImage"></div>
     <div class="auth-container">
-      <div :class="'auth-card ' + (isDarkValue ? 'dark' : 'light')">
+      <div :class="'auth-card ' + (usableTheme ? 'dark' : 'light')">
         <v-form
           ref="valid"
           v-model="valid"
           lazy-validation
           @submit.prevent="stepper"
-          :class="'auth-form ' + (isDarkValue ? ' dark' : ' light')"
+          :class="'auth-form ' + (usableTheme ? ' dark' : ' light')"
         >
           <h2 class="auth-title mt-2 mb-8">Регистрация</h2>
 
@@ -18,7 +18,7 @@
                 label="Имя"
                 v-model="model.firstName"
                 :rules="[rules.required]"
-                :dark="isDarkValue"
+                :dark="usableTheme"
                 outlined
               />
             </div>
@@ -30,7 +30,7 @@
                 label="Фамилия"
                 v-model="model.lastName"
                 :rules="[rules.required]"
-                :dark="isDarkValue"
+                :dark="usableTheme"
                 outlined
               />
             </div>
@@ -41,7 +41,7 @@
               label="Введите email"
               v-model="model.email"
               :rules="[rules.email, rules.required]"
-              :dark="isDarkValue"
+              :dark="usableTheme"
               type="email"
               outlined
             />
@@ -55,7 +55,7 @@
               :append-icon="show.password ? 'mdi-eye' : 'mdi-eye-off'"
               :type="show.password ? 'text' : 'password'"
               @click:append="show.password = !show.password"
-              :dark="isDarkValue"
+              :dark="usableTheme"
               outlined
               counter
             />
@@ -63,7 +63,7 @@
 
           <v-btn
             class="radius-small primary darken-1 white--text"
-            :dark="isDarkValue"
+            :dark="usableTheme"
             :disabled="!valid"
             @click="stepper"
             elevation="0"
@@ -102,7 +102,7 @@
               color="primary darken-1"
               v-model="model.IAgreeToPrivacyPolicy"
               :rules="[rules.required]"
-              :dark="isDarkValue"
+              :dark="usableTheme"
               hide-details
               dense
             >
@@ -127,7 +127,7 @@
               color="primary darken-1"
               v-model="model.IAgreeToTermsOfUse"
               :rules="[rules.required]"
-              :dark="isDarkValue"
+              :dark="usableTheme"
               hide-details
               dense
             >
@@ -175,13 +175,6 @@
           {{ snackbarMessage }}
         </v-snackbar>
 
-        <h3
-          :class="
-            'auth-message' + ' ' + usableBlock + ' ' + welcomeMessageAnimation
-          "
-        >
-          {{ welcomeMessage }}
-        </h3>
       </div>
     </div>
   </section>
@@ -286,17 +279,6 @@ export default class Reg extends Vue {
     }
   }
 
-  get isDarkValue() {
-    switch (TimesOfDay().time) {
-      case 'morning':
-      case 'afternoon':
-        return false
-      case 'evening':
-      case 'night':
-        return true
-    }
-  }
-
   get getTimeBackground() {
     return TimesOfDay().time
   }
@@ -306,19 +288,20 @@ export default class Reg extends Vue {
   }
 
   get currentBackgroundImage() {
+    const wallpapers = this.$store.state.user.settings.wallpapers
     return (
       `background-image: url('` +
-      require('~/static/times/' + this.getTimeBackground + '.png') +
+      require('~/static/' + wallpapers + '/' + TimesOfDay().time + '.png') +
       `')`
     )
   }
 
-  get welcomeMessage() {
-    return TimesOfDay().greetings
-  }
-
   get usableBlock() {
     return new ColorTheme().block()
+  }
+
+  get usableTheme() {
+    return new ColorTheme().isDark()
   }
 
   get welcomeMessageAnimation() {
@@ -334,6 +317,14 @@ export default class Reg extends Vue {
       default:
         return 'd-none'
     }
+  }
+
+  get userName() {
+    return JSON.parse(JSON.stringify(this.$store.state.user.user.firstName))
+  }
+
+  get getGreetingMessage() {
+    return TimesOfDay().greetings + ' ' + this.userName
   }
 
   setSnackbarValues(color: string, message: string) {

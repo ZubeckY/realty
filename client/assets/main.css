@@ -7,8 +7,8 @@
 :root {
   --radius: 13px;
   --radius-small: 8px;
-  --bkg__light: #f1f1f150;
-  --bkg__dark: #1f1f1f50;
+  --bkg__light: rgba(255, 255, 255, 0.75);
+  --bkg__dark: rgba(31, 31, 31, 0.65);
   --default-back: #f2f1f6;
   --night-glow: linear-gradient(
     156deg,
@@ -75,20 +75,35 @@ thead * {
   white-space: nowrap !important;
 }
 
+.custom-table.light tr {
+  background: rgba(247, 247, 247, 0.56);
+}
+
 .custom-table.light tr:nth-child(odd) {
-  background: #f9f9f950;
+  background: rgba(249, 249, 249, 0.69);
+}
+
+.custom-table.light tbody tr:hover {
+  background: rgba(255, 255, 255, 0.88) !important;
 }
 
 .custom-table.dark tr:nth-child(odd) {
   background: #1f1f1f50;
 }
 
-.custom-table.light tbody tr:hover {
-  background: #f7f7f770 !important;
-}
-
 .custom-table.dark tbody tr:hover {
   background: #1f1f1f70 !important;
+}
+
+/* box-shadow */
+.box-shadow--none {
+  box-shadow: none !important;
+}
+
+.menuButtons {
+  width: 100%;
+  max-width: 210px;
+  height: fit-content;
 }
 
 /* main */
@@ -101,11 +116,9 @@ thead * {
 .main-background {
   width: 100%;
   height: inherit;
-  background-size: auto 80%;
+  background-size: 100%;
   background-position: center;
   background-repeat: no-repeat;
-  filter: blur(5px) grayscale(80%);
-  transform: scale(1.3);
 }
 
 .main-container {
@@ -120,6 +133,7 @@ thead * {
   align-items: center;
   flex-direction: column;
   justify-content: flex-end;
+  padding: 8px;
   z-index: 100;
 }
 
@@ -127,8 +141,7 @@ thead * {
 .header {
   display: flex;
   width: 100%;
-  height: 45px;
-  padding: 0 10px;
+  height: 60px;
   align-items: center;
   font-size: 14px !important;
 }
@@ -159,21 +172,21 @@ thead * {
 .card {
   position: static;
   padding: 5px;
-  backdrop-filter: blur(15px);
   border-radius: var(--radius);
   z-index: 100;
+
 }
 
 .card.dark {
   color: white;
   background: var(--bkg__dark);
-  box-shadow: 0 0 7px var(--bkg__light);
+  box-shadow: 0 0 6px var(--bkg__light);
 }
 
 .card.light {
   color: black;
   background: var(--bkg__light);
-  box-shadow: 0 0 7px var(--bkg__dark);
+  box-shadow: 0 0 6px var(--bkg__dark);
 }
 
 
@@ -184,6 +197,10 @@ thead * {
 
 .radius-small {
   border-radius: var(--radius-small) !important;
+}
+
+.radius-null {
+  border-radius: 0 !important;
 }
 
 /* dialog */
@@ -223,9 +240,9 @@ thead * {
 /* catalog */
 .catalog {
   width: 100%;
-  height: calc(90vh - 8px);
-  overflow: auto;
+  height: calc(90vh - 17px);
   border-radius: var(--radius);
+  overflow: auto;
 }
 
 .catalog-card {

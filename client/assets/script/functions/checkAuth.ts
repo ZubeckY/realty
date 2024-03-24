@@ -6,8 +6,6 @@ export default async function checkAuth(user: any) {
     if (user.id === 0) {
       let authToken = localStorage.getItem('token')
 
-      console.log(authToken);
-
       if (!authToken) {
         return null
       }

@@ -2,19 +2,40 @@
   <v-app>
     <section class="main">
       <div class="main-background" :style="currentBackgroundImage"></div>
-      <div class="main-container">
+      <div class="main-container" v-if="loading">
+        <div class="d-flex justify-center align-center myFullScreen">
+          <v-progress-circular
+            color="primary darken-1"
+            :size="80"
+            :rotate="-90"
+            :value="loaderValue"
+            :indeterminate="loaderLoading"
+          />
+        </div>
+      </div>
+      <div class="main-container" v-else>
         <header-component>
           <component :is="currentHeader"></component>
         </header-component>
 
-        <div class="d-flex" style="width: 100%; height: calc(100vh - 55px)">
-          <menu-buttons v-model="profileLinks" class="py-1" />
+        <div class="d-flex myFullScreen">
+          <menu-buttons v-model="profileLinks" />
           <div class="overflow-y-auto pa-2" style="width: 100%">
             <Nuxt class="pr-2" />
           </div>
         </div>
       </div>
     </section>
+
+    <v-snackbar
+      v-model="snackbar"
+      :color="snackbarColor"
+      :timeout="2000"
+      outlined
+      text
+    >
+      {{ snackbarMessage }}
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -25,6 +46,14 @@ import checkAuth from '~/assets/script/functions/checkAuth'
 
 @Component
 export default class Default extends Vue {
+  loading: boolean = true
+  loaderValue: number = 0
+  loaderLoading: boolean = true
+
+  snackbar: boolean = false
+  snackbarColor: string = ''
+  snackbarMessage: string = ''
+
   profileLinks = []
   currentHeader: string = ''
   user: any = {
@@ -53,7 +82,21 @@ export default class Default extends Vue {
         return this.$router.push('/auth/login')
       }
 
+      this.loaderValue = 0
       this.user = checkUser
+      this.loaderLoading = false
+
+      setTimeout(() => {
+        this.loaderValue = 100
+      }, 300)
+
+      setTimeout(() => {
+        this.loading = false
+      }, 900)
+
+      setTimeout(() => {
+        this.setSnackbarValues('succes, darken-1', this.getGreetingMessage)
+      }, 1200)
     }
   }
 
@@ -106,11 +149,32 @@ export default class Default extends Vue {
   }
 
   get currentBackgroundImage() {
+    const wallpapers = this.$store.state.user.settings.wallpapers
     return (
       `background-image: url('` +
-      require('~/static/times/' + TimesOfDay().time + '.png') +
+      require('~/static/' + wallpapers + '/' + TimesOfDay().time + '.png') +
       `')`
     )
   }
+
+  get userName() {
+    return JSON.parse(JSON.stringify(this.user.firstName))
+  }
+
+  get getGreetingMessage() {
+    return TimesOfDay().greetings + ' ' + this.userName
+  }
+
+  setSnackbarValues(color: string, message: string) {
+    this.snackbar = true
+    this.snackbarColor = color
+    this.snackbarMessage = message
+  }
 }
 </script>
+<style>
+.myFullScreen {
+  width: 100%;
+  height: calc(100vh - 40px);
+}
+</style>

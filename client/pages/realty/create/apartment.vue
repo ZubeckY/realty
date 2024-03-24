@@ -3,15 +3,15 @@
     <h3>Добавление квартиры</h3>
 
     <card class="my-3">
-      <div class="create-realty__group">
-        <div class="create-realty__title required">Адрес</div>
+      <div class="createRealty__group">
+        <div class="createRealty__title required">Адрес</div>
       </div>
     </card>
 
     <card class="mb-3">
       <!-- Принадлежность к рынку -->
-      <div class="create-realty__group">
-        <div class="create-realty__title required">Принадлежность к рынку</div>
+      <div class="createRealty__group">
+        <div class="createRealty__title required">Принадлежность к рынку</div>
         <v-btn-toggle
           class="radius ma-0 pa-0"
           v-model="model.marketType"
@@ -34,8 +34,8 @@
       </div>
 
       <!-- Способ продажи -->
-      <div class="create-realty__group mt-3">
-        <div class="create-realty__title">Способ продажи</div>
+      <div class="createRealty__group mt-3">
+        <div class="createRealty__title">Способ продажи</div>
         <v-btn-toggle
           class="radius ma-0 pa-0"
           v-model="model.saleOptions"
@@ -58,8 +58,8 @@
       </div>
 
       <!-- Статус недвижимости -->
-      <div class="create-realty__group mt-3">
-        <div class="create-realty__title required">Тип недвижимости</div>
+      <div class="createRealty__group mt-3">
+        <div class="createRealty__title required">Тип недвижимости</div>
         <v-btn-toggle
           class="radius ma-0 pa-0"
           v-model="model.status"
@@ -82,8 +82,8 @@
       </div>
 
       <!-- Тип объявления -->
-      <div class="create-realty__group mt-3">
-        <div class="create-realty__title required">Тип объявления</div>
+      <div class="createRealty__group mt-3">
+        <div class="createRealty__title required">Тип объявления</div>
         <v-btn-toggle
           class="radius ma-0 pa-0"
           v-model="model.operationType"
@@ -107,10 +107,10 @@
 
       <!-- Тип сделки -->
       <div
-        class="create-realty__group mt-3"
+        class="createRealty__group mt-3"
         v-if="model.marketType === 'secondary_building'"
       >
-        <div class="create-realty__title required">Тип сделки</div>
+        <div class="createRealty__title required">Тип сделки</div>
         <v-btn-toggle
           class="radius ma-0 pa-0"
           v-model="model.dealType"
@@ -133,8 +133,8 @@
       </div>
 
       <!-- Услуга продвижения Avito -->
-      <div class="create-realty__group mt-3">
-        <div class="create-realty__title">Услуга продвижения Avito</div>
+      <div class="createRealty__group mt-3">
+        <div class="createRealty__title">Услуга продвижения Avito</div>
         <div class="small-input mr-3">
           <v-autocomplete
             :items="secondaryBuildingParams.adStatusTypeText"
@@ -154,8 +154,8 @@
 
     <card class="mb-3">
       <!-- Площадь -->
-      <div class="create-realty__group mt-3">
-        <div class="create-realty__title required">Площадь</div>
+      <div class="createRealty__group mt-3">
+        <div class="createRealty__title required">Площадь</div>
         <div class="small-input mr-3">
           <v-text-field
             :rules="[rules.required]"
@@ -171,10 +171,10 @@
 
       <!-- Площадь кухни -->
       <div
-        class="create-realty__group mt-3"
+        class="createRealty__group mt-3"
         v-if="model.marketType === 'secondary_building'"
       >
-        <div class="create-realty__title required">Площадь кухни</div>
+        <div class="createRealty__title required">Площадь кухни</div>
         <div class="small-input mr-3">
           <v-text-field
             :rules="[rules.required]"
@@ -189,8 +189,8 @@
       </div>
 
       <!-- Этаж и этажность -->
-      <div class="create-realty__group">
-        <div class="create-realty__title required">Этаж и этажность</div>
+      <div class="createRealty__group">
+        <div class="createRealty__title required">Этаж и этажность</div>
         <div class="d-flex flex-row flex-wrap">
           <div class="small-input mr-3">
             <v-text-field
@@ -220,10 +220,10 @@
 
       <!-- Ремонт -->
       <div
-        class="create-realty__group"
+        class="createRealty__group"
         v-if="model.marketType === 'secondary_building'"
       >
-        <div class="create-realty__title required">Ремонт</div>
+        <div class="createRealty__title required">Ремонт</div>
         <v-btn-toggle
           v-model="model.renovationType"
           class="radius ma-0 pa-0"
@@ -247,10 +247,10 @@
 
       <!-- Тип комнат -->
       <div
-        class="create-realty__group mt-3"
+        class="createRealty__group mt-3"
         v-if="model.marketType === 'secondary_building'"
       >
-        <div class="create-realty__title required">Тип комнат</div>
+        <div class="createRealty__title required">Тип комнат</div>
         <v-btn-toggle
           class="radius ma-0 pa-0"
           v-model="model.roomType"
@@ -273,8 +273,8 @@
       </div>
 
       <!-- Количество комнат -->
-      <div class="create-realty__group mt-3">
-        <div class="create-realty__title required">Количество комнат</div>
+      <div class="createRealty__group mt-3">
+        <div class="createRealty__title required">Количество комнат</div>
         <v-btn-toggle
           class="radius ma-0 pa-0"
           v-model="model.rooms"
@@ -300,10 +300,10 @@
       </div>
 
       <div
-        class="create-realty__group mt-3"
+        class="createRealty__group mt-3"
         v-if="model.marketType === 'secondary_building'"
       >
-        <div class="create-realty__title">Год постройки</div>
+        <div class="createRealty__title">Год постройки</div>
         <div class="small-input mr-3">
           <v-text-field
             v-model="model.buildYear"
@@ -320,10 +320,10 @@
 
     <card class="my-3">
       <div
-        class="create-realty__group"
+        class="createRealty__group"
         v-if="model.marketType === 'secondary_building'"
       >
-        <div class="create-realty__title">В доме</div>
+        <div class="createRealty__title">В доме</div>
         <v-btn-toggle
           class="radius ma-0 pa-0"
           v-model="model.inHouse"
@@ -346,10 +346,10 @@
       </div>
 
       <div
-        class="create-realty__group mt-3"
+        class="createRealty__group mt-3"
         v-if="model.marketType === 'secondary_building'"
       >
-        <div class="create-realty__title">Бытовая техника</div>
+        <div class="createRealty__title">Бытовая техника</div>
         <v-btn-toggle
           class="radius ma-0 pa-0"
           v-model="model.leaseAppliances"
@@ -372,10 +372,10 @@
       </div>
 
       <div
-        class="create-realty__group mt-3"
+        class="createRealty__group mt-3"
         v-if="model.marketType === 'secondary_building'"
       >
-        <div class="create-realty__title">Дополнительно</div>
+        <div class="createRealty__title">Дополнительно</div>
         <v-btn-toggle
           class="radius ma-0 pa-0"
           v-model="model.SSAdditionally"
@@ -398,10 +398,10 @@
       </div>
 
       <div
-        class="create-realty__group mt-3"
+        class="createRealty__group mt-3"
         v-if="model.marketType === 'secondary_building'"
       >
-        <div class="create-realty__title">Дополнительно</div>
+        <div class="createRealty__title">Дополнительно</div>
         <v-btn-toggle
           class="radius ma-0 pa-0"
           v-model="model.NDAdditionally"
@@ -425,8 +425,8 @@
     </card>
 
     <card class="mb-3">
-      <div class="create-realty__group">
-        <div class="create-realty__title required">Описание и фотографии</div>
+      <div class="createRealty__group">
+        <div class="createRealty__title required">Описание и фотографии</div>
         <v-textarea
           v-model="model.description"
           prepend-icon="mdi-comment"
@@ -612,13 +612,13 @@ export default class CreateApartment extends Vue {
 }
 </script>
 <style>
-.create-realty__title {
+.createRealty__title {
   font-size: 16px;
   font-weight: bold;
   margin-bottom: 8px;
 }
 
-.create-realty__title.required::after {
+.createRealty__title.required::after {
   content: ' *';
   color: red;
 }

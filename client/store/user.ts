@@ -7,6 +7,10 @@ export const state = () => ({
     agency: {
       id: 0
     }
+  },
+  settings: {
+    // wallpapers: 'mountains'
+    wallpapers: 'toronto'
   }
 });
 

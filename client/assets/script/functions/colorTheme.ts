@@ -2,23 +2,55 @@ import { TimesOfDay } from '~/assets/script/functions/timesOfDay'
 
 export class ColorTheme {
   isDark(): boolean {
-    switch (TimesOfDay().time) {
-      case 'morning':
-      case 'afternoon':
-        return false
-      case 'evening':
-      case 'night':
-        return true
-      default:
-        return false
+    let result = setValue()
+
+    setInterval(() => {
+      result = setValue()
+    }, 60 * 60 * 1000)
+
+    function setValue() {
+      switch (TimesOfDay().time) {
+        case 'sunrise':
+        case 'morning':
+        case 'afternoon':
+          return false
+        case 'sunset':
+        case 'evening':
+        case 'night':
+          return true
+        default:
+          return false
+      }
     }
+
+    return result
   }
 
   block(): string {
-    return this.isDark() ? 'dark' : 'light'
+    let result = setValue(this.isDark())
+
+    setInterval(() => {
+      result = setValue(this.isDark())
+    }, 60 * 60 * 1000)
+
+    function setValue(isDark: boolean) {
+      return isDark ? 'dark' : 'light'
+    }
+
+    return result
   }
 
   text(): string {
-    return this.isDark() ? 'white--text' : 'primary--text text--darken-1'
+    let result = setValue(this.isDark())
+
+    setInterval(() => {
+      result = setValue(this.isDark())
+    }, 60 * 60 * 1000)
+
+    function setValue(isDark: boolean) {
+      return isDark ? 'white--text' : 'primary--text text--darken-1'
+    }
+
+    return result
   }
 }

@@ -12,6 +12,47 @@ import * as uuid from 'uuid'
 // @ts-ignore
 @JsonController('/auth')
 export class AuthController {
+  @Post('/get-my-devices/')
+  async getAuthUserDevices(@Body() body: any) {
+    try {
+      const { id } = body
+
+      if (!id) {
+        return {
+          message: 'Неверный id'
+        }
+      }
+
+      const userRepository = AppDataSource.getRepository(User)
+      const tokenRepository = AppDataSource.getRepository(AuthToken)
+
+      const userFromDB: User | null = await userRepository.findOneBy({
+        id: id,
+      })
+
+      if (!userFromDB) {
+        return {
+          message: 'Пользователь не найден'
+        }
+      }
+
+      return await tokenRepository.find({
+        where: {
+          user: {
+            id: id
+          }
+        }
+      })
+
+    } catch (e) {
+      console.log(e);
+      return {
+        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        error: e,
+      }
+    }
+  }
+
   @Post('/reg/')
   async registration(@Body() body: any) {
     try {

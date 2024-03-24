@@ -1,5 +1,5 @@
 <template>
-  <card>
+  <card class="menuButtons box-shadow--none py-1 mt-2">
     <v-btn-toggle
       v-model="activeMenuItem"
       class="d-flex flex-column"

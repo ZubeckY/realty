@@ -33,15 +33,7 @@ export default {
       otherError: 'An error occurred',
     }
   },
-  computed: {
-    currentBackgroundImage: function () {
-      return (
-        `background-image: url('` +
-        require('~/static/times/' + TimesOfDay().time + '.png') +
-        `')`
-      )
-    },
-  },
+
   head() {
     const title =
       this.error.statusCode === 404 ? this.pageNotFound : this.otherError
@@ -51,13 +43,14 @@ export default {
   },
   computed: {
     currentBackgroundImage: function () {
+      const wallpapers = this.$store.state.user.settings.wallpapers
       return (
         `background-image: url('` +
-        require('~/static/times/' + TimesOfDay().time + '.png') +
+        require('~/static/' + wallpapers + '/' + TimesOfDay().time + '.png') +
         `')`
       )
-    }
-  }
+    },
+  },
 }
 </script>
 

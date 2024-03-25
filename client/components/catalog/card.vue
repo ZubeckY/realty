@@ -11,7 +11,7 @@
           v-for="i in 2"
           :key="i"
         >
-          <catalog-card-image :image="image" />
+          <catalog-card-image :image="item.image" />
         </v-carousel-item>
       </v-carousel>
 
@@ -20,7 +20,7 @@
           <div class="d-flex flex-row justify-space-between pr-1">
             <a class="catalog-card__title">
               <v-icon class="catalog-card__icon">mdi-home</v-icon>
-              <span>Название объявления</span>
+              <span>{{ item.title }}</span>
             </a>
 
             <div class="catalog-card__menu">
@@ -84,10 +84,11 @@
   </card>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class CatalogCard extends Vue {
-  image: string = 'https://via.placeholder.com/1920x1200/eee?text=16:10'
+  @Prop() item!: any
+  // image: string = 'https://via.placeholder.com/1920x1200/eee?text=16:10'
 }
 </script>

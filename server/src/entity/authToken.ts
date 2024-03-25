@@ -29,7 +29,7 @@ export class AuthToken {
   @ManyToOne(() => User)
   user!: Relation<User>
 
-  @Column({ comment: 'Последний онлайн' })
+  @Column({ comment: 'Последний онлайн', default: () => 'NOW()', })
   lastSeen!: Date
 
   @CreateDateColumn({ comment: 'Дата создания' })

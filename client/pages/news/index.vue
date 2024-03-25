@@ -43,7 +43,7 @@
               <div class="newsCard-video__container">
                 <div class="newsCard-video__frameVideo radius">
                   <iframe
-                    src="https://www.youtube.com/embed/6u28g47nlPQ?si=bO2iE5DcgARiIHIM"
+                    src="https://www.youtube.com/embed/n6jEjkxnH84?si=jyskDacknLvQm5sz"
                     title="Видео на ютуб"
                     frameborder="0"
                     allowfullscreen
@@ -82,12 +82,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 export default class News extends Vue {
 
   get postText() {
-    let text: string = 'Пост '
-    for (let i = 0; i < 40; i++) {
-      text += 'текст '
-    }
-
-    return text
+    return 'Здравствуйте! Добро пожаловать в демонстрационную версию CRM системы для риэлторов! Мы рады приветствовать вас в нашем сервисе, который поможет вам эффективно организовать работу, управлять клиентами, контрактами и объектами недвижимости. Надеемся, что наше решение станет надежным помощником в вашем бизнесе и сделает вашу работу более продуктивной и удобной. Если у вас возникнут вопросы или пожелания, не стесняйтесь обращаться к нашей службе поддержки. Благодарим вас за выбор нашей CRM системы!'
   }
 }
 </script>

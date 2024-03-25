@@ -206,10 +206,17 @@ export class AuthController {
         user: userFromDB
       }
 
-      await new TokenService().saveToken(model)
-      const loginText: any = await new SecurityService().newLogin(req)
+      const saveToken = await new TokenService().saveToken(model)
 
+      if (!saveToken) {
+        return {
+          message: 'Ошибка сохранения токена'
+        }
+      }
+
+      const loginText: any = await new SecurityService().newLogin(req)
       // Отправляем email с уведомлением о новом входе
+
       await new MailService().sendSecurityMessage(userFromDB.email, loginText)
 
       return tokens

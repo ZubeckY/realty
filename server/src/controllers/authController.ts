@@ -19,7 +19,7 @@ export class AuthController {
 
       if (!id) {
         return {
-          message: 'Неверный id'
+          message: 'Неверный id',
         }
       }
 
@@ -32,20 +32,19 @@ export class AuthController {
 
       if (!userFromDB) {
         return {
-          message: 'Пользователь не найден'
+          message: 'Пользователь не найден',
         }
       }
 
       return await tokenRepository.find({
         where: {
           user: {
-            id: id
-          }
-        }
+            id: id,
+          },
+        },
       })
-
     } catch (e) {
-      console.log(e);
+      console.log(e)
       return {
         message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
         error: e,
@@ -110,7 +109,7 @@ export class AuthController {
       const { email, password } = model
 
       const userRepository = AppDataSource.getRepository(User)
-      const userFromDB = await userRepository.findOneBy({
+      const userFromDB: User | null = await userRepository.findOneBy({
         email: email,
       })
 
@@ -203,14 +202,14 @@ export class AuthController {
         value: accessToken,
         device: loginDevice.device,
         userAgent: loginDevice.userAgent,
-        user: userFromDB
+        user: userFromDB,
       }
 
       const saveToken = await new TokenService().saveToken(model)
 
       if (!saveToken) {
         return {
-          message: 'Ошибка сохранения токена'
+          message: 'Ошибка сохранения токена',
         }
       }
 
@@ -220,6 +219,39 @@ export class AuthController {
       await new MailService().sendSecurityMessage(userFromDB.email, loginText)
 
       return tokens
+    } catch (e) {
+      return {
+        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        error: e,
+      }
+    }
+  }
+
+  @Post('/forgot-password/')
+  @Post('/forgot-password/change-password/:hash')
+  async changeUserPassword(@Req() req: any, @Body() body: any, @Param('hash') hash: string) {
+    try {
+      const { password } = body
+
+      const userRepository = AppDataSource.getRepository(User)
+      const userFromDB: User | null = await userRepository.findOneBy({
+        activationLink: hash,
+      })
+
+      if (!userFromDB) {
+        return {
+          message: 'Ошибка, пользователь не найден',
+        }
+      }
+
+      userFromDB.password = await bcrypt.hash(password, 3)
+      await userRepository.save(userFromDB)
+
+      await new SecurityService().passwordChanged(req, {
+        email: userFromDB.email,
+        password: password,
+      })
+
     } catch (e) {
       return {
         message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
@@ -279,7 +311,7 @@ export class AuthController {
         }
       }
 
-      const userFromDB = await userRepository.findOneBy({
+      const userFromDB: User | null = await userRepository.findOneBy({
         id: id,
       })
 
@@ -327,7 +359,7 @@ export class AuthController {
       }
 
       const userRepository = AppDataSource.getRepository(User)
-      const userFromDB = await userRepository.findOneBy({
+      const userFromDB: User | null = await userRepository.findOneBy({
         activationLink: hash,
       })
 
@@ -375,7 +407,7 @@ export class AuthController {
   async refreshUserActivateCode(@Param('hash') hash: string) {
     try {
       const userRepository = AppDataSource.getRepository(User)
-      const userFromDB = await userRepository.findOneBy({
+      const userFromDB: User | null = await userRepository.findOneBy({
         activationLink: hash,
       })
 
@@ -406,7 +438,7 @@ export class AuthController {
   async activateStatus(@Param('hash') hash: string) {
     try {
       const userRepository = AppDataSource.getRepository(User)
-      const userFromDB = await userRepository.findOneBy({
+      const userFromDB: User | null = await userRepository.findOneBy({
         activationLink: hash,
       })
 

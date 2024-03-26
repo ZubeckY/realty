@@ -6,7 +6,7 @@
           <div class="d-flex">
             <personal-button class="newsCard-user" />
 
-            <v-spacer/>
+            <v-spacer />
 
             <div class="d-flex mt-2 mr-2">
               <v-btn color="primary darken-1" x-small icon>
@@ -16,7 +16,6 @@
                 <v-icon>mdi-dots-horizontal</v-icon>
               </v-btn>
             </div>
-
           </div>
 
           <div class="newsCard-created">11.02.2024</div>
@@ -29,14 +28,16 @@
 
           <div class="newsCard-content">
             <div class="newsCard-images">
-              <!--            <v-carousel class="catalog-card__carousel"-->
-              <!--                        delimiter-icon="mdi-minus-thick"-->
-              <!--                        height="180px">-->
-              <!--              <v-carousel-item class="catalog-card__carousel-item"-->
-              <!--                               v-for="i in 2" :key="i">-->
-              <!--                <catalog-card-image :image="image" />-->
-              <!--              </v-carousel-item>-->
-              <!--            </v-carousel>-->
+              <v-carousel>
+                <v-carousel-item
+                  v-for="(item, i) in postImages"
+                  :key="'newsCardImage-' + i"
+                >
+                  <div class="newsCard-images__image">
+                    <img :src="item.src" alt="#" />
+                  </div>
+                </v-carousel-item>
+              </v-carousel>
             </div>
 
             <div class="newsCard-video">
@@ -60,16 +61,12 @@
                 </div>
               </div>
             </div>
-
           </div>
         </div>
 
         <div class="newsCard-footer">
-          <div class="newsCard-footer__container">
-
-          </div>
+          <div class="newsCard-footer__container"></div>
         </div>
-
       </div>
     </card>
   </div>
@@ -80,6 +77,11 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component
 export default class News extends Vue {
+  postImages = [
+    {
+      src: 'https://mimi-panda.com/wp-content/uploads/2023/02/marguerite-729510_640.jpg',
+    },
+  ]
 
   get postText() {
     return 'Здравствуйте! Добро пожаловать в демонстрационную версию CRM системы для риэлторов! Мы рады приветствовать вас в нашем сервисе, который поможет вам эффективно организовать работу, управлять клиентами, контрактами и объектами недвижимости. Надеемся, что наше решение станет надежным помощником в вашем бизнесе и сделает вашу работу более продуктивной и удобной. Если у вас возникнут вопросы или пожелания, не стесняйтесь обращаться к нашей службе поддержки. Благодарим вас за выбор нашей CRM системы!'

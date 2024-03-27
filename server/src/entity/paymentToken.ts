@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, Relation } from 'typeorm'
-import { Agency, PaymentTransaction, User } from "./index.js";
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import * as typeorm from 'typeorm'
+import { Agency, PaymentTransaction, User } from './index.js'
 
 @Entity()
 export class PaymentToken {
@@ -12,14 +13,26 @@ export class PaymentToken {
   @Column({ comment: 'Токен используется у пользователя' })
   usable!: boolean
 
-  @ManyToOne(() => User)
-  user!: Relation<User>
+  @ManyToOne(() => User, (user) => user.id, {
+    cascade: true,
+    nullable: false,
+  })
+  @JoinColumn()
+  user!: typeorm.Relation<User>
 
-  @ManyToOne(() => Agency)
-  agency!: Relation<Agency>
+  @ManyToOne(() => Agency, (agency) => agency.id, {
+    cascade: true,
+    nullable: false,
+  })
+  @JoinColumn()
+  agency!: typeorm.Relation<Agency>
 
-  @ManyToOne(() => PaymentTransaction)
-  transaction!: Relation<PaymentTransaction>
+  @ManyToOne(() => PaymentTransaction, (payTok) => payTok.id, {
+    cascade: true,
+    nullable: false,
+  })
+  @JoinColumn()
+  transaction!: typeorm.Relation<PaymentTransaction>
 
   @CreateDateColumn({ comment: 'Дата создания' })
   created!: Date

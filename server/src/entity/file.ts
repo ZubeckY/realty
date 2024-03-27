@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, Relation } from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { User } from './index.js'
+import * as typeorm from 'typeorm'
 
 @Entity()
 export class File {
@@ -21,8 +22,12 @@ export class File {
   @Column({ default: false, comment: 'Удалённый файл' })
   isDeleted?: boolean
 
-  @ManyToOne(() => User)
-  user?: Relation<User>
+  @ManyToOne(() => User, (user) => user.id, {
+    cascade: true,
+    nullable: false,
+  })
+  @JoinColumn()
+  user!: typeorm.Relation<User>
 
   @CreateDateColumn({ comment: 'Дата создания' })
   created!: Date

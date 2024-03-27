@@ -1,12 +1,5 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  Relation,
-  UpdateDateColumn
-} from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import * as typeorm from 'typeorm'
 import { User } from './index.js'
 
 @Entity()
@@ -26,13 +19,16 @@ export class AuthToken {
   @Column({ nullable: false, unique: true, comment: 'Значение' })
   value!: string
 
-  @ManyToOne(() => User)
-  user!: Relation<User>
+  @ManyToOne(() => User, (user) => user.id, {
+    cascade: true,
+    nullable: false
+  })
+  @JoinColumn()
+  user!: typeorm.Relation<User>
 
-  @Column({ comment: 'Последний онлайн', default: () => 'NOW()', })
+  @Column({ comment: 'Последний онлайн', default: () => 'NOW()' })
   lastSeen!: Date
 
   @CreateDateColumn({ comment: 'Дата создания' })
   created!: Date
-
 }

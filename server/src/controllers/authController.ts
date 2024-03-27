@@ -1,4 +1,4 @@
-import { Body, Get, JsonController, Param, Post, Req } from 'routing-controllers'
+import { Body, Get, JsonController, Param, Post, Req, Res } from 'routing-controllers'
 import { AppDataSource } from '../connectDataBase.js'
 import SecurityService from '../service/securityService.js'
 import TokenService from '../service/tokenService.js'
@@ -8,6 +8,7 @@ import { AuthToken, User } from '../entity/index.js'
 import AuthDto from '../dtos/authDto.js'
 import * as bcrypt from 'bcrypt'
 import * as uuid from 'uuid'
+import config from '../config'
 
 // @ts-ignore
 @JsonController('/auth')
@@ -228,6 +229,78 @@ export class AuthController {
   }
 
   @Post('/forgot-password/')
+  async findUserAndSendMailToChangePassword(@Req() req: any, @Body() body: any) {
+    try {
+      const { email } = body
+
+      const userRepository = AppDataSource.getRepository(User)
+      const userFromDB: User | null = await userRepository.findOneBy({
+        email: email,
+      })
+
+      if (!userFromDB) {
+        return {
+          message: 'Пользователь с таким email несуществует',
+        }
+      }
+
+      const activationLink: string = uuid.v4() + '-' + uuid.v4()
+      userFromDB.activationLink = activationLink
+
+      await userRepository.save(userFromDB)
+
+      const confirmURL = config.API_URL + ':4000/api/auth/forgot-password/confirm-action/' + activationLink
+
+      const mailLayout = `
+        <div>
+          <h6>Изменение пароля</h6>
+          <br />
+          <p>Ваш email был указан при запросе смены пароля. </p>
+          <p>Для продолжения перейдите по ссылке <a href="${confirmURL}">${confirmURL}</a></p>
+        </div>
+      `
+
+      await new MailService().sendActivationMail(userFromDB.email, '')
+
+      return true
+    } catch (e) {
+      return {
+        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        error: e,
+      }
+    }
+  }
+
+  @Get('/forgot-password/confirm-action/:hash')
+  async confirmChangingPassword(@Res() res: any, @Param('hash') hash: string) {
+    try {
+      const userRepository = AppDataSource.getRepository(User)
+      const userFromDB: User | null = await userRepository.findOneBy({
+        activationLink: hash,
+      })
+
+      if (!userFromDB) {
+        return {
+          message: 'Пользователь не найден',
+        }
+      }
+
+      const activationLink: string = uuid.v4() + '-' + uuid.v4()
+
+      userFromDB.activationLink = activationLink
+      userFromDB.needRefreshPass = true
+      await userRepository.save(userFromDB)
+
+      const redirectLink = config.CLIENT_URL + '/auth/forgot-password/set/' + activationLink
+      return res.redirect(redirectLink)
+    } catch (e) {
+      return {
+        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        error: e,
+      }
+    }
+  }
+
   @Post('/forgot-password/change-password/:hash')
   async changeUserPassword(@Req() req: any, @Body() body: any, @Param('hash') hash: string) {
     try {
@@ -244,14 +317,20 @@ export class AuthController {
         }
       }
 
+      if (!userFromDB.needRefreshPass) {
+        return {
+          message: 'Ошибка запроса!',
+        }
+      }
+
       userFromDB.password = await bcrypt.hash(password, 3)
+      userFromDB.needRefreshPass = false
       await userRepository.save(userFromDB)
 
       await new SecurityService().passwordChanged(req, {
         email: userFromDB.email,
         password: password,
       })
-
     } catch (e) {
       return {
         message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',

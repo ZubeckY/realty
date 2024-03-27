@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, Relation } from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import * as typeorm from 'typeorm'
 import { Agency, Address, File } from './index.js'
 import { Nationality } from '../types/nationality.js'
 import { Role } from '../types/role.js'
@@ -25,12 +26,16 @@ export class User {
     type: 'enum',
     enum: Nationality,
     default: Nationality['RUSSIA'],
-    nullable: true
+    nullable: true,
   })
   nationality?: Nationality
 
-  @ManyToOne(() => File, (file) => file.path)
-  photo?: Relation<File>
+  @ManyToOne(() => File, (file) => file.path, {
+    cascade: true,
+    nullable: true,
+  })
+  @JoinColumn()
+  photo?: typeorm.Relation<File>
 
   @Column('int', { width: 20, comment: 'Телефон', nullable: true })
   phone?: number
@@ -41,19 +46,31 @@ export class User {
   @Column('varchar', { comment: 'Пароль' })
   password!: string
 
-  @ManyToOne(() => Address, (address) => address)
-  address?: Relation<Address>
+  @ManyToOne(() => Address, (address) => address.id, {
+    cascade: true,
+    nullable: true
+  })
+  @JoinColumn()
+  address?: typeorm.Relation<Address>
 
   @Column({
     comment: 'Роль',
     type: 'enum',
     enum: Role,
     default: Role['UNKNOWN'],
+    nullable: false
   })
   role!: Role
 
-  @ManyToOne(() => Agency, (agency) => agency.id)
-  agency?: Relation<Agency>
+  @ManyToOne(() => Agency, (agency) => agency.id, {
+    cascade: true,
+    nullable: true
+  })
+  @JoinColumn()
+  agency?: typeorm.Relation<Agency>
+
+  @Column({ nullable: true, comment: 'Нужно обновить пароль' })
+  needRefreshPass?: boolean
 
   @Column({ nullable: true, comment: 'Код активации' })
   activationCode?: string

@@ -24,8 +24,9 @@ export default class MailService {
         text: '',
         html: `
         <div>
-            <h1>Для активации перейдите по ссылке</h1>
-            <a href="${link}">${link}</a>
+          <h1>Для активации перейдите по ссылке</h1>
+          <br />
+          <a href="${link}">${link}</a>
         </div>
     `,
       })
@@ -47,24 +48,25 @@ export default class MailService {
         text: '',
         html: `
         <div>
-            <h1>Ваш код активации: ${code}</h1>
-            <p>Если действие выполняете не вы, проигнорируйте это письмо</p>
+          <h1>Ваш код активации: ${code}</h1>
+          <br />
+          <p>Если действие выполняете не вы, проигнорируйте это письмо</p>
         </div>
-    `,
+      `,
       })
     } catch (e) {
       console.log(e);
     }
   }
 
-  async sendSecurityMessage(to: string, text: string){
+  async sendSecurityMessage(to: string, html: string){
     try {
       await this.transporter.sendMail({
         from: config.SMTP_USER,
         to,
         subject: 'Система оповещения и безопасности на ' + config.API_URL,
         text: '',
-        html: text,
+        html,
       })
     } catch (e) {
       console.log(e);

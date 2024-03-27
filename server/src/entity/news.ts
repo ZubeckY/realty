@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, Relation } from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import * as typeorm from 'typeorm'
 import { User, Agency } from './index.js'
 
 @Entity()
@@ -15,11 +16,19 @@ export class News {
   @Column('varchar', { array: true, comment: 'Тэги поста', nullable: true })
   tags?: string[]
 
-  @ManyToOne(() => User, { nullable: false })
-  user!: Relation<User>
+  @ManyToOne(() => User, (user) => user.id, {
+    cascade: true,
+    nullable: false,
+  })
+  @JoinColumn()
+  user!: typeorm.Relation<User>
 
-  @ManyToOne(() => Agency, { nullable: false })
-  agency!: Relation<Agency>
+  @ManyToOne(() => Agency, (agency) => agency.id, {
+    cascade: true,
+    nullable: false,
+  })
+  @JoinColumn()
+  agency!: typeorm.Relation<Agency>
 
   @CreateDateColumn({ comment: 'Дата создания' })
   created!: Date

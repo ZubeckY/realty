@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, Relation } from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import * as typeorm from 'typeorm'
 import { Address, File, User } from './index.js'
 import { Category } from '../types/category.js'
 import { OperationType } from '../types/operationType.js'
@@ -43,8 +44,12 @@ export class Realty {
   })
   category!: Category
 
-  @ManyToOne(() => Address, { nullable: true })
-  address?: Relation<Address>
+  @ManyToOne(() => Address, (address) => address.id, {
+    cascade: true,
+    nullable: true,
+  })
+  @JoinColumn()
+  address?: typeorm.Relation<Address>
 
   @Column({ comment: 'Цена' })
   price!: number
@@ -167,8 +172,12 @@ export class Realty {
   @Column({ nullable: true, comment: 'Год постройки' })
   builtYear?: number
 
-  @ManyToOne(() => File, { nullable: true })
-  images?: Relation<File>[]
+  @ManyToOne(() => File, (file) => file.id, {
+    cascade: true,
+    nullable: true,
+  })
+  @JoinTable()
+  images?: typeorm.Relation<File>[]
 
   @Column({ nullable: true, comment: 'Ссылка на видео' })
   videoURL?: string
@@ -323,8 +332,12 @@ export class Realty {
   })
   contactMethod?: ContactMethod[]
 
-  @ManyToOne(() => User)
-  manager?: Relation<User>
+  @ManyToOne(() => User, (user) => user.id, {
+    cascade: true,
+    nullable: false,
+  })
+  @JoinColumn()
+  manager!: typeorm.Relation<User>
 
   @CreateDateColumn({ comment: 'Дата создания' })
   created!: Date

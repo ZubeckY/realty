@@ -14,6 +14,7 @@
 
         <div class="auth-form__textField my-4">
           <v-otp-input
+            class="auth-form__uppercase"
             v-model="otpCode"
             length="5"
             @finish="onFinish"

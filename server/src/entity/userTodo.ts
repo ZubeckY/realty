@@ -1,4 +1,5 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, Relation } from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import * as typeorm from 'typeorm'
 import { User } from './index.js'
 
 @Entity()
@@ -12,6 +13,10 @@ export class UserTodo {
   @Column({ comment: 'Готовность', default: false })
   complete?: boolean
 
-  @ManyToOne(() => User, { nullable: false })
-  user!: Relation<User>
+  @ManyToOne(() => User, {
+    cascade: true,
+    nullable: false
+  })
+  @JoinColumn()
+  user!: typeorm.Relation<User>
 }

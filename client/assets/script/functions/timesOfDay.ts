@@ -41,11 +41,14 @@ export function TimesOfDay() {
     } else if (hours >= 20 && hours <= 23) {
       return {
         greetings: 'Доброй ночи, ',
+        time: 'night',
+      }
+    } else {
+      return {
+        greetings: 'Здравствуйте, ',
         time: 'afternoon',
-        // time: 'night',
       }
     }
   }
-
   return result
 }

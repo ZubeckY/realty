@@ -79,6 +79,11 @@
   width: 100%;
 }
 
+.auth-form__uppercase,
+.auth-form__uppercase * {
+  text-transform: uppercase !important;
+}
+
 .auth-message {
   margin: 0 auto;
   text-align: center;

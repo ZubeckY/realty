@@ -56,28 +56,28 @@
           Войти
         </v-btn>
 
-<!--        <div class="auth-bySocial mt-4">-->
-<!--          <div class="auth-bySocial__container">-->
-<!--            <card-->
-<!--              class="auth-bySocial__card"-->
-<!--              v-for="(item, key) in authServices"-->
-<!--              :key="'auth-link-' + key"-->
-<!--            >-->
-<!--              <div-->
-<!--                class="auth-bySocial__card-container"-->
-<!--                @click="tryRegBySocial(item.icon)"-->
-<!--              >-->
-<!--                <div class="auth-bySocial__icon">-->
-<!--                  <img :src="getItemIcon(item.icon)" :alt="item.icon" />-->
-<!--                </div>-->
+        <!--        <div class="auth-bySocial mt-4">-->
+        <!--          <div class="auth-bySocial__container">-->
+        <!--            <card-->
+        <!--              class="auth-bySocial__card"-->
+        <!--              v-for="(item, key) in authServices"-->
+        <!--              :key="'auth-link-' + key"-->
+        <!--            >-->
+        <!--              <div-->
+        <!--                class="auth-bySocial__card-container"-->
+        <!--                @click="tryRegBySocial(item.icon)"-->
+        <!--              >-->
+        <!--                <div class="auth-bySocial__icon">-->
+        <!--                  <img :src="getItemIcon(item.icon)" :alt="item.icon" />-->
+        <!--                </div>-->
 
-<!--                <div class="auth-bySocial__text">-->
-<!--                  Продолжить с {{ item.text }}-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </card>-->
-<!--          </div>-->
-<!--        </div>-->
+        <!--                <div class="auth-bySocial__text">-->
+        <!--                  Продолжить с {{ item.text }}-->
+        <!--                </div>-->
+        <!--              </div>-->
+        <!--            </card>-->
+        <!--          </div>-->
+        <!--        </div>-->
 
         <div class="auth-checkbox__wrapper my-4">
           <v-checkbox
@@ -92,10 +92,7 @@
 
         <div class="auth-actions">
           <span class="auth-actions__title">Нет аккаунта? </span>
-          <a
-            @click="$router.push('/auth/reg')"
-            class="auth-link primary--text text--darken-1"
-          >
+          <a href="/auth/reg/" class="auth-link primary--text text--darken-1">
             Создайте его прямо сейчас!
             <v-icon color="primary darken-1" small
               >mdi-arrow-top-right-thin
@@ -103,10 +100,7 @@
           </a>
         </div>
 
-        <a
-          @click="$router.push('/auth/forgot')"
-          class="auth-link primary--text text--darken-1 my-1"
-        >
+        <a href="/auth/forgot-password/" class="auth-link primary--text text--darken-1 my-1">
           Забыли пароль
           <v-icon color="primary darken-1" small
             >mdi-arrow-top-right-thin
@@ -233,24 +227,23 @@ export default class Login extends Vue {
 
   async tryLogin() {
     if (process.client) {
-    await this.$axios
-      .post('/api/auth/login/', {
-        model: this.model,
-      })
-      .then((data: any) => {
-        if (data.data?.message) {
-          this.setSnackbarValues('error darken-1', data.data.message)
-          console.log(data.data.error)
-          return
-        }
+      await this.$axios
+        .post('/api/auth/login/', {
+          model: this.model,
+        })
+        .then((data: any) => {
+          if (data.data?.message) {
+            this.setSnackbarValues('error darken-1', data.data.message)
+            console.log(data.data.error)
+            return
+          }
 
-        this.setSnackbarValues('success darken-1', 'Успешно')
-        localStorage.setItem('hash', data.data?.linkHash)
-        this.linkHash = data.data?.linkHash
-        this.step++
-      })
+          this.setSnackbarValues('success darken-1', 'Успешно')
+          localStorage.setItem('hash', data.data?.linkHash)
+          this.linkHash = data.data?.linkHash
+          this.step++
+        })
     }
-
   }
 
   getItemIcon(icon: string) {

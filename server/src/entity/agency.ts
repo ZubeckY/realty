@@ -1,13 +1,6 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  Relation,
-} from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
+
+import * as typeorm from 'typeorm'
 import { Address, File, User } from './index.js'
 import { AgencyLegalForm } from '../types/agencyLegalForm.js'
 
@@ -19,8 +12,12 @@ export class Agency {
   @Column('varchar', { comment: 'Название организации' })
   title!: string
 
-  @OneToOne(() => Address)
-  address!: Relation<Address>
+  @OneToOne(() => Address, (address) => address.id, {
+    cascade: true,
+    nullable: true,
+  })
+  @JoinColumn()
+  address?: typeorm.Relation<Address>
 
   @Column({
     comment: 'Правовая форма',
@@ -39,12 +36,19 @@ export class Agency {
   @Column('varchar', { length: 100, comment: 'Корпоративный email' })
   email?: string
 
-  @ManyToOne(() => User, { nullable: false })
-  ownerUser!: Relation<User>
-
-  @OneToOne(() => File, { nullable: true })
+  @ManyToOne(() => User, (user) => user.id, {
+    cascade: true,
+    nullable: false,
+  })
   @JoinColumn()
-  watermark?: Relation<File> | null
+  ownerUser!: typeorm.Relation<User>
+
+  @OneToOne(() => File, (file) => file.id, {
+    cascade: true,
+    nullable: true,
+  })
+  @JoinColumn()
+  watermark?: typeorm.Relation<File> | null
 
   @Column({ default: true, comment: 'Активное агентство' })
   isActiveAgency!: boolean

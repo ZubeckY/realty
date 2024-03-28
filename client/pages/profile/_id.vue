@@ -99,7 +99,7 @@
                   elevation="0"
                   class="radius-small"
                   color="primary darken-1"
-                  @click="editMode = !editMode"
+                  @click="exitDialog = !exitDialog"
                   outlined
                   block
                   small
@@ -107,7 +107,12 @@
                   Выйти из профиля
                 </v-btn>
 
-                <action-dialog v-model="editMode" />
+                <action-dialog
+                  v-model="exitDialog"
+                  title="Выйти из профиля?"
+                  text="Вы действительно хотите выйти из профиля?"
+                  @isConfirm="exitFromProfile"
+                />
               </div>
             </div>
           </card>
@@ -156,10 +161,8 @@
                   </div>
                 </div>
               </card>
-            </div>
 
-            <div>
-              <card class="profileCard ml-2 mb-2">
+              <card class="profileCard mb-2">
                 <div class="profileCard-container">
                   <h4 class="profileCard-title mb-2">Контактная информация</h4>
 
@@ -179,7 +182,7 @@
                 </div>
               </card>
 
-              <card class="profileCard ml-2 mb-2">
+              <card class="profileCard mb-2">
                 <div class="profileCard-container">
                   <h4 class="profileCard-title mb-2">
                     Корпоративная информация
@@ -357,13 +360,23 @@ export default class Profile extends Vue {
     }
   }
 
+  async exitFromProfile() {
+    if (process.client) {
+      const token: any = localStorage.getItem('token')
+      await this.$axios
+        .post('/api/auth/logout/' + token)
+        .then((data) => {
+          localStorage.removeItem('token')
+          window.location.reload()
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+    }
+  }
+
   get usableTheme() {
     return new ColorTheme().isDark()
   }
 }
 </script>
-<style>
-.exitFromProfile__title {
-  font-weight: bold;
-}
-</style>

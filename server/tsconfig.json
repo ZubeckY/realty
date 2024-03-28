@@ -6,6 +6,7 @@
     "lib": [
       "ES6"
     ],
+    "strict": true,
     "module": "NodeNext",
     "rootDir": "./src",
     "allowJs": true,
@@ -17,7 +18,6 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
-    "strict": true,
     "noImplicitAny": true,
     "skipLibCheck": true
   },

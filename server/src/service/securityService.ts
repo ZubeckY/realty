@@ -7,7 +7,7 @@ export default class SecurityService {
 
       return `
         <div>
-          <h6>Вход с нового устройства.</h6>
+          <h1>Вход с нового устройства.</h1>
           <br />
           <ul>
             <li>ip: ${devices.ip},</li>
@@ -33,7 +33,7 @@ export default class SecurityService {
 
       return `
         <div>
-          <h6>Ваш пароль был изменён.</h6>  
+          <h1>Ваш пароль был изменён.</h1>  
           <br />
           <p>Ваш enail: ${email}</p>
           <p>Новый пароль: ${password}</p>

@@ -1,4 +1,6 @@
 const config = {
+  IS_PROD: false,
+  //
   PORT: 4000,
   CLIENT_PORT: 3000,
   //

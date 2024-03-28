@@ -253,14 +253,14 @@ export class AuthController {
 
       const mailLayout = `
         <div>
-          <h6>Изменение пароля</h6>
+          <h1>Изменение пароля</h1>
           <br />
           <p>Ваш email был указан при запросе смены пароля. </p>
           <p>Для продолжения перейдите по ссылке <a href="${confirmURL}">${confirmURL}</a></p>
         </div>
       `
 
-      await new MailService().sendActivationMail(userFromDB.email, '')
+      await new MailService().sendSecurityMessage(userFromDB.email, mailLayout)
 
       return true
     } catch (e) {
@@ -291,7 +291,9 @@ export class AuthController {
       userFromDB.needRefreshPass = true
       await userRepository.save(userFromDB)
 
-      const redirectLink = config.CLIENT_URL + '/auth/forgot-password/set/' + activationLink
+      const setPort = config.IS_PROD ? '' : ':' + config.CLIENT_PORT
+      const redirectLink = config.CLIENT_URL + setPort + '/auth/forgot-password/set/' + activationLink
+
       return res.redirect(redirectLink)
     } catch (e) {
       return {

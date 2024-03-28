@@ -28,36 +28,39 @@
 
           <div class="newsCard-content">
             <div class="newsCard-images">
-              <v-carousel>
+              <v-carousel class="newsCard-images__carousel radius"
+                          hide-delimiter-background
+                          height="320">
                 <v-carousel-item
                   v-for="(item, i) in postImages"
+                  class="newsCard-images__carouselItem"
                   :key="'newsCardImage-' + i"
                 >
-                  <div class="newsCard-images__image">
-                    <img :src="item.src" alt="#" />
+                  <div class="newsCard-image" v-if="item.type === 'image'">
+                    <img class="newsCard-image__img" :src="item.src" alt="#" />
+                  </div>
+
+                  <div class="newsCard-video" v-if="item.type === 'video'">
+                    <div class="newsCard-video__container">
+                      <div class="newsCard-video__frameVideo">
+                        <iframe
+                          :src="item.src"
+                          title="Видео на ютуб"
+                          frameborder="0"
+                          allowfullscreen
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        ></iframe>
+                      </div>
+                    </div>
                   </div>
                 </v-carousel-item>
               </v-carousel>
-            </div>
 
-            <div class="newsCard-video">
-              <div class="newsCard-video__container">
-                <div class="newsCard-video__frameVideo radius">
-                  <iframe
-                    src="https://www.youtube.com/embed/n6jEjkxnH84?si=jyskDacknLvQm5sz"
-                    title="Видео на ютуб"
-                    frameborder="0"
-                    allowfullscreen
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  ></iframe>
-                </div>
-
-                <div class="newsCard-video__tags">
-                  <div class="newsCard-video__tags-title">Теги:</div>
-                  <div class="newsCard-video__tags-items">
-                    <span>Видео</span>,
-                    <span>Тэг</span>
-                  </div>
+              <div class="newsCard-video__tags">
+                <div class="newsCard-video__tags-title">Теги:</div>
+                <div class="newsCard-video__tags-items">
+                  <span>Видео</span>,
+                  <span>Тэг</span>
                 </div>
               </div>
             </div>
@@ -79,7 +82,12 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 export default class News extends Vue {
   postImages = [
     {
+      type: 'image',
       src: 'https://mimi-panda.com/wp-content/uploads/2023/02/marguerite-729510_640.jpg',
+    },
+    {
+      type: 'video',
+      src: 'https://www.youtube.com/embed/n6jEjkxnH84?si=jyskDacknLvQm5sz',
     },
   ]
 

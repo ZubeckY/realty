@@ -563,6 +563,7 @@ thead * {
 }
 
 .newsCard-body {
+  display: block;
   margin-top: 7px;
   margin-left: 40px;
 }
@@ -572,11 +573,30 @@ thead * {
 }
 
 .newsCard-content {
-  margin-top: 7px;
+  display: block;
+}
+
+.newsCard-images {
+  display: block;
+  width: 75%;
+  margin-block: 10px;
+}
+
+.newsCard-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.newsCard-image__img {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .newsCard-video {
-  width: 75%;
+  display: block;
+  width: 100%;
 }
 
 .newsCard-video__frameVideo {
@@ -598,9 +618,9 @@ thead * {
 
 .newsCard-video__tags {
   display: flex;
-  margin-top: 7px;
   flex-wrap: wrap;
   flex-direction: row;
+  margin-top: 15px;
 }
 
 .newsCard-video__tags-title {

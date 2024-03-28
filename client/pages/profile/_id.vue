@@ -13,7 +13,7 @@
                 />
               </div>
 
-              <div class="mt-2">
+              <div class="mt-2" v-if="currentUserItsMe">
                 <v-btn
                   elevation="0"
                   class="radius-small"
@@ -29,7 +29,7 @@
                 <action-dialog v-model="editMode" />
               </div>
 
-              <div class="mt-2">
+              <div class="mt-2" v-if="currentUserItsMe">
                 <v-btn
                   elevation="0"
                   class="radius-small"
@@ -94,7 +94,7 @@
                 </action-dialog>
               </div>
 
-              <div class="mt-2">
+              <div class="mt-2" v-if="currentUserItsMe">
                 <v-btn
                   elevation="0"
                   class="radius-small"
@@ -140,7 +140,7 @@
                   <div class="profileInfo-infoGroup">
                     <div class="profileInfo-infoGroup__title">Отчество</div>
                     <div class="profileInfo-infoGroup__value">
-                      {{ user.patronymic }}
+                      {{ user.patronymic ?? 'не указано' }}
                     </div>
                   </div>
 
@@ -149,7 +149,7 @@
                       Дата рождения
                     </div>
                     <div class="profileInfo-infoGroup__value">
-                      {{ user.dateBirthday }}
+                      {{ user.dateBirthday ?? 'не указано' }}
                     </div>
                   </div>
 
@@ -169,7 +169,8 @@
                   <div class="profileInfo-infoGroup">
                     <div class="profileInfo-infoGroup__title">Телефон</div>
                     <div class="profileInfo-infoGroup__value">
-                      <a :href="'tel:' + user.phone">{{ user.phone }}</a>
+                      <a v-if="user.phone" :href="'tel:' + user.phone">{{ user.phone ?? 'не указано' }}</a>
+                      <span v-else>не указано</span>
                     </div>
                   </div>
 
@@ -198,14 +199,14 @@
                   <div class="profileInfo-infoGroup">
                     <div class="profileInfo-infoGroup__title">Агентство</div>
                     <div class="profileInfo-infoGroup__value">
-                      {{ user.agency }}
+                      {{ user.agency ?? 'не указано' }}
                     </div>
                   </div>
 
                   <div class="profileInfo-infoGroup">
                     <div class="profileInfo-infoGroup__title">Должность</div>
                     <div class="profileInfo-infoGroup__value">
-                      {{ user.jobTitle }}
+                      {{ user.jobTitle ?? 'не указано' }}
                     </div>
                   </div>
                 </div>

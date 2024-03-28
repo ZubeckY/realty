@@ -23,6 +23,21 @@
           <div class="overflow-y-auto pa-2" style="width: 100%">
             <Nuxt class="pr-2" />
           </div>
+
+          <action-dialog
+            v-model="isUnknown"
+            :persistent="true"
+            :hide-buttons="true"
+            title="Упс. Похоже Вас нет в агентствах!"
+            text="Мы не нашли Вас ни в одном из наших агентств, выберите действие"
+          >
+            <v-btn class="mt-3" color="primary darken-1" outlined block small>
+              Я хочу создать агентство
+            </v-btn>
+            <v-btn class="my-3" color="primary darken-1" outlined block small>
+              Я хочу вступить в агентство
+            </v-btn>
+          </action-dialog>
         </div>
       </div>
     </section>
@@ -56,6 +71,9 @@ export default class Default extends Vue {
 
   profileLinks = []
   currentHeader: string = ''
+
+  isUnknown: boolean = false
+
   user: any = {
     id: 0,
     firstName: '',
@@ -85,6 +103,10 @@ export default class Default extends Vue {
       this.loaderValue = 0
       this.user = checkUser
       this.loaderLoading = false
+
+      await this.$store.dispatch('user/userValues', {
+        payload: checkUser,
+      })
 
       setTimeout(() => {
         this.loaderValue = 100

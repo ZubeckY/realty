@@ -1,7 +1,7 @@
 <template>
   <v-btn
     :class="'personal-button ' + usableColor"
-    @click="$router.push('/profile/1')"
+    @click="$router.push('/profile/' + userID)"
     elevation="0"
     width="auto"
     height="auto"
@@ -28,6 +28,10 @@ import { ColorTheme } from "~/assets/script/functions/colorTheme";
 @Component
 export default class PersonalButton extends Vue {
   @Prop() user?: any
+
+  get userID() {
+    return JSON.parse(JSON.stringify(this.$store.state.user.user.id))
+  }
 
   get usableColor() {
     return new ColorTheme().text()

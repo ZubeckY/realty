@@ -73,7 +73,12 @@
                           >
                             <div>{{ ud['userAgent'] }}</div>
                             <div>
-                              <div v-if="isCurrentAgent(ud['value'])" class="success darken-1 pa-1 radius-small">Текущий</div>
+                              <div
+                                v-if="isCurrentAgent(ud['value'])"
+                                class="success darken-1 pa-1 radius-small"
+                              >
+                                Текущий
+                              </div>
                               <v-btn v-else icon small color="error darken-1">
                                 <v-icon>mdi-trash</v-icon>
                               </v-btn>
@@ -116,14 +121,14 @@
                   <div class="profileInfo-infoGroup mr-2">
                     <div class="profileInfo-infoGroup__title">Имя</div>
                     <div class="profileInfo-infoGroup__value">
-                      {{ user.name }}
+                      {{ user.firstName }}
                     </div>
                   </div>
 
                   <div class="profileInfo-infoGroup">
                     <div class="profileInfo-infoGroup__title">Фамилия</div>
                     <div class="profileInfo-infoGroup__value">
-                      {{ user.surname }}
+                      {{ user.lastName }}
                     </div>
                   </div>
 
@@ -254,39 +259,18 @@ export default class Profile extends Vue {
   deviceList: any = []
   devicesList: boolean = false
 
-  user: Record<string, unknown> = {
-    id: 1,
-    name: 'Иван',
-    surname: 'Иванов',
-    patronymic: 'Иванович',
-    dateBirthday: '11.11.2020',
-    aboutMe: 'Произвольный текст, вводимый пользователем',
+  user: any = {}
 
-    email: 'email@mail.ru',
-    phone: '+7(999)-999-99-99',
-
-    role: 'Админ',
-    agency: 'Название агентства',
-    jobTitle: 'Менеджер',
-    avatar:
-      'https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w1200/2023/10/free-images.jpg',
-
-    numberOfSales: 15,
-    coefficient: '30%',
-    amountSales: 24_000_000,
-  }
-
-  created() {
+  async created() {
     let currentRoute = this.$router.currentRoute.path
     let array = currentRoute.split('/')
     let id = array[array.length - 1]
 
     if (!Number(id)) return
-    this.checkIDToValid()
-  }
 
-  async mounted() {
-    await this.getAuthUserDevices()
+    await this.userByID()
+
+    console.log(this.user)
   }
 
   async getAuthUserDevices() {
@@ -299,20 +283,34 @@ export default class Profile extends Vue {
       })
   }
 
-  async checkIDToValid() {
-    try {
-      const route: string[] = this.$router.currentRoute.path.split('/')
-      const numericNeedID = route[route.length - 1]
+  get checkIDToValid() {
+    const route: string[] = this.$router.currentRoute.path.split('/')
+    const numericNeedID = route[route.length - 1]
 
-      // Проверяем на цифру
-      if (!Number.isInteger(Number(numericNeedID))) {
-        return console.log('Неверное значение id')
-      }
-
-      // await this.$axios.get("/api/users/findUserByID?userID=" + numericNeedID);
-    } catch (e) {
-      console.log(e)
+    // Проверяем на цифру
+    if (!Number.isInteger(Number(numericNeedID))) {
+      return console.log('Неверное значение id')
     }
+
+    return +numericNeedID
+  }
+
+  async userByID() {
+    if (this.currentUserItsMe) {
+      this.user = this.savedUser
+      await this.getAuthUserDevices()
+      return
+    }
+
+    return null
+  }
+
+  get savedUser() {
+    return JSON.parse(JSON.stringify(this.$store.state.user.user))
+  }
+
+  get currentUserItsMe() {
+    return this.savedUser.id == this.checkIDToValid
   }
 
   changeEditMode() {
@@ -324,10 +322,6 @@ export default class Profile extends Vue {
       this.user.avatar ||
       'https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png'
     )
-  }
-
-  get usableTheme() {
-    return new ColorTheme().isDark()
   }
 
   normalizeLastSeen(date: any) {
@@ -363,6 +357,9 @@ export default class Profile extends Vue {
     }
   }
 
+  get usableTheme() {
+    return new ColorTheme().isDark()
+  }
 }
 </script>
 <style>

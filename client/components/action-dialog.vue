@@ -13,8 +13,9 @@
         <div class="actionDialog__textField mt-3" v-if="confirm">
           <div class="actionDialog__textField-item small-input">
             <v-text-field
-              label="Имя"
               :dark="usableTheme"
+              :value="userName"
+              label="Имя"
               type="text"
               outlined
               disabled
@@ -114,6 +115,10 @@ export default class ActionDialog extends Vue {
   isCanceled() {
     this.dialog = !this.dialog
     this.$emit('isCanceled')
+  }
+
+  get userName() {
+    return JSON.parse(JSON.stringify(this.$store.state.user.user.firstName))
   }
 
   get usableTheme() {

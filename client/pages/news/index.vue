@@ -29,8 +29,7 @@
           <div class="newsCard-content">
             <div class="newsCard-images">
               <v-carousel class="newsCard-images__carousel radius"
-                          hide-delimiter-background
-                          height="320">
+                          hide-delimiter-background>
                 <v-carousel-item
                   v-for="(item, i) in postImages"
                   class="newsCard-images__carouselItem"

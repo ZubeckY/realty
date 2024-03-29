@@ -1,5 +1,5 @@
 import axios from 'axios'
-import axiosAuthConfig from "~/assets/script/functions/axiosAuthConfig";
+import axiosAuthConfig from '~/assets/script/functions/axiosAuthConfig'
 
 export default async function checkAuth(user: any) {
   try {
@@ -10,9 +10,14 @@ export default async function checkAuth(user: any) {
         return null
       }
 
-      return await axios.post('/api/auth/valid-token/' + authToken, {}, {
-        ...axiosAuthConfig(authToken, '', 'crm_client')
-      })
+      return await axios
+        .post(
+          '/api/auth/valid-token/' + authToken,
+          {},
+          {
+            ...axiosAuthConfig(authToken, '', 'crm_client'),
+          }
+        )
         .then((data: any) => {
           if (!data.data.auth) {
             localStorage.removeItem('token')
@@ -21,6 +26,9 @@ export default async function checkAuth(user: any) {
           return data.data.user
         })
     }
+
+    return user
+
   } catch (e) {
     console.log(e)
   }

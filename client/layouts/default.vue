@@ -85,13 +85,6 @@ export default class Default extends Vue {
   }
 
   async created() {
-    this.profileLinks = JSON.parse(
-      JSON.stringify(this.$store.getters['menu/getMenu'])
-    )
-  }
-
-  async mounted() {
-    this.myRouterController()
     if (process.client) {
       let user = JSON.parse(JSON.stringify(this.$store.state.user.user))
       let checkUser = await checkAuth(user)
@@ -100,13 +93,19 @@ export default class Default extends Vue {
         return this.$router.push('/auth/login')
       }
 
-      this.loaderValue = 0
       this.user = checkUser
-      this.loaderLoading = false
-
       await this.$store.dispatch('user/userValues', {
         payload: checkUser,
       })
+
+      this.profileLinks = JSON.parse(
+        JSON.stringify(this.$store.getters['menu/getMenu'])
+      )
+
+      this.myRouterController()
+
+      this.loaderValue = 0
+      this.loaderLoading = false
 
       setTimeout(() => {
         this.loaderValue = 100

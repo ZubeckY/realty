@@ -582,6 +582,14 @@ thead * {
   margin-block: 10px;
 }
 
+.newsCard-images__carousel {
+  height: 300px !important;
+}
+
+.newsCard-images__carousel .v-image {
+  height: inherit !important;
+}
+
 .newsCard-image {
   display: block;
   width: 100%;

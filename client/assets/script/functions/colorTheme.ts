@@ -40,6 +40,20 @@ export class ColorTheme {
     return result
   }
 
+  color(): string {
+    let result = setValue(this.isDark())
+
+    setInterval(() => {
+      result = setValue(this.isDark())
+    }, 60 * 60 * 1000)
+
+    function setValue(isDark: boolean) {
+      return isDark ? 'white' : 'primary darken-1'
+    }
+
+    return result
+  }
+
   text(): string {
     let result = setValue(this.isDark())
 

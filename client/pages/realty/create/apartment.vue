@@ -604,7 +604,7 @@ export default class CreateApartment extends Vue {
   }
 
   defineNewPropParams(prop: string, value: string) {
-    Object.defineProperty(this['secondaryBuildingParams'], prop, {
+    return Object.defineProperty(this['secondaryBuildingParams'], prop, {
       value: Object.entries(this.params['secondaryBuildingParams'][value]),
       writable: false,
     })

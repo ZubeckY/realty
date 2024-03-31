@@ -193,9 +193,3 @@ export default class Default extends Vue {
   }
 }
 </script>
-<style>
-.myFullScreen {
-  width: 100%;
-  height: calc(100vh - 40px);
-}
-</style>

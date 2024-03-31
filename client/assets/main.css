@@ -4,6 +4,16 @@
   letter-spacing: normal !important;
 }
 
+html {
+  overflow-y: hidden !important;
+}
+
+@media (max-width: 1200px) {
+  html {
+    overflow-y: auto !important;
+  }
+}
+
 :root {
   --radius: 13px;
   --radius-small: 8px;
@@ -16,6 +26,11 @@
     rgba(0, 28, 62, 1) 40%,
     rgba(61, 17, 52, 1) 94%
   );
+}
+
+.myFullScreen {
+  width: 100%;
+  height: calc(100vh - 75px) !important;
 }
 
 /* scroller */
@@ -75,6 +90,7 @@ thead * {
   white-space: nowrap !important;
 }
 
+/* table.light */
 .custom-table.light tr {
   background: rgba(247, 247, 247, 0.56);
 }
@@ -87,12 +103,18 @@ thead * {
   background: rgba(255, 255, 255, 0.88) !important;
 }
 
+/* table.dark */
+
+.custom-table.dark tr {
+  background: rgba(42, 42, 42, 0.75);
+}
+
 .custom-table.dark tr:nth-child(odd) {
-  background: #1f1f1f50;
+  background: rgba(56, 56, 56, 0.75);
 }
 
 .custom-table.dark tbody tr:hover {
-  background: #1f1f1f70 !important;
+  background: rgba(54, 54, 54, 0.85) !important;
 }
 
 /* box-shadow */

@@ -3,8 +3,8 @@
     <div class="header-container">
       <div class="menuButtons">
         <v-btn
-          color="primary darken-1"
           @click="$router.back()"
+          :color="usableColor"
           elevation="0"
           small
           icon
@@ -12,9 +12,8 @@
           <v-icon>mdi-arrow-left-bold</v-icon>
         </v-btn>
         <v-btn
-          color="primary darken-1"
           @click="$router.forward()"
-          :dark="usableTheme"
+          :color="usableColor"
           elevation="0"
           small
           icon
@@ -22,7 +21,6 @@
           <v-icon>mdi-arrow-right-bold</v-icon>
         </v-btn>
       </div>
-
 
       <div class="header-panel">
         <div class="header-search">
@@ -46,8 +44,8 @@ export default class HeaderComponent extends Vue {
     return new ColorTheme().block()
   }
 
-  get usableTheme() {
-    return new ColorTheme().isDark()
+  get usableColor() {
+    return new ColorTheme().color()
   }
 }
 </script>

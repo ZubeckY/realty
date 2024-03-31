@@ -17,7 +17,7 @@
                 <v-btn
                   elevation="0"
                   class="radius-small"
-                  color="primary darken-1"
+                  :color="usableColor"
                   @click="editMode = !editMode"
                   outlined
                   block
@@ -33,7 +33,7 @@
                 <v-btn
                   elevation="0"
                   class="radius-small"
-                  color="primary darken-1"
+                  :color="usableColor"
                   @click="devicesList = !devicesList"
                   outlined
                   block
@@ -98,7 +98,7 @@
                 <v-btn
                   elevation="0"
                   class="radius-small"
-                  color="primary darken-1"
+                  color="error darken-1"
                   @click="exitDialog = !exitDialog"
                   outlined
                   block
@@ -379,5 +379,10 @@ export default class Profile extends Vue {
   get usableTheme() {
     return new ColorTheme().isDark()
   }
+
+  get usableColor() {
+    return new ColorTheme().color()
+  }
+
 }
 </script>

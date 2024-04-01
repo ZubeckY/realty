@@ -14,7 +14,7 @@ export const state = () => ({
       position: 20,
       icon: "mdi-account",
       title: "Профиль",
-      link: "/profile/6",
+      link: "/profile/",
       access: true,
       showItem: true,
       routeName: "profile-id",

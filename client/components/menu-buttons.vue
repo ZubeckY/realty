@@ -13,7 +13,7 @@
         v-for="({ link, title, icon, routeName }, i) in filterProfileLinks"
         :class="'justify-start my-0 ' + usableText"
         :key="'profile-list-item-' + i"
-        @click="$router.push(link)"
+        @click="$router.push(routerController(link))"
         :value="routeName"
         small
         text
@@ -191,6 +191,17 @@ export default class MenuButtons extends Vue {
 
   isLastElement(item: Record<string, unknown>): boolean {
     return this.profileLinks.indexOf(item) === this.profileLinks.length - 1
+  }
+
+  routerController(link: string) {
+    if (link.includes('profile')) {
+      return link + this.userID
+    }
+    return link
+  }
+
+  get userID() {
+    return JSON.parse(JSON.stringify(this.$store.state.user.user.id))
   }
 
   get usableTheme() {

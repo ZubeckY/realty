@@ -27,13 +27,13 @@ export class Agency {
   })
   legalForm?: AgencyLegalForm
 
-  @Column('int', { width: 20, comment: 'ИНН организации' })
+  @Column('int', { width: 40, comment: 'ИНН организации', unique: true })
   inn?: number
 
-  @Column('int', { width: 20, comment: 'Корпоративный телефон' })
-  phone?: number
+  @Column('varchar', { length: 20, comment: 'Корпоративный телефон', nullable: true })
+  phone?: string
 
-  @Column('varchar', { length: 100, comment: 'Корпоративный email' })
+  @Column('varchar', { length: 100, comment: 'Корпоративный email', unique: true })
   email?: string
 
   @ManyToOne(() => User, (user) => user.id, {

@@ -40,32 +40,31 @@ export class AgencyController {
     try {
       const { agency, user, address } = body
 
-      const errorList = []
       const userRepository = AppDataSource.getRepository(User)
       const agencyRepository = AppDataSource.getRepository(Agency)
 
       // ищем агентство по названию
       const agencyByTitle = await agencyRepository.findOneBy({
-        title: agency?.title,
+        title: agency.title,
       })
 
       // если агентство найдено
       if (agencyByTitle) {
-        errorList.push({
+        return {
           message: 'Агентство с таким названием уже существует.',
-        })
+        }
       }
 
       // ищем агентство по email
-      const agencyByEmail = await agencyRepository.findOneBy({
+      const agencyByEmail = agency?.email ? await agencyRepository.findOneBy({
         email: agency?.email,
-      })
+      }) : null
 
       // если агентство найдено
       if (agencyByEmail) {
-        errorList.push({
+        return {
           message: 'Агентство с таким email уже существует.',
-        })
+        }
       }
 
       // ищем агентство по инн
@@ -75,9 +74,9 @@ export class AgencyController {
 
       // если агентство найдено
       if (agencyByINN) {
-        errorList.push({
+        return {
           message: 'Агентство с таким ИНН уже существует.',
-        })
+        }
       }
 
       // Пытаемся найти ползователя
@@ -87,14 +86,9 @@ export class AgencyController {
 
       // если пользователь не найден
       if (!findUser) {
-        errorList.push({
+        return {
           message: 'Пользователя не существует',
-        })
-      }
-
-      // Если ошибки набрались, прекращаем дальнейшие действия, и возращаем ошибку.
-      if (errorList.length) {
-        return errorList
+        }
       }
 
       // Пытаемся найти агентство, которое зарегистрировано на данного пользователя
@@ -112,7 +106,7 @@ export class AgencyController {
       // Пытаемся создать новое агентство
       const createAgency: Agency = new Agency()
       createAgency.title = agency!.title
-      createAgency.phone = agency?.phone
+      createAgency.inn = agency!.inn
       createAgency.email = agency?.email
       createAgency.ownerUser = agency!.ownerUser
       createAgency.legalForm = agency!.legalForm

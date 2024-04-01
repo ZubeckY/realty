@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import * as typeorm from 'typeorm'
 import { Agency, Address, File } from './index.js'
 import { Nationality } from '../types/nationality.js'
@@ -37,8 +37,8 @@ export class User {
   @JoinColumn()
   photo?: typeorm.Relation<File>
 
-  @Column('int', { width: 20, comment: 'Телефон', nullable: true })
-  phone?: number
+  @Column('varchar', { length: 20, comment: 'Телефон', nullable: true })
+  phone?: string
 
   @Column('varchar', { length: 100, comment: 'Email' })
   email!: string
@@ -48,7 +48,7 @@ export class User {
 
   @ManyToOne(() => Address, (address) => address.id, {
     cascade: true,
-    nullable: true
+    nullable: true,
   })
   @JoinColumn()
   address?: typeorm.Relation<Address>
@@ -58,13 +58,13 @@ export class User {
     type: 'enum',
     enum: Role,
     default: Role['UNKNOWN'],
-    nullable: false
+    nullable: false,
   })
   role!: Role
 
   @ManyToOne(() => Agency, (agency) => agency.id, {
     cascade: true,
-    nullable: true
+    nullable: true,
   })
   @JoinColumn()
   agency?: typeorm.Relation<Agency>

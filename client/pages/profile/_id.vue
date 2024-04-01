@@ -273,8 +273,6 @@ export default class Profile extends Vue {
     if (!Number(id)) return
 
     await this.userByID()
-
-    console.log(this.user)
   }
 
   async getAuthUserDevices() {

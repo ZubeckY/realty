@@ -16,6 +16,7 @@
               label="Имя"
               v-model="model.firstName"
               :rules="[rules.required]"
+              :disabled="disabled"
               :dark="usableTheme"
               outlined
             />
@@ -28,6 +29,7 @@
               label="Фамилия"
               v-model="model.lastName"
               :rules="[rules.required]"
+              :disabled="disabled"
               :dark="usableTheme"
               outlined
             />
@@ -39,6 +41,7 @@
             label="Введите email"
             v-model="model.email"
             :rules="[rules.email, rules.required]"
+            :disabled="disabled"
             :dark="usableTheme"
             type="email"
             outlined
@@ -53,6 +56,7 @@
             :append-icon="show.password ? 'mdi-eye' : 'mdi-eye-off'"
             :type="show.password ? 'text' : 'password'"
             @click:append="show.password = !show.password"
+            :disabled="disabled"
             :dark="usableTheme"
             outlined
             counter
@@ -62,7 +66,8 @@
         <v-btn
           class="radius-small primary darken-1 white--text"
           :dark="usableTheme"
-          :disabled="!valid"
+          :disabled="!valid || disabled"
+          :loading="loading"
           @click="stepper"
           elevation="0"
           small
@@ -151,10 +156,7 @@
 
         <div class="auth-actions mb-2">
           <span class="auth-actions__title">Есть аккаунт? </span>
-          <a
-            href="/auth/login"
-            class="auth-link primary--text text--darken-1"
-          >
+          <a href="/auth/login" class="auth-link primary--text text--darken-1">
             Зайдите в него прямо сейчас!
             <v-icon color="primary darken-1" small
               >mdi-arrow-top-right-thin
@@ -186,6 +188,9 @@ import { ColorTheme } from '~/assets/script/functions/colorTheme'
 export default class Reg extends Vue {
   valid: boolean = false
   step: number = 1
+
+  disabled: boolean = false
+  loading: boolean = false
 
   snackbar: boolean = false
   snackbarColor: string = ''
@@ -252,9 +257,10 @@ export default class Reg extends Vue {
 
   async tryReg() {
     if (process.client) {
-      //@ts-ignore
-      this.$refs.valid.validate() &&
-        (await this.$axios
+      const startReg = async () => {
+        this.loading = true
+        this.disabled = true
+        await this.$axios
           .post('/api/auth/reg/', {
             model: this.model,
           })
@@ -265,13 +271,19 @@ export default class Reg extends Vue {
               return
             }
 
+            this.loading = true
+            this.disabled = true
             this.setSnackbarValues('success darken-1', 'Успешно')
 
             setTimeout(() => {
               localStorage.setItem('hash', data.data?.linkHash)
               this.$router.push('/auth/activate/' + data.data?.linkHash)
             }, 300)
-          }))
+          })
+      }
+
+      //@ts-ignore
+      this.$refs.valid.validate() && (await startReg())
     }
   }
 

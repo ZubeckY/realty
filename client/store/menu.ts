@@ -25,7 +25,7 @@ export const state = () => ({
       icon: "mdi-list-status",
       title: "Задачи",
       link: "/todo",
-      access: true,
+      access: 'agency',
       showItem: true,
       routeName: "todo",
       headerComponent: ""
@@ -35,7 +35,7 @@ export const state = () => ({
       icon: "mdi-chart-scatter-plot-hexbin",
       title: "Админ панель",
       link: "/admin",
-      access: true,
+      access: 'role=admin',
       showItem: true,
       routeName: "admin",
       headerComponent: "admin-header"
@@ -45,7 +45,7 @@ export const state = () => ({
       icon: "mdi-city",
       title: "Недвижимость",
       link: "/realty",
-      access: true,
+      access: 'agency',
       showItem: true,
       routeName: "realty",
       headerComponent: "realty-header"
@@ -55,7 +55,7 @@ export const state = () => ({
       icon: "mdi-lead-pencil",
       title: "Лиды",
       link: "/leads",
-      access: true,
+      access: 'agency,role=admin&manager&rop&unknown',
       showItem: true,
       routeName: "leads",
       headerComponent: "leads-header"
@@ -65,7 +65,7 @@ export const state = () => ({
       icon: "mdi-filter-variant",
       title: "Сделки",
       link: "/deals",
-      access: true,
+      access: 'agency,role=admin',
       showItem: true,
       routeName: "deals",
       headerComponent: "deals-header"
@@ -75,7 +75,7 @@ export const state = () => ({
       icon: "mdi-account-multiple-outline",
       title: "Клиенты",
       link: "/clients",
-      access: true,
+      access: 'agency,role=admin',
       showItem: true,
       routeName: "clients",
       headerComponent: "clients-header"
@@ -85,7 +85,7 @@ export const state = () => ({
       icon: "mdi-ticket-confirmation",
       title: "Бронь",
       link: "/reservation",
-      access: true,
+      access: 'agency,role=admin',
       showItem: false,
       routeName: "reservation",
       headerComponent: "reservation-header"
@@ -95,7 +95,7 @@ export const state = () => ({
       icon: "mdi-file-arrow-left-right",
       title: "Фиды",
       link: "/feeds",
-      access: true,
+      access: 'agency',
       showItem: true,
       routeName: "feeds",
       headerComponent: "feeds-header"
@@ -105,7 +105,7 @@ export const state = () => ({
       icon: "mdi-chess-rook",
       title: "Шахматка",
       link: "/chess",
-      access: true,
+      access: 'agency',
       showItem: false,
       routeName: "chess",
       headerComponent: "chess-header"

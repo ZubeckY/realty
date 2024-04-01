@@ -69,7 +69,8 @@ export default class Default extends Vue {
   snackbarColor: string = ''
   snackbarMessage: string = ''
 
-  profileLinks = []
+  profileLinks: any = []
+
   currentHeader: string = ''
 
   isUnknown: boolean = false
@@ -98,10 +99,7 @@ export default class Default extends Vue {
         payload: checkUser,
       })
 
-      this.profileLinks = JSON.parse(
-        JSON.stringify(this.$store.getters['menu/getMenu'])
-      )
-
+      this.initMenu()
       this.myRouterController()
 
       this.loaderValue = 0
@@ -121,10 +119,65 @@ export default class Default extends Vue {
     }
   }
 
+  initMenu() {
+    const profileLinks = JSON.parse(
+      JSON.stringify(this.$store.getters['menu/getMenu'])
+    )
+
+    for (let i = 0; i < profileLinks.length; i++) {
+      const profileLink = profileLinks[i]
+      const access = profileLink.access
+
+      const conditionManager = (access: any) => {
+        if (typeof access == 'string') {
+          const conditionsList = access.split(',')
+
+          let rolesContain: boolean = false
+          let agencyContain: boolean = false
+          const roles = access.split('role=')
+          const agency = conditionsList.includes('agency')
+
+          if (!roles) {
+            rolesContain = true
+          } else {
+            if (roles[0] == 'agency,' || roles[0] == '') {
+              roles.shift()
+            }
+            const roleCleanList = roles[0].split('&')
+            rolesContain = roleCleanList.includes(this.user.role)
+          }
+
+          if (!agency) {
+            agencyContain = true
+          } else {
+            agencyContain = !!this.user.agency
+          }
+          return rolesContain && agencyContain
+        } else {
+          return access
+        }
+      }
+
+      const itemIncludes = conditionManager(access)
+
+      if (itemIncludes) {
+        this.profileLinks.push(profileLink)
+      }
+    }
+  }
+
   @Watch('$route')
   myRouterController() {
     this.checkMenu()
     this.setHeader()
+  }
+
+  get userRoleCondition() {
+    return true
+  }
+
+  get userAgencyConditions() {
+    return !!this.user?.agency
   }
 
   checkMenu() {

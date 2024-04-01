@@ -101,7 +101,6 @@ export default class MenuButtons extends Vue {
   @VModel() profileLinks!: any
 
   dialog: boolean = false
-
   activeMenuItem: string = ''
 
   headers: any = [

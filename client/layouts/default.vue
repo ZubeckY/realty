@@ -31,10 +31,24 @@
             title="Упс. Похоже Вас нет в агентствах!"
             text="Мы не нашли Вас ни в одном из наших агентств, выберите действие"
           >
-            <v-btn class="mt-3" color="primary darken-1" outlined block small>
+            <v-btn
+              @click="$router.push('/auth/agency/create')"
+              :color="usableColor"
+              class="mt-3"
+              outlined
+              block
+              small
+            >
               Я хочу создать агентство
             </v-btn>
-            <v-btn class="my-3" color="primary darken-1" outlined block small>
+            <v-btn
+              @click="$router.push('/auth/agency/find')"
+              :color="usableColor"
+              class="my-3"
+              outlined
+              block
+              small
+            >
               Я хочу вступить в агентство
             </v-btn>
           </action-dialog>
@@ -58,6 +72,7 @@
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import { TimesOfDay } from '~/assets/script/functions/timesOfDay'
 import checkAuth from '~/assets/script/functions/checkAuth'
+import { ColorTheme } from '~/assets/script/functions/colorTheme'
 
 @Component
 export default class Default extends Vue {
@@ -70,9 +85,7 @@ export default class Default extends Vue {
   snackbarMessage: string = ''
 
   profileLinks: any = []
-
   currentHeader: string = ''
-
   isUnknown: boolean = false
 
   user: any = {
@@ -99,6 +112,8 @@ export default class Default extends Vue {
         payload: checkUser,
       })
 
+      this.checkMyAgency()
+
       this.initMenu()
       this.myRouterController()
 
@@ -117,6 +132,17 @@ export default class Default extends Vue {
         this.setSnackbarValues('succes, darken-1', this.getGreetingMessage)
       }, 1200)
     }
+  }
+
+  checkMyAgency() {
+    if (this.user.role != 'unknown') {
+      let agencyInclude = !!this.user.agency
+      if (!agencyInclude) {
+        this.user.agency = {}
+        this.isUnknown = true
+      }
+    }
+    this.isUnknown = true
   }
 
   initMenu() {
@@ -172,14 +198,6 @@ export default class Default extends Vue {
     this.setHeader()
   }
 
-  get userRoleCondition() {
-    return true
-  }
-
-  get userAgencyConditions() {
-    return !!this.user?.agency
-  }
-
   checkMenu() {
     const { name, path }: any = this.$router.currentRoute
     const i = this.findIndexElement(name)
@@ -194,24 +212,31 @@ export default class Default extends Vue {
       )
       const newPosition = position + 10
 
-      profileLinks.push({
-        position: newPosition,
-        icon: 'mdi-file-link-outline',
-        title: 'Новая страница',
-        link: path,
-        access: true,
-        showItem: true,
-        routeName: name,
-        headerComponent: '',
-      })
+      if (path == '/') {
+        this.$router.push('/news')
+      } else {
+        profileLinks.push({
+          position: newPosition,
+          icon: 'mdi-file-link-outline',
+          title: 'Новая страница',
+          link: path,
+          access: true,
+          showItem: true,
+          routeName: name,
+          headerComponent: '',
+        })
+      }
 
       return (this.profileLinks = profileLinks)
     }
   }
 
   setHeader() {
-    const { name }: any = this.$router.currentRoute
+    const { name, path }: any = this.$router.currentRoute
     const i = this.findIndexElement(name)
+
+    if (path == '/') return (this.currentHeader = 'header-default-empty')
+
     return (this.currentHeader =
       this.profileLinks[i]['headerComponent'] ?? 'header-default-empty')
   }
@@ -237,6 +262,10 @@ export default class Default extends Vue {
 
   get getGreetingMessage() {
     return TimesOfDay().greetings + ' ' + this.userName
+  }
+
+  get usableColor() {
+    return new ColorTheme().color()
   }
 
   setSnackbarValues(color: string, message: string) {

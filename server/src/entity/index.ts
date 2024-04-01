@@ -1,5 +1,6 @@
 export * from './address.js'
 export * from './agency.js'
+export * from './agencyInvite.js'
 export * from './authToken.js'
 export * from './client.js'
 export * from './file.js'

@@ -53,11 +53,8 @@ export class Agency {
   @Column({ default: true, comment: 'Активное агентство' })
   isActiveAgency!: boolean
 
-  @Column({ default: false, comment: 'Я согласен с условиями использования' })
-  IAgreeToTermsOfUse!: boolean
-
-  @Column({ default: false, comment: 'Я согласен с политикой конфиденциальности' })
-  IAgreeToPrivacyPolicy!: boolean
+  @Column({ comment: 'Код приглашения' })
+  inviteCode!: string
 
   @CreateDateColumn({ comment: 'Дата создания' })
   created!: Date

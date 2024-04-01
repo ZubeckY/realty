@@ -1,15 +1,32 @@
 import 'reflect-metadata'
-import { Param, Body, Get, Post, Put, Delete, OnUndefined, JsonController } from "routing-controllers";
-import { Agency, Address, User } from '../entity/index.js'
+import { Param, Body, Get, Post, Put, Delete, OnUndefined, JsonController } from 'routing-controllers'
+import { Agency, Address, User, AgencyInvite } from '../entity/index.js'
 import { AppDataSource } from '../connectDataBase.js'
+import * as uuid from 'uuid'
 
 @JsonController('/agency')
 export class AgencyController {
+  @Get('/list')
+  async getList() {
+    try {
+      const agencyRepository = AppDataSource.getRepository(Agency)
+      return await agencyRepository.find()
+    } catch (e) {
+      return {
+        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        error: e,
+      }
+    }
+  }
+
   @Get('/:id')
   @OnUndefined(204)
   async getOne(@Param('id') id: number) {
     try {
       const agencyRepository = AppDataSource.getRepository(Agency)
+      return await agencyRepository.findOneBy({
+        id: +id,
+      })
     } catch (e) {
       return {
         message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
@@ -99,8 +116,7 @@ export class AgencyController {
       createAgency.email = agency?.email
       createAgency.ownerUser = agency!.ownerUser
       createAgency.legalForm = agency!.legalForm
-      createAgency.IAgreeToTermsOfUse = agency!.IAgreeToTermsOfUse
-      createAgency.IAgreeToPrivacyPolicy = agency!.IAgreeToPrivacyPolicy
+      createAgency.inviteCode = uuid.v4()
       createAgency.ownerUser = user
 
       await agencyRepository.save(createAgency)
@@ -131,13 +147,57 @@ export class AgencyController {
     }
   }
 
-  @Put('/:id')
-  put(@Param('id') id: number, @Body() user: any) {
-    return 'Updating a user...'
+  @Post('/invite/list/')
+  async getInviteList(@Body() body: any) {
+    try {
+      const { agency } = body
+      const agencyInviteRepository = AppDataSource.getRepository(AgencyInvite)
+
+      return await agencyInviteRepository.find({
+        where: {
+          agency: {
+            id: agency.id,
+          },
+        },
+      })
+    } catch (e) {
+      return {
+        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        error: e,
+      }
+    }
   }
 
-  @Delete('/:id')
-  remove(@Param('id') id: number) {
-    return 'Removing user...'
+  @Post('/invite/create/:hash')
+  async createInvite() {
+    try {
+    } catch (e) {
+      return {
+        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        error: e,
+      }
+    }
+  }
+
+  @Post('/invite/accept/:hash')
+  async acceptInvite() {
+    try {
+    } catch (e) {
+      return {
+        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        error: e,
+      }
+    }
+  }
+
+  @Delete('/invite/reject/:hash')
+  async rejectInvite() {
+    try {
+    } catch (e) {
+      return {
+        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        error: e,
+      }
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import * as typeorm from 'typeorm'
 import { User, Agency } from './index.js'
 
@@ -19,6 +19,7 @@ export class News {
   @ManyToOne(() => User, (user) => user.id, {
     cascade: true,
     nullable: false,
+    onDelete: 'CASCADE',
   })
   @JoinColumn()
   user!: typeorm.Relation<User>
@@ -26,6 +27,7 @@ export class News {
   @ManyToOne(() => Agency, (agency) => agency.id, {
     cascade: true,
     nullable: false,
+    onDelete: 'CASCADE',
   })
   @JoinColumn()
   agency!: typeorm.Relation<Agency>

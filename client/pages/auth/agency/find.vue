@@ -155,10 +155,10 @@ export default class Find extends Vue {
     this.agencies = this.data
   }
 
-  setInviteAgency() {
+  async setInviteAgency() {
     if (!!this.model) {
       const user = JSON.parse(JSON.stringify(this.$store.state['user/user']))
-      this.$axios
+      await this.$axios
         .post('/api/agency/invite/create/' + this.model.inviteCode, {
           user: user,
         })

@@ -268,6 +268,8 @@ export default class Reg extends Vue {
             if (data.data?.message) {
               this.setSnackbarValues('error darken-1', data.data.message)
               console.log(data.data.error)
+              this.disabled = false
+              this.loading = false
               return
             }
 

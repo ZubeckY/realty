@@ -33,6 +33,7 @@ export class User {
   @ManyToOne(() => File, (file) => file.path, {
     cascade: true,
     nullable: true,
+    onDelete: 'CASCADE',
   })
   @JoinColumn()
   photo?: typeorm.Relation<File>
@@ -49,6 +50,7 @@ export class User {
   @ManyToOne(() => Address, (address) => address.id, {
     cascade: true,
     nullable: true,
+    onDelete: 'CASCADE',
   })
   @JoinColumn()
   address?: typeorm.Relation<Address>
@@ -65,6 +67,7 @@ export class User {
   @ManyToOne(() => Agency, (agency) => agency.id, {
     cascade: true,
     nullable: true,
+    onDelete: 'CASCADE',
   })
   @JoinColumn()
   agency?: typeorm.Relation<Agency>

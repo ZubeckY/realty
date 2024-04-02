@@ -15,7 +15,6 @@
         multiple
         chips
         dense
-
       >
         <template v-slot:selection="data">
           <v-chip

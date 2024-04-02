@@ -10,6 +10,7 @@ export class UserStat {
   @ManyToOne(() => User, (user) => user.id, {
     cascade: true,
     nullable: false,
+    onDelete: 'CASCADE',
   })
   @JoinColumn()
   user!: typeorm.Relation<User>

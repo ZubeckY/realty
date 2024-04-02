@@ -19,6 +19,7 @@ export class PaymentTransaction {
   @ManyToOne(() => User, (user) => user.id, {
     cascade: true,
     nullable: false,
+    onDelete: 'CASCADE',
   })
   @JoinColumn()
   user!: typeorm.Relation<User>
@@ -26,6 +27,7 @@ export class PaymentTransaction {
   @ManyToOne(() => Agency, (agency) => agency.id, {
     cascade: true,
     nullable: false,
+    onDelete: 'CASCADE',
   })
   @JoinColumn()
   agency!: typeorm.Relation<Agency>

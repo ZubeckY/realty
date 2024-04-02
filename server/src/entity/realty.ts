@@ -47,6 +47,7 @@ export class Realty {
   @ManyToOne(() => Address, (address) => address.id, {
     cascade: true,
     nullable: true,
+    onDelete: 'CASCADE',
   })
   @JoinColumn()
   address?: typeorm.Relation<Address>
@@ -175,6 +176,7 @@ export class Realty {
   @ManyToOne(() => File, (file) => file.id, {
     cascade: true,
     nullable: true,
+    onDelete: 'CASCADE',
   })
   @JoinTable()
   images?: typeorm.Relation<File>[]
@@ -335,6 +337,7 @@ export class Realty {
   @ManyToOne(() => User, (user) => user.id, {
     cascade: true,
     nullable: false,
+    onDelete: 'CASCADE',
   })
   @JoinColumn()
   manager!: typeorm.Relation<User>

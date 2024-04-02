@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import * as typeorm from 'typeorm'
 import { Agency, PaymentTransaction, User } from './index.js'
 
@@ -16,6 +16,7 @@ export class PaymentToken {
   @ManyToOne(() => User, (user) => user.id, {
     cascade: true,
     nullable: false,
+    onDelete: 'CASCADE',
   })
   @JoinColumn()
   user!: typeorm.Relation<User>
@@ -23,6 +24,7 @@ export class PaymentToken {
   @ManyToOne(() => Agency, (agency) => agency.id, {
     cascade: true,
     nullable: false,
+    onDelete: 'CASCADE',
   })
   @JoinColumn()
   agency!: typeorm.Relation<Agency>
@@ -30,6 +32,7 @@ export class PaymentToken {
   @ManyToOne(() => PaymentTransaction, (payTok) => payTok.id, {
     cascade: true,
     nullable: false,
+    onDelete: 'CASCADE',
   })
   @JoinColumn()
   transaction!: typeorm.Relation<PaymentTransaction>

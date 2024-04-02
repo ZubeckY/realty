@@ -21,7 +21,8 @@ export class AuthToken {
 
   @ManyToOne(() => User, (user) => user.id, {
     cascade: true,
-    nullable: false
+    nullable: false,
+    onDelete: 'CASCADE',
   })
   @JoinColumn()
   user!: typeorm.Relation<User>

@@ -39,6 +39,7 @@ export class Agency {
   @ManyToOne(() => User, (user) => user.id, {
     cascade: true,
     nullable: false,
+    onDelete: 'CASCADE',
   })
   @JoinColumn()
   ownerUser!: typeorm.Relation<User>
@@ -46,6 +47,7 @@ export class Agency {
   @OneToOne(() => File, (file) => file.id, {
     cascade: true,
     nullable: true,
+    onDelete: 'CASCADE',
   })
   @JoinColumn()
   watermark?: typeorm.Relation<File> | null

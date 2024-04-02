@@ -3,6 +3,8 @@ import { Param, Body, Get, Post, Put, Delete, OnUndefined, JsonController } from
 import { Agency, Address, User, AgencyInvite } from '../entity/index.js'
 import { AppDataSource } from '../connectDataBase.js'
 import * as uuid from 'uuid'
+import { agencyLegalFormTypeText } from "../types/agencyLegalForm";
+import { Role, roleTypeText } from "../types/role";
 
 @JsonController('/agency')
 export class AgencyController {
@@ -35,19 +37,37 @@ export class AgencyController {
     }
   }
 
+  @Get('/legal-form/list')
+  async getLegalFormList(){
+    try {
+      return agencyLegalFormTypeText
+    } catch (e) {
+      return {
+        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        error: e,
+      }
+    }
+  }
+
   @Post('/create')
   async createAgency(@Body() body: any) {
     try {
       const { agency, user, address } = body
 
+      console.log('start');
+      
       const userRepository = AppDataSource.getRepository(User)
       const agencyRepository = AppDataSource.getRepository(Agency)
 
+      console.log('find agency by title');
+      
       // ищем агентство по названию
       const agencyByTitle = await agencyRepository.findOneBy({
         title: agency.title,
       })
-
+      
+      console.log('find agency by title status')
+      
       // если агентство найдено
       if (agencyByTitle) {
         return {
@@ -55,11 +75,15 @@ export class AgencyController {
         }
       }
 
+      console.log('find agency by email');
+
       // ищем агентство по email
       const agencyByEmail = agency?.email ? await agencyRepository.findOneBy({
         email: agency?.email,
       }) : null
-
+      
+      console.log('find agency by email status');
+      
       // если агентство найдено
       if (agencyByEmail) {
         return {
@@ -67,10 +91,14 @@ export class AgencyController {
         }
       }
 
+      console.log('find agency by inn');
+      
       // ищем агентство по инн
       const agencyByINN = await agencyRepository.findOneBy({
         inn: agency?.inn,
       })
+
+      console.log('find agency by inn status');
 
       // если агентство найдено
       if (agencyByINN) {
@@ -79,22 +107,30 @@ export class AgencyController {
         }
       }
 
+      console.log('find user');
+
       // Пытаемся найти ползователя
-      const findUser = await userRepository.findOneBy({
+      const userFromDB = await userRepository.findOneBy({
         id: user.id,
       })
 
+      console.log('find user status');
+
       // если пользователь не найден
-      if (!findUser) {
+      if (!userFromDB) {
         return {
           message: 'Пользователя не существует',
         }
       }
 
+      console.log('find agency by user');
+
       // Пытаемся найти агентство, которое зарегистрировано на данного пользователя
       const findAgencyByUser = await agencyRepository.findOneBy({
         ownerUser: user,
       })
+
+      console.log('find agency by user status');
 
       // Если у человека уже есть агентство, то выдаём ошибку.
       if (findAgencyByUser) {
@@ -102,6 +138,8 @@ export class AgencyController {
           message: 'Данный пользователь уже имеет агентство.',
         }
       }
+
+      console.log('agency create');
 
       // Пытаемся создать новое агентство
       const createAgency: Agency = new Agency()
@@ -115,25 +153,29 @@ export class AgencyController {
 
       await agencyRepository.save(createAgency)
 
+      console.log('agency create status');
+
       // Добавляем, что данный пользователь имеет отношение к данной
-      const findUserForAgency: User | null = await userRepository.findOneBy({
+      const userFromDBForAgency: User | null = await userRepository.findOneBy({
         id: user.id,
       })
 
-      if (!findUserForAgency) {
+      if (!userFromDBForAgency) {
         return {
           message: 'Ошибка, пользователь не найден',
         }
       }
 
-      findUserForAgency.agency = createAgency
-      await userRepository.save(findUserForAgency)
+      userFromDBForAgency.agency = createAgency
+      userFromDBForAgency.role = Role.ADMIN
+      await userRepository.save(userFromDBForAgency)
 
       return {
-        user: findUserForAgency,
+        user: userFromDBForAgency,
         agency: createAgency,
       }
     } catch (e) {
+      console.log(e);
       return {
         message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
         error: e,

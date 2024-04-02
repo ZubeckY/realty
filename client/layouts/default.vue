@@ -135,14 +135,16 @@ export default class Default extends Vue {
   }
 
   checkMyAgency() {
+    let agencyInclude = !!this.user.agency
+
     if (this.user.role != 'unknown') {
-      let agencyInclude = !!this.user.agency
       if (!agencyInclude) {
         this.user.agency = {}
         this.isUnknown = true
       }
+    } else {
+      this.isUnknown = true
     }
-    this.isUnknown = true
   }
 
   initMenu() {
@@ -160,15 +162,19 @@ export default class Default extends Vue {
 
           let rolesContain: boolean = false
           let agencyContain: boolean = false
-          const roles = access.split('role=')
-          const agency = conditionsList.includes('agency')
+          const roles: any = access.split('role=')
+          const agency: any = conditionsList.includes('agency')
+
+          console.log(i)
 
           if (!roles) {
             rolesContain = true
           } else {
-            if (roles[0] == 'agency,' || roles[0] == '') {
-              roles.shift()
-            }
+            roles.filter((role: string) => {
+              return role != 'agency,' || role != 'agency' || role != ''
+            })
+
+            console.log(roles)
             const roleCleanList = roles[0].split('&')
             rolesContain = roleCleanList.includes(this.user.role)
           }
@@ -178,6 +184,10 @@ export default class Default extends Vue {
           } else {
             agencyContain = !!this.user.agency
           }
+
+          // console.log(rolesContain)
+          // console.log(agencyContain)
+
           return rolesContain && agencyContain
         } else {
           return access

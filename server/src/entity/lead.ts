@@ -16,6 +16,7 @@ export class Lead {
   @ManyToOne(() => Client, (client) => client.id, {
     cascade: true,
     nullable: true,
+    onDelete: 'CASCADE',
   })
   @JoinColumn()
   client?: typeorm.Relation<Client> | null
@@ -23,6 +24,7 @@ export class Lead {
   @ManyToOne(() => User, (user) => user.id, {
     cascade: true,
     nullable: true,
+    onDelete: 'CASCADE',
   })
   @JoinColumn()
   manager?: typeorm.Relation<User> | null

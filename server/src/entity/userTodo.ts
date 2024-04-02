@@ -15,7 +15,8 @@ export class UserTodo {
 
   @ManyToOne(() => User, {
     cascade: true,
-    nullable: false
+    nullable: false,
+    onDelete: 'CASCADE',
   })
   @JoinColumn()
   user!: typeorm.Relation<User>

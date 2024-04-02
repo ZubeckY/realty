@@ -392,9 +392,13 @@ export class AuthController {
         }
       }
 
-      const userFromDB: User | null = await userRepository.findOneBy({
-        id: id,
-      })
+      const userFromDB = await userRepository
+        .createQueryBuilder('user')
+        .leftJoinAndSelect('user.photo', 'photo')
+        .leftJoinAndSelect('user.address', 'address')
+        .leftJoinAndSelect('user.agency', 'agency')
+        .where('user.id = :userId', { userId: id })
+        .getOne();
 
       if (!userFromDB) {
         return {
@@ -409,6 +413,7 @@ export class AuthController {
         user: userFromDB,
       }
     } catch (e) {
+      console.log(e);
       return {
         message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
         error: e,

@@ -171,7 +171,7 @@ export default class Default extends Vue {
             rolesContain = true
           } else {
             roles.filter((role: string) => {
-              return role != 'agency,' || role != 'agency' || role != ''
+              return role != 'agency,'
             })
 
             console.log(roles)

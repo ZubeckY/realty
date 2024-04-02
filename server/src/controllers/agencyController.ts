@@ -21,7 +21,7 @@ export class AgencyController {
     }
   }
 
-  @Get('/:id')
+  @Get('/list/:id')
   @OnUndefined(204)
   async getOne(@Param('id') id: number) {
     try {
@@ -54,20 +54,14 @@ export class AgencyController {
     try {
       const { agency, user, address } = body
 
-      console.log('start');
-      
       const userRepository = AppDataSource.getRepository(User)
       const agencyRepository = AppDataSource.getRepository(Agency)
 
-      console.log('find agency by title');
-      
       // ищем агентство по названию
       const agencyByTitle = await agencyRepository.findOneBy({
         title: agency.title,
       })
-      
-      console.log('find agency by title status')
-      
+
       // если агентство найдено
       if (agencyByTitle) {
         return {
@@ -75,15 +69,11 @@ export class AgencyController {
         }
       }
 
-      console.log('find agency by email');
-
       // ищем агентство по email
       const agencyByEmail = agency?.email ? await agencyRepository.findOneBy({
         email: agency?.email,
       }) : null
-      
-      console.log('find agency by email status');
-      
+
       // если агентство найдено
       if (agencyByEmail) {
         return {
@@ -91,14 +81,10 @@ export class AgencyController {
         }
       }
 
-      console.log('find agency by inn');
-      
       // ищем агентство по инн
       const agencyByINN = await agencyRepository.findOneBy({
         inn: agency?.inn,
       })
-
-      console.log('find agency by inn status');
 
       // если агентство найдено
       if (agencyByINN) {
@@ -107,14 +93,10 @@ export class AgencyController {
         }
       }
 
-      console.log('find user');
-
       // Пытаемся найти ползователя
       const userFromDB = await userRepository.findOneBy({
         id: user.id,
       })
-
-      console.log('find user status');
 
       // если пользователь не найден
       if (!userFromDB) {
@@ -123,14 +105,10 @@ export class AgencyController {
         }
       }
 
-      console.log('find agency by user');
-
       // Пытаемся найти агентство, которое зарегистрировано на данного пользователя
       const findAgencyByUser = await agencyRepository.findOneBy({
         ownerUser: user,
       })
-
-      console.log('find agency by user status');
 
       // Если у человека уже есть агентство, то выдаём ошибку.
       if (findAgencyByUser) {
@@ -138,8 +116,6 @@ export class AgencyController {
           message: 'Данный пользователь уже имеет агентство.',
         }
       }
-
-      console.log('agency create');
 
       // Пытаемся создать новое агентство
       const createAgency: Agency = new Agency()
@@ -152,8 +128,6 @@ export class AgencyController {
       createAgency.ownerUser = user
 
       await agencyRepository.save(createAgency)
-
-      console.log('agency create status');
 
       // Добавляем, что данный пользователь имеет отношение к данной
       const userFromDBForAgency: User | null = await userRepository.findOneBy({
@@ -207,6 +181,8 @@ export class AgencyController {
   @Post('/invite/create/:hash')
   async createInvite() {
     try {
+
+      return true
     } catch (e) {
       return {
         message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',

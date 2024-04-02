@@ -34,7 +34,7 @@
                 <v-avatar left>
                   <v-img :src="data.item.avatar"></v-img>
                 </v-avatar>
-                {{ data.item.name }}
+                {{ data.item.title }}
               </v-chip>
             </template>
 
@@ -45,7 +45,7 @@
                 </v-list-item-avatar>
                 <v-list-item-content>
                   <v-list-item-title
-                    v-html="data.item.name"
+                    v-html="data.item.title"
                   ></v-list-item-title>
                   <v-list-item-subtitle
                     v-html="data.item.inviteCode"
@@ -117,29 +117,8 @@ export default class Find extends Vue {
   snackbarColor: string = ''
   snackbarMessage: string = ''
 
+  data: any = []
   agencies: any = []
-  data: any = [
-    {
-      name: 'Diamond Estate',
-      inviteCode: '9c40dc48-4d16-414c-b5ae-e0522bad6de9',
-      avatar: srcs[1],
-    },
-    {
-      name: 'АЯКС',
-      inviteCode: '58ddee3d-28b1-4f27-a43d-826ea3d8dafc',
-      avatar: srcs[2],
-    },
-    {
-      name: 'Этажи',
-      inviteCode: 'dbd3f7e5-c1bf-417e-86c1-c14c2c02e674',
-      avatar: srcs[3],
-    },
-    {
-      name: 'Квартиротека',
-      inviteCode: '2076e290-17e9-4401-a5cd-9db6d56f49ca',
-      avatar: srcs[4],
-    },
-  ]
 
   async created() {
     await this.$axios.get('/api/agency/list/').then((data) => {
@@ -156,33 +135,30 @@ export default class Find extends Vue {
   }
 
   async setInviteAgency() {
-    if (!!this.model) {
-      const user = JSON.parse(JSON.stringify(this.$store.state['user/user']))
-      await this.$axios
-        .post('/api/agency/invite/create/' + this.model.inviteCode, {
-          user: user,
-        })
-        .then((data) => {
-          if (data.data.message) {
-            this.setSnackbarValues('error darken-1', data.data.message)
-            console.log(data.data.error)
-            return
-          }
+    await this.$axios
+      .post('/api/agency/invite/create/' + this.model.inviteCode, {
+        user: this.user,
+      })
+      .then((data) => {
+        if (data.data.message) {
+          this.setSnackbarValues('error darken-1', data.data.message)
+          console.log(data.data.error)
+          return
+        }
 
-          this.setSnackbarValues(
-            'error darken-1',
-            'Запрос на вступление в агентство отправлен'
-          )
+        this.setSnackbarValues(
+          'success darken-1',
+          'Запрос на вступление в агентство отправлен.'
+        )
 
-          setTimeout(() => {
-            this.$router.push('/profile/' + this.userID)
-          })
-        })
-      return
-    }
+        setTimeout(() => {
+          this.$router.push('/profile/' + this.userID)
+        }, 1500)
 
-    this.setSnackbarValues('error darken-1', 'Внимание, значение не указано')
-    this.valid = false
+      })
+      .catch((e) => {
+        console.log(e)
+      })
   }
 
   setSnackbarValues(color: string, message: string) {
@@ -200,6 +176,10 @@ export default class Find extends Vue {
     return (this.model = null)
   }
 
+
+  get user() {
+    return JSON.parse(JSON.stringify(this.$store.state.user.user))
+  }
   get userID() {
     return JSON.parse(JSON.stringify(this.$store.state.user.user.id))
   }
@@ -208,7 +188,7 @@ export default class Find extends Vue {
     const keyword = queryText.toLowerCase()
 
     return (
-      item.name.toLowerCase().indexOf(keyword) > -1 ||
+      item.title.toLowerCase().indexOf(keyword) > -1 ||
       item.inviteCode.toLowerCase().indexOf(keyword) > -1
     )
   }

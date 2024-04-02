@@ -45,7 +45,6 @@ export class AuthController {
         },
       })
     } catch (e) {
-      console.log(e)
       return {
         message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
         error: e,
@@ -171,8 +170,8 @@ export class AuthController {
       }
 
       // Убераем старые коды
-      userFromDB.activationCode = ''
-      userFromDB.activationLink = ''
+      userFromDB.activationCode = null
+      userFromDB.activationLink = null
       await userRepository.save(userFromDB)
 
       // Создаём токен
@@ -413,7 +412,6 @@ export class AuthController {
         user: userFromDB,
       }
     } catch (e) {
-      console.log(e);
       return {
         message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
         error: e,

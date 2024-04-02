@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import * as typeorm from 'typeorm'
 import { Agency, Address, File } from './index.js'
 import { Nationality } from '../types/nationality.js'
@@ -78,7 +78,7 @@ export class User {
   @Column({ nullable: true, comment: 'Код активации' })
   activationCode?: string
 
-  @Column({ nullable: true, comment: 'Ссылка для активации', unique: true })
+  @Column({ unique: true, nullable: true, comment: 'Ссылка для активации' })
   activationLink?: string
 
   @Column({ default: false, comment: 'Активированный аккаунт' })

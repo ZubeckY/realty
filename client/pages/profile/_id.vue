@@ -169,7 +169,9 @@
                   <div class="profileInfo-infoGroup">
                     <div class="profileInfo-infoGroup__title">Телефон</div>
                     <div class="profileInfo-infoGroup__value">
-                      <a v-if="user.phone" :href="'tel:' + user.phone">{{ user.phone ?? 'не указано' }}</a>
+                      <a v-if="user.phone" :href="'tel:' + user.phone">{{
+                        user.phone ?? 'не указано'
+                      }}</a>
                       <span v-else>не указано</span>
                     </div>
                   </div>
@@ -199,7 +201,7 @@
                   <div class="profileInfo-infoGroup">
                     <div class="profileInfo-infoGroup__title">Агентство</div>
                     <div class="profileInfo-infoGroup__value">
-                      {{ user.agency.title ?? 'не указано' }}
+                      {{ userAgency }}
                     </div>
                   </div>
 
@@ -374,6 +376,14 @@ export default class Profile extends Vue {
     }
   }
 
+  get userAgency() {
+    if (this.user.agency) {
+      return this.user.agency.title
+    } else {
+      return 'не указано'
+    }
+  }
+
   get usableTheme() {
     return new ColorTheme().isDark()
   }
@@ -381,6 +391,5 @@ export default class Profile extends Vue {
   get usableColor() {
     return new ColorTheme().color()
   }
-
 }
 </script>

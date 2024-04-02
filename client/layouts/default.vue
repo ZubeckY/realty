@@ -26,8 +26,8 @@
 
           <action-dialog
             v-model="isUnknown"
+            :popup="true"
             :persistent="true"
-            :hide-buttons="true"
             title="Упс. Похоже Вас нет в агентствах!"
             text="Мы не нашли Вас ни в одном из наших агентств, выберите действие"
           >
@@ -44,7 +44,7 @@
             <v-btn
               @click="$router.push('/auth/agency/find')"
               :color="usableColor"
-              class="my-3"
+              class="mt-3"
               outlined
               block
               small

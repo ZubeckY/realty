@@ -55,7 +55,7 @@ export const state = () => ({
       icon: "mdi-lead-pencil",
       title: "Лиды",
       link: "/leads",
-      access: 'agency,role=admin&manager&rop&unknown',
+      access: 'agency,role=admin&manager&rop',
       showItem: true,
       routeName: "leads",
       headerComponent: "leads-header"

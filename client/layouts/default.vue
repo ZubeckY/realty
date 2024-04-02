@@ -162,31 +162,28 @@ export default class Default extends Vue {
 
           let rolesContain: boolean = false
           let agencyContain: boolean = false
-          const roles: any = access.split('role=')
-          const agency: any = conditionsList.includes('agency')
 
-          console.log(i)
+          for (let j = 0; j < conditionsList.length; j++) {
+            let condition = conditionsList[j]
 
-          if (!roles) {
-            rolesContain = true
-          } else {
-            roles.filter((role: string) => {
-              return role != 'agency,'
-            })
+            if (condition.includes('agency')) {
+              agencyContain = !!this.user.agency
+            } else {
+              agencyContain = true
+            }
 
-            console.log(roles)
-            const roleCleanList = roles[0].split('&')
-            rolesContain = roleCleanList.includes(this.user.role)
+            if (condition.includes('role=')) {
+              const roleListString = condition.split('role=')[1]
+              const roleList = roleListString.split('&')
+              if (!roleList.includes('admin')) {
+                roleList.push('admin')
+              }
+
+              rolesContain = roleList.includes(this.user.role)
+            } else {
+              rolesContain = true
+            }
           }
-
-          if (!agency) {
-            agencyContain = true
-          } else {
-            agencyContain = !!this.user.agency
-          }
-
-          // console.log(rolesContain)
-          // console.log(agencyContain)
 
           return rolesContain && agencyContain
         } else {

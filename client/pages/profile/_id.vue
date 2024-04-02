@@ -199,7 +199,7 @@
                   <div class="profileInfo-infoGroup">
                     <div class="profileInfo-infoGroup__title">Агентство</div>
                     <div class="profileInfo-infoGroup__value">
-                      {{ user.agency ?? 'не указано' }}
+                      {{ user.agency.title ?? 'не указано' }}
                     </div>
                   </div>
 

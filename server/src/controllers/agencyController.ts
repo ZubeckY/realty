@@ -1,11 +1,13 @@
 import 'reflect-metadata'
-import { Param, Body, Get, Post, Put, Delete, OnUndefined, JsonController } from 'routing-controllers'
+import { Param, Body, Get, Post, Put, Delete, OnUndefined, JsonController, UseAfter } from "routing-controllers"
 import { Agency, Address, User, AgencyInvite } from '../entity/index.js'
 import { AppDataSource } from '../connectDataBase.js'
 import * as uuid from 'uuid'
-import { agencyLegalFormTypeText } from "../types/agencyLegalForm";
-import { Role, roleTypeText } from "../types/role";
+import { agencyLegalFormTypeText } from "../types/agencyLegalForm"
+import { Role, roleTypeText } from "../types/role"
+import { checkAuth } from "../middleware/checkAuth"
 
+@UseAfter(checkAuth)
 @JsonController('/agency')
 export class AgencyController {
   @Get('/list')
@@ -49,7 +51,7 @@ export class AgencyController {
     }
   }
 
-  @Post('/create')
+  @Post('/create/')
   async createAgency(@Body() body: any) {
     try {
       const { agency, user, address } = body
@@ -149,7 +151,7 @@ export class AgencyController {
         agency: createAgency,
       }
     } catch (e) {
-      console.log(e);
+      console.log(e)
       return {
         message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
         error: e,
@@ -157,6 +159,7 @@ export class AgencyController {
     }
   }
 
+  /* invite */
   @Post('/invite/list/')
   async getInviteList(@Body() body: any) {
     try {

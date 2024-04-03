@@ -1,7 +1,9 @@
-import { Body, Delete, Get, JsonController, Param, Params, Patch, Post, Req } from 'routing-controllers'
+import { Body, Delete, Get, JsonController, Param, Params, Patch, Post, Req, UseAfter } from "routing-controllers";
 import { AppDataSource } from '../connectDataBase.js'
 import { Agency, News, User } from '../entity/index.js'
+import { checkAuth } from "../middleware/checkAuth"
 
+@UseAfter(checkAuth)
 @JsonController('/news')
 export class NewsController {
   @Post('/create/')

@@ -497,6 +497,7 @@ thead * {
 }
 
 .profilePhoto__wrapper {
+  position: relative;
   display: block;
   width: 240px;
   height: 240px;
@@ -512,6 +513,18 @@ thead * {
   transform: scale(1);
   object-position: 50% 50%;
   border-radius: var(--radius);
+}
+
+.profilePhoto__unknown {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  width: inherit;
+  height: inherit;
+  background: #35353550;
+  border-radius: var(--radius);
+  z-index: 100;
 }
 
 .profileSection {

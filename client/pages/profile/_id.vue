@@ -65,38 +65,7 @@
                         :dark="usableTheme"
                         dense
                     >
-                      <v-list-item
-                          three-line
-                          class="profileCard-devicesList__item pa-1"
-                      >
-                        <v-list-item-content>
-                          <v-list-item-title
-                              class="d-flex flex-row justify-space-between"
-                          >
-                            <div>{{ ud["device"] }}</div>
-                            <div>{{ normalizeLastSeen(ud["lastSeen"]) }}</div>
-                          </v-list-item-title>
-                          <v-list-item-subtitle
-                              class="d-flex flex-row justify-space-between align-center py-1"
-                          >
-                            <div>{{ ud["userAgent"] }}</div>
-                            <div>
-                              <div
-                                  v-if="isCurrentAgent(ud['value'])"
-                                  class="success white--text darken-1 pa-1 radius-small"
-                              >
-                                Текущий
-                              </div>
-                              <v-btn v-else icon small color="error darken-1">
-                                <v-icon>mdi-trash</v-icon>
-                              </v-btn>
-                            </div>
-                          </v-list-item-subtitle>
-                          <v-list-item-subtitle>
-                            {{ ud["ip"] }}
-                          </v-list-item-subtitle>
-                        </v-list-item-content>
-                      </v-list-item>
+                      <profile-device-item :item="ud" @uploadDeviceList="getAuthUserDevices"/>
                     </v-list>
                   </div>
                 </action-dialog>
@@ -381,39 +350,6 @@ export default class Profile extends Vue {
         this.user?.avatar?.src ||
         "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
     )
-  }
-
-  normalizeLastSeen(date: any) {
-    const DATE = new Date(date)
-    const monthList = [
-      "янв",
-      "фев",
-      "мар",
-      "апр",
-      "май",
-      "июн",
-      "июл",
-      "авг",
-      "сен",
-      "окт",
-      "ноя",
-      "дек"
-    ]
-
-    return (
-        DATE.getDate() +
-        " " +
-        monthList[DATE.getMonth()] +
-        " " +
-        DATE.getFullYear()
-    )
-  }
-
-  isCurrentAgent(hash: string) {
-    if (process.client) {
-      const token: any = localStorage.getItem("token")
-      return token.includes(hash)
-    }
   }
 
   async exitFromProfile() {

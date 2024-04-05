@@ -5,7 +5,7 @@ import { checkAuth } from "../middleware/checkAuth"
 
 @UseAfter(checkAuth)
 @JsonController('/lead')
-export class NewsController {
+export class LeadController {
   @Get('/list/')
   async getNewsList(@Body() body: any) {
     try {

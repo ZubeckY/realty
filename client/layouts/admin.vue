@@ -5,11 +5,11 @@
       <div class="main-container" v-if="loading">
         <div class="d-flex justify-center align-center myFullScreen">
           <v-progress-circular
-            color="primary darken-1"
-            :size="80"
-            :rotate="-90"
-            :value="loaderValue"
-            :indeterminate="loaderLoading"
+              color="primary darken-1"
+              :size="80"
+              :rotate="-90"
+              :value="loaderValue"
+              :indeterminate="loaderLoading"
           />
         </div>
       </div>
@@ -28,17 +28,19 @@
     </section>
 
     <action-dialog
-      v-model="needSuccess"
-      @isCanceled="goToProfile"
-      :confirm="true"
+        v-model="needSuccess"
+        @isCanceled="goToProfile"
+        @isConfirm="tryLogin"
+        @changePasswordVal="changePasswordVal"
+        :confirm="true"
     ></action-dialog>
 
     <v-snackbar
-      v-model="snackbar"
-      :color="snackbarColor"
-      :timeout="2000"
-      outlined
-      text
+        v-model="snackbar"
+        :color="snackbarColor"
+        :timeout="2000"
+        outlined
+        text
     >
       {{ snackbarMessage }}
     </v-snackbar>
@@ -46,151 +48,197 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator'
-import { TimesOfDay } from '~/assets/script/functions/timesOfDay'
-import checkAuth from '~/assets/script/functions/checkAuth'
+import { Component, Vue, Watch } from "vue-property-decorator"
+import { TimesOfDay } from "~/assets/script/functions/timesOfDay"
+import checkAuth from "~/assets/script/functions/checkAuth"
+import axiosAuthConfig from "~/assets/script/functions/axiosAuthConfig"
 
 @Component
 export default class Default extends Vue {
-  isConfirmed: boolean = false
+  isConfirmed: boolean = false;
 
-  loading: boolean = true
-  loaderValue: number = 0
-  loaderLoading: boolean = true
+  model: Record<string, string> = {
+    email: "",
+    password: ""
+  };
 
-  snackbar: boolean = false
-  snackbarColor: string = ''
-  snackbarMessage: string = ''
+  loading: boolean = true;
+  loaderValue: number = 0;
+  loaderLoading: boolean = true;
 
-  profileLinks = []
-  currentHeader: string = ''
+  snackbar: boolean = false;
+  snackbarColor: string = "";
+  snackbarMessage: string = "";
 
-  needSuccess: boolean = true
+  profileLinks = [];
+  currentHeader: string = "";
+
+  needSuccess: boolean = true;
 
   user: any = {
     id: 0,
-    firstName: '',
-    lastName: '',
-    email: '',
+    firstName: "",
+    lastName: "",
+    email: "",
     agency: {
-      id: 0,
-    },
-  }
+      id: 0
+    }
+  };
 
   async created() {
     if (process.client) {
-      let user = JSON.parse(JSON.stringify(this.$store.state.user.user))
-      let checkUser = await checkAuth(user)
+      let user = JSON.parse(JSON.stringify(this.$store.state.user.user));
+      let checkUser = await checkAuth(user);
 
       if (!checkUser) {
-        return this.$router.push('/auth/login')
+        return this.$router.push("/auth/login");
       }
 
-      this.user = checkUser
-      await this.$store.dispatch('user/userValues', {
-        payload: checkUser,
-      })
+      this.user = checkUser;
+      await this.$store.dispatch("user/userValues", {
+        payload: checkUser
+      });
 
       this.profileLinks = JSON.parse(
-        JSON.stringify(this.$store.getters['menu/getMenu'])
-      )
+          JSON.stringify(this.$store.getters["menu/getMenu"])
+      );
 
-      this.myRouterController()
+      this.myRouterController();
 
-      this.loaderValue = 0
-      this.loaderLoading = false
-
-      setTimeout(() => {
-        this.loaderValue = 100
-      }, 300)
+      this.loaderValue = 0;
+      this.loaderLoading = false;
 
       setTimeout(() => {
-        this.loading = false
-      }, 900)
+        this.loaderValue = 100;
+      }, 300);
 
       setTimeout(() => {
-        this.setSnackbarValues('success, darken-1', this.getGreetingMessage)
-      }, 1200)
+        this.loading = false;
+      }, 900);
+
+      setTimeout(() => {
+        this.setSnackbarValues("success, darken-1", this.getGreetingMessage);
+      }, 1200);
     }
   }
 
-  @Watch('$route')
+  @Watch("$route")
   myRouterController() {
-    this.checkMenu()
-    this.setHeader()
+    this.checkMenu();
+    this.setHeader();
   }
 
   checkMenu() {
-    const { name, path }: any = this.$router.currentRoute
-    const i = this.findIndexElement(name)
+    const { name, path }: any = this.$router.currentRoute;
+    const i = this.findIndexElement(name);
 
-    const profileLinks: any = this.profileLinks
-    const element = profileLinks[i]
+    const profileLinks: any = this.profileLinks;
+    const element = profileLinks[i];
 
     if (!element) {
       const { position } = profileLinks.reduce(
-        (prev: any, cur: any) => (cur.position > prev.position ? cur : prev),
-        { position: -Infinity }
-      )
-      const newPosition = position + 10
+          (prev: any, cur: any) => (cur.position > prev.position ? cur : prev),
+          { position: -Infinity }
+      );
+      const newPosition = position + 10;
 
       profileLinks.push({
         position: newPosition,
-        icon: 'mdi-file-link-outline',
-        title: 'Новая страница',
+        icon: "mdi-file-link-outline",
+        title: "Новая страница",
         link: path,
         access: true,
         showItem: true,
         routeName: name,
-        headerComponent: '',
-      })
+        headerComponent: ""
+      });
 
-      return (this.profileLinks = profileLinks)
+      return (this.profileLinks = profileLinks);
     }
   }
 
   setHeader() {
-    const { name }: any = this.$router.currentRoute
-    const i = this.findIndexElement(name)
+    const { name }: any = this.$router.currentRoute;
+    const i = this.findIndexElement(name);
     return (this.currentHeader =
-      this.profileLinks[i]['headerComponent'] ?? 'header-default-empty')
+        this.profileLinks[i]["headerComponent"] ?? "header-default-empty");
   }
 
   findIndexElement(value: string) {
     return this.profileLinks.findIndex(
-      (el: Record<string, unknown>) => el.routeName === value
-    )
+        (el: Record<string, unknown>) => el.routeName === value
+    );
   }
 
   get currentBackgroundImage() {
-    const wallpapers = this.$store.state.user.settings.wallpapers
+    const wallpapers = this.$store.state.user.settings.wallpapers;
     return (
-      `background-image: url('` +
-      require('~/static/' + wallpapers + '/' + TimesOfDay().time + '.png') +
-      `')`
-    )
+        `background-image: url('` +
+        require("~/static/" + wallpapers + "/" + TimesOfDay().time + ".png") +
+        `')`
+    );
+  }
+
+  changePasswordVal(value: string) {
+    return this.model.password = value;
+  }
+
+  async tryLogin() {
+    this.model.email = this.userEmail;
+
+    if (process.client) {
+      let authToken = localStorage.getItem("token");
+
+      if (!authToken) {
+        return null
+      }
+
+      await this.$axios.post("/api/admin/login",
+          {
+            model: this.model
+          },
+          {
+            ...axiosAuthConfig(authToken, "", "crm_client")
+          }
+      ).then((data) => {
+        if (data.data.message) {
+          this.setSnackbarValues("error, darken-1", data.data.message);
+          console.log(data.data.error)
+          return
+        }
+
+        this.isConfirmed = true
+        this.needSuccess = false
+        this.setSnackbarValues("success darken-1", 'Успешно');
+      })
+
+    }
   }
 
   get userID() {
-    return JSON.parse(JSON.stringify(this.user.id))
+    return JSON.parse(JSON.stringify(this.user.id));
+  }
+
+  get userEmail() {
+    return JSON.parse(JSON.stringify(this.user.email));
   }
 
   get userName() {
-    return JSON.parse(JSON.stringify(this.user.firstName))
+    return JSON.parse(JSON.stringify(this.user.firstName));
   }
 
   get getGreetingMessage() {
-    return TimesOfDay().greetings + ' ' + this.userName
+    return TimesOfDay().greetings + " " + this.userName;
   }
 
   goToProfile() {
-    this.$router.push('/profile/' + this.userID)
+    this.$router.push("/profile/" + this.userID);
   }
 
   setSnackbarValues(color: string, message: string) {
-    this.snackbar = true
-    this.snackbarColor = color
-    this.snackbarMessage = message
+    this.snackbar = true;
+    this.snackbarColor = color;
+    this.snackbarMessage = message;
   }
 }
 </script>

@@ -26,7 +26,7 @@
                     elevation="0"
                     class="radius-small"
                     :color="usableColor"
-                    @click="editMode = !editMode"
+                    @click="switchEditMode"
                     outlined
                     block
                     small
@@ -34,10 +34,9 @@
                   Редактировать
                 </v-btn>
 
-                <action-dialog v-model="editMode" />
               </div>
 
-              <div class="mt-2" v-if="currentUserItsMe">
+              <div class="mt-2" v-if="currentUserItsMe && !editMode">
                 <v-btn
                     elevation="0"
                     class="radius-small"
@@ -71,7 +70,7 @@
                 </action-dialog>
               </div>
 
-              <div class="mt-2" v-if="currentUserItsMe">
+              <div class="mt-2" v-if="currentUserItsMe && !editMode">
                 <v-btn
                     elevation="0"
                     class="radius-small"
@@ -249,6 +248,7 @@ import axiosAuthConfig from "~/assets/script/functions/axiosAuthConfig"
 @Component
 export default class Profile extends Vue {
   user: any = {}
+  userEdit: any = {}
 
   loading: boolean = true
 
@@ -341,8 +341,28 @@ export default class Profile extends Vue {
     return this.savedUser.id == this.checkIDToValid
   }
 
+  /* EditMode */
+  switchEditMode() {
+    if(!this.editMode) {
+      this.changeEditMode()
+      this.setUserEditMode()
+    } else {
+      this.changeEditMode()
+      this.clearUserEditMode()
+    }
+  }
+
+
   changeEditMode() {
     this.editMode = !this.editMode
+  }
+
+  setUserEditMode() {
+    this.userEdit = this.savedUser
+  }
+
+  clearUserEditMode() {
+    this.userEdit = {}
   }
 
   get profilePhoto() {

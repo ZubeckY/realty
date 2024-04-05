@@ -6,7 +6,7 @@
     :persistent="confirm || persistent"
   >
     <card class="actionDialog__card" :style="'max-width: ' + maxWidth">
-      <v-form class="actionDialog__container">
+      <v-form class="actionDialog__container" v-model="valid">
         <div class="actionDialog__title">{{ title }}</div>
         <div class="actionDialog__text">{{ text }}</div>
 
@@ -28,6 +28,9 @@
               :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
               :type="showPassword ? 'text' : 'password'"
               @click:append="showPassword = !showPassword"
+              :rules="confirm && [rules.password, rules.length(8), rules.required]"
+              @input="changePasswordVal"
+              v-model="passwordValue"
               :dark="usableTheme"
               label="Пароль"
               outlined
@@ -69,6 +72,7 @@
             </v-btn>
 
             <v-btn
+              :disabled="confirm && !valid"
               class="radius-small primary darken-1 white--text"
               elevation="0"
               x-small
@@ -106,7 +110,24 @@ export default class ActionDialog extends Vue {
   @Prop({ default: 'Закрыть' }) cancelText?: string
   @Prop({ default: 'Подтвердить' }) confirmText?: string
 
+  passwordValue: string = ''
   showPassword: boolean = false
+
+  valid: boolean = false
+
+  rules = {
+    length: (len: any) => (v: any) =>
+        (v || '').length >= (len ?? 8) ||
+        `Недопустимая длина символов, требуется ${len} символов`,
+    password: (v: any) =>
+        !!(v || '').match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/) ||
+        'Пароль должен содержать заглавную букву, цифру и специальный символ.',
+    required: (v: any) => !!v || 'Это поле обязательно к заполнению',
+  }
+
+  changePasswordVal() {
+    this.$emit('changePasswordVal', this.passwordValue)
+  }
 
   isConfirm() {
     this.$emit('isConfirm')

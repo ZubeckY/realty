@@ -273,13 +273,26 @@ export default class Profile extends Vue {
   }
 
   async getAuthUserDevices() {
-    await this.$axios
-        .post("/api/auth/get-my-devices/", {
-          id: this.user.id
-        })
+    if (process.client) {
+      let authToken = localStorage.getItem("token");
+
+      if (!authToken) {
+        return null
+      }
+
+      await this.$axios
+        .post("/api/auth/get-my-devices/",
+          {
+            id: this.user.id
+          },
+          {
+            ...axiosAuthConfig(authToken, "", "crm_client")
+          }
+        )
         .then((data) => {
           return (this.deviceList = data.data)
         })
+    }
   }
 
   get checkIDToValid() {
@@ -375,8 +388,13 @@ export default class Profile extends Vue {
   async exitFromProfile() {
     if (process.client) {
       const token: any = localStorage.getItem("token")
+
+
       await this.$axios
-          .post("/api/auth/logout/" + token)
+          .post("/api/auth/logout/" + token,
+            {
+              ...axiosAuthConfig(token, "", "crm_client")
+            })
           .then((data) => {
             localStorage.removeItem("token")
             window.location.reload()

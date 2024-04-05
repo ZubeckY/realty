@@ -1,18 +1,33 @@
-import { Body, Get, JsonController, Param, Post, Req, Res } from 'routing-controllers'
+import { Body, Get, JsonController, Param, Post, Req, Res, UseAfter } from "routing-controllers";
 import { AppDataSource } from '../connectDataBase.js'
 import SecurityService from '../service/securityService.js'
 import TokenService from '../service/tokenService.js'
 import MailService from '../service/mailService.js'
 import OTPService from '../service/OTPService.js'
 import { AuthToken, User } from '../entity/index.js'
+import { roleTypeText } from "../types/role"
 import AuthDto from '../dtos/authDto.js'
 import * as bcrypt from 'bcrypt'
 import * as uuid from 'uuid'
 import config from '../config'
+import { checkAuth } from "../middleware/checkAuth";
 
 // @ts-ignore
 @JsonController('/auth')
 export class AuthController {
+  @Get('/role-type-text/')
+  async getRoleTypeText() {
+    try {
+      return roleTypeText
+    } catch (e) {
+      return {
+        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        error: e,
+      }
+    }
+  }
+
+  @UseAfter(checkAuth)
   @Post('/get-my-devices/')
   async getAuthUserDevices(@Body() body: any) {
     try {
@@ -419,6 +434,7 @@ export class AuthController {
     }
   }
 
+  @UseAfter(checkAuth)
   @Post('/logout/:hash')
   async logout(@Param('hash') hash: string) {
     try {

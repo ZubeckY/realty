@@ -42,7 +42,7 @@ export class ClientController {
   }
 
   @Get('/list/:id')
-  async getNewsListItem(@Param('id') id: number | string) {
+  async getOne(@Param('id') id: number | string) {
     try {
       if (!isNaN(+id)) {
         return {
@@ -71,11 +71,10 @@ export class ClientController {
   }
 
   @Post('/create/')
-  async createLead(@Body() body: any) {
+  async create(@Body() body: any) {
     try {
-      const { agency, user, client, lead } = body
+      const { agency, user, client } = body
       const userRepository = AppDataSource.getRepository(User)
-      const leadRepository = AppDataSource.getRepository(Lead)
       const clientRepository = AppDataSource.getRepository(Client)
       const agencyRepository = AppDataSource.getRepository(Agency)
 
@@ -95,33 +94,34 @@ export class ClientController {
           })
         : null
 
-      let clientFinal: any = {}
+      if (!userFromDB) {
+        return {
+          message: 'Пользователь указан неверно'
+        }
+      }
 
       const clientFromDB = await clientRepository.findOneBy({
         fullName: client.fullName,
         phone: client.phone,
+        agency: {
+          id: agencyFromDB.id
+        }
       })
 
-      if (!clientFromDB) {
-        clientFinal = new Client()
-        clientFinal.fullName = client.fullName
-        clientFinal.phone = client.phone
-        clientFinal.company = client.company ?? ''
-        clientFinal.comment = client.comment ?? ''
-
-        await clientRepository.save(clientFinal)
-      } else {
-        clientFinal = clientFromDB
+      if (clientFromDB) {
+        return {
+          message: 'Такой пользователь уже есть'
+        }
       }
 
-      const leadCreate = new Lead()
+      const createClient = new Client()
+      createClient.fullName = client.fullName
+      createClient.phone = client.phone
+      createClient.company = client.company
+      createClient.comment = client.comment
+      createClient.agency = agencyFromDB
 
-      leadCreate.stage = 'new'
-      leadCreate.comment = lead.comment
-      leadCreate.client = clientFinal
-      leadCreate.manager = userFromDB
-
-      return await leadRepository.save(leadCreate)
+      return await clientRepository.save(createClient)
     } catch (e) {
       return {
         message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',

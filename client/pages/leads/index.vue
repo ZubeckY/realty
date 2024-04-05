@@ -36,6 +36,12 @@
         </td>
       </template>
 
+      <template v-slot:item.created="{ item }">
+        <td class="text-start text-no-wrap">
+          {{ normalizeCreated(item["created"]) }}
+        </td>
+      </template>
+
       <template v-slot:item.actions="{ item }">
         <td class="text-start text-no-wrap">
           <div class="d-flex">
@@ -52,6 +58,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { ColorTheme } from '~/assets/script/functions/colorTheme'
 import axiosAuthConfig from "~/assets/script/functions/axiosAuthConfig";
+import { normalizeDate } from "~/assets/script/functions/norlamizeDate";
 
 @Component
 export default class Leads extends Vue {
@@ -65,7 +72,7 @@ export default class Leads extends Vue {
   leads: any = []
   headers: any = [
     { text: 'id', value: 'id' },
-    { text: 'Имя Фамилия', value: 'name' },
+    { text: 'Имя Фамилия', value: 'fullName' },
     { text: 'Телефон', value: 'phone' },
     { text: 'Комментарий', value: 'comment' },
     { text: 'Стадия в воронке', value: 'status' },
@@ -105,6 +112,10 @@ export default class Leads extends Vue {
     this.snackbar = true;
     this.snackbarColor = color;
     this.snackbarMessage = message;
+  }
+
+  normalizeCreated(date: any) {
+    return normalizeDate(date)
   }
 
   get usableBlock() {

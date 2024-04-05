@@ -42,6 +42,7 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator"
+import { normalizeDate } from "~/assets/script/functions/norlamizeDate";
 
 @Component({})
 export default class DeviceItem extends Vue {
@@ -49,29 +50,7 @@ export default class DeviceItem extends Vue {
   deleteDialog: boolean = false
 
   normalizeLastSeen(date: any) {
-    const DATE = new Date(date)
-    const monthList = [
-      "янв",
-      "фев",
-      "мар",
-      "апр",
-      "май",
-      "июн",
-      "июл",
-      "авг",
-      "сен",
-      "окт",
-      "ноя",
-      "дек"
-    ]
-
-    return (
-        DATE.getDate() +
-        " " +
-        monthList[DATE.getMonth()] +
-        " " +
-        DATE.getFullYear()
-    )
+    return normalizeDate(date)
   }
 
   isCurrentAgent(hash: string) {

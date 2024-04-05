@@ -4,13 +4,13 @@ import SecurityService from '../service/securityService.js'
 import TokenService from '../service/tokenService.js'
 import MailService from '../service/mailService.js'
 import OTPService from '../service/OTPService.js'
+import { checkAuth } from "../middleware/checkAuth"
 import { AuthToken, User } from '../entity/index.js'
 import { roleTypeText } from "../types/role"
 import AuthDto from '../dtos/authDto.js'
 import * as bcrypt from 'bcrypt'
 import * as uuid from 'uuid'
 import config from '../config'
-import { checkAuth } from "../middleware/checkAuth";
 
 // @ts-ignore
 @JsonController('/auth')

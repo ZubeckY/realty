@@ -30,6 +30,12 @@
         </td>
       </template>
 
+      <template v-slot:item.created="{ item }">
+        <td class="text-start text-no-wrap">
+          {{ normalizeCreated(item["created"]) }}
+        </td>
+      </template>
+
       <template v-slot:item.actions="{ item }">
         <td class="text-start text-no-wrap">
           <v-icon small color="primary darken-1" class="mr-2"
@@ -57,6 +63,7 @@
 import { Component, Vue } from "vue-property-decorator"
 import { ColorTheme } from "~/assets/script/functions/colorTheme"
 import axiosAuthConfig from "~/assets/script/functions/axiosAuthConfig"
+import { normalizeDate } from "~/assets/script/functions/norlamizeDate";
 
 @Component
 export default class Clients extends Vue {
@@ -70,9 +77,10 @@ export default class Clients extends Vue {
   clients: any = [];
   headers: any = [
     { text: "id", value: "id" },
-    { text: "Имя Фамилия", value: "name" },
-    { text: "Телефон", value: "phone" },
+    { text: "Имя Фамилия", value: "fullName" },
     { text: "Компания", value: "company" },
+    { text: "Телефон", value: "phone" },
+    { text: 'Комментарий', value: 'comment' },
     { text: "Дата создания", value: "created" },
     { text: "", value: "actions", sortable: false }
   ];
@@ -101,7 +109,6 @@ export default class Clients extends Vue {
         this.clients = data.data;
         this.loading = false
       });
-
     }
   }
 
@@ -109,6 +116,10 @@ export default class Clients extends Vue {
     this.snackbar = true;
     this.snackbarColor = color;
     this.snackbarMessage = message;
+  }
+
+  normalizeCreated(date: any) {
+    return normalizeDate(date)
   }
 
   get usableBlock() {

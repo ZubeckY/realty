@@ -1,4 +1,6 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Agency } from './index.js'
+import * as typeorm from "typeorm"
 
 @Entity()
 export class Client {
@@ -16,6 +18,14 @@ export class Client {
 
   @Column({ comment: 'Комментарий' })
   comment?: string
+
+  @ManyToOne(() => Agency, (agency) => agency.id, {
+    cascade: true,
+    nullable: true,
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn()
+  agency?: typeorm.Relation<Agency> | null
 
   @CreateDateColumn({ comment: 'Дата создания' })
   created!: Date

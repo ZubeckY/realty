@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
-import { User, Client } from './index.js'
+import { User, Client, Agency } from './index.js'
 import * as typeorm from 'typeorm'
 
 @Entity()
@@ -20,6 +20,14 @@ export class Lead {
   })
   @JoinColumn()
   client?: typeorm.Relation<Client> | null
+
+  @ManyToOne(() => Agency, (agency) => agency.id, {
+    cascade: true,
+    nullable: true,
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn()
+  agency?: typeorm.Relation<Agency> | null
 
   @ManyToOne(() => User, (user) => user.id, {
     cascade: true,

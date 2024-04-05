@@ -1,19 +1,19 @@
 <template>
   <div>
     <v-skeleton-loader
-      v-if="loading"
-      :dark="usableTheme"
-      type="table"
+        v-if="loading"
+        :dark="usableTheme"
+        type="table"
     ></v-skeleton-loader>
 
     <v-data-table
-      v-else
-      :dark="usableTheme"
-      :headers="headers"
-      :items="clients"
-      :search="search"
-      :class="'custom-table ' + usableBlock"
-      :footer-props="{
+        v-else
+        :dark="usableTheme"
+        :headers="headers"
+        :items="clients"
+        :search="search"
+        :class="'custom-table ' + usableBlock"
+        :footer-props="{
         showFirstLastPage: true,
         firstIcon: 'mdi-arrow-collapse-left',
         lastIcon: 'mdi-arrow-collapse-right',
@@ -22,7 +22,7 @@
         itemsPerPageText: 'Кол-во элементов',
         itemsPerPageOptions: [10, 25, 50, 100, -1],
       }"
-      dense
+        dense
     >
       <template v-slot:item.phone="{ item }">
         <td class="text-start text-no-wrap">
@@ -33,85 +33,90 @@
       <template v-slot:item.actions="{ item }">
         <td class="text-start text-no-wrap">
           <v-icon small color="primary darken-1" class="mr-2"
-            >mdi-pencil
+          >mdi-pencil
           </v-icon>
           <v-icon small color="error darken-1">mdi-delete</v-icon>
         </td>
       </template>
     </v-data-table>
+
+    <v-snackbar
+        v-model="snackbar"
+        :color="snackbarColor"
+        :timeout="2000"
+        outlined
+        text
+    >
+      {{ snackbarMessage }}
+    </v-snackbar>
+
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import { ColorTheme } from '~/assets/script/functions/colorTheme'
+import { Component, Vue } from "vue-property-decorator"
+import { ColorTheme } from "~/assets/script/functions/colorTheme"
+import axiosAuthConfig from "~/assets/script/functions/axiosAuthConfig"
 
 @Component
 export default class Clients extends Vue {
-  loading: boolean = true
+  loading: boolean = true;
+  search: string = "";
 
-  search: string = ''
+  snackbar: boolean = false;
+  snackbarColor: string = "";
+  snackbarMessage: string = "";
+
+  clients: any = [];
   headers: any = [
-    { text: 'id', value: 'id' },
-    { text: 'Имя Фамилия', value: 'name' },
-    { text: 'Телефон', value: 'phone' },
-    { text: 'Компания', value: 'company' },
-    { text: 'Дата создания', value: 'created' },
-    { text: '', value: 'actions', sortable: false },
-  ]
+    { text: "id", value: "id" },
+    { text: "Имя Фамилия", value: "name" },
+    { text: "Телефон", value: "phone" },
+    { text: "Компания", value: "company" },
+    { text: "Дата создания", value: "created" },
+    { text: "", value: "actions", sortable: false }
+  ];
 
-  clients: any = []
+  async created() {
+    if (process.client) {
+      let authToken = localStorage.getItem("token")
+      const agencyID = JSON.parse(JSON.stringify(this.$store.state.user.user.agency.id))
 
-  created() {
-    // todo запрос на бек
-    setTimeout(() => {
-      this.clients = [
-        {
-          id: 1,
-          name: 'Имя Фамилия',
-          phone: '+7(900)-000-00-01',
-          company: 'Компания А',
-          created: '32.05.2024',
-        },
-        {
-          id: 2,
-          name: 'Иван Васильевич',
-          phone: '+7(800)-555-35-35',
-          company: '',
-          created: '32.05.2024',
-        },
-        {
-          id: 3,
-          name: 'просто Григорий',
-          phone: '+7(666)-666-66-66',
-          company: 'просто, всё просто',
-          created: '32.05.2024',
-        },
-        {
-          id: 4,
-          name: 'Купи Продай',
-          phone: '+7(777)-666-66-77',
-          company: 'Шота у Ашота',
-          created: '32.05.2024',
-        },
-        {
-          id: 5,
-          name: 'Василий Иваныч',
-          phone: '+7(999)-666-69-69',
-          company: '',
-          created: '32.05.2024',
-        },
-      ]
-      this.loading = false
-    }, 300)
+      if (!authToken) {
+        return null;
+      }
+
+      await this.$axios.post("/api/client/list/", {
+            agency_id: agencyID
+          },
+          {
+            ...axiosAuthConfig(authToken, "", "crm_client")
+          }).then((data) => {
+        if (data.data?.message) {
+          this.setSnackbarValues("error darken-1", data.data.message);
+          console.log(data.data.error);
+          return;
+        }
+
+        this.clients = data.data;
+        this.loading = false
+      });
+
+    }
+  }
+
+  setSnackbarValues(color: string, message: string) {
+    this.snackbar = true;
+    this.snackbarColor = color;
+    this.snackbarMessage = message;
   }
 
   get usableBlock() {
-    return new ColorTheme().block()
+    return new ColorTheme().block();
   }
 
   get usableTheme() {
-    return new ColorTheme().isDark()
+    return new ColorTheme().isDark();
   }
 }
 </script>

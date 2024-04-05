@@ -243,6 +243,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator"
 import { ColorTheme } from "~/assets/script/functions/colorTheme"
+import { userPhoto } from "~/assets/script/functions/userPhoto"
 import axiosAuthConfig from "~/assets/script/functions/axiosAuthConfig"
 
 @Component
@@ -379,10 +380,7 @@ export default class Profile extends Vue {
   }
 
   get profilePhoto() {
-    return (
-        this.user?.avatar?.src ||
-        "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
-    )
+    return userPhoto(this.user?.avatar?.src)
   }
 
   async exitFromProfile() {

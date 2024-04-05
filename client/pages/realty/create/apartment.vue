@@ -21,7 +21,7 @@
           tile
         >
           <v-btn
-            v-for="(item, i) in secondaryBuildingParams.marketTypeText"
+            v-for="(item, i) in secondaryBuildingParams['marketTypeText']"
             :key="'marketType-' + i"
             :value="item[0]"
             class="ma-0"
@@ -45,7 +45,7 @@
           tile
         >
           <v-btn
-            v-for="(item, i) in secondaryBuildingParams.saleOptionsTypeText"
+            v-for="(item, i) in secondaryBuildingParams['saleOptionsTypeText']"
             :key="'saleOption-' + i"
             :value="item[0]"
             class="ma-0"
@@ -69,7 +69,7 @@
           tile
         >
           <v-btn
-            v-for="(item, i) in secondaryBuildingParams.statusTypeText"
+            v-for="(item, i) in secondaryBuildingParams['statusTypeText']"
             :key="'status-' + i"
             :value="item[0]"
             class="ma-0"
@@ -93,7 +93,7 @@
           tile
         >
           <v-btn
-            v-for="(item, i) in secondaryBuildingParams.operationTypeText"
+            v-for="(item, i) in secondaryBuildingParams['operationTypeText']"
             :key="'operationType-' + i"
             :value="item[0]"
             class="ma-0"
@@ -120,7 +120,7 @@
           tile
         >
           <v-btn
-            v-for="(item, i) in secondaryBuildingParams.dealTypeText"
+            v-for="(item, i) in secondaryBuildingParams['dealTypeText']"
             :key="'dealType-' + i"
             :value="item[0]"
             class="ma-0"
@@ -137,7 +137,7 @@
         <div class="createRealty__title">Услуга продвижения Avito</div>
         <div class="small-input mr-3">
           <v-autocomplete
-            :items="secondaryBuildingParams.adStatusTypeText"
+            :items="secondaryBuildingParams['adStatusTypeText']"
             v-model="model.adStatus"
             label="Продвижение на Avito"
             item-value="item[1]"
@@ -233,7 +233,7 @@
           tile
         >
           <v-btn
-            v-for="(item, i) in secondaryBuildingParams.renovationTypeText"
+            v-for="(item, i) in secondaryBuildingParams['renovationTypeText']"
             :key="'renovationType-' + i"
             :value="item[0]"
             class="ma-0"
@@ -260,7 +260,7 @@
           tile
         >
           <v-btn
-            v-for="(item, i) in secondaryBuildingParams.roomTypeText"
+            v-for="(item, i) in secondaryBuildingParams['roomTypeText']"
             :key="'roomType-' + i"
             :value="item[0]"
             class="ma-0"
@@ -333,7 +333,7 @@
           tile
         >
           <v-btn
-            v-for="(item, i) in secondaryBuildingParams.inHouseTypeText"
+            v-for="(item, i) in secondaryBuildingParams['inHouseTypeText']"
             :key="'inHouse-' + i"
             :value="item[0]"
             class="ma-0"
@@ -358,8 +358,9 @@
           dense
           tile
         >
+
           <v-btn
-            v-for="(item, i) in secondaryBuildingParams.leaseAppliancesTypeText"
+            v-for="(item, i) in secondaryBuildingParams['leaseAppliancesTypeText']"
             :key="'leaseAppliance-' + i"
             :value="item[0]"
             class="ma-0"
@@ -385,7 +386,7 @@
           tile
         >
           <v-btn
-            v-for="(item, i) in secondaryBuildingParams.SSAdditionallyTypeText"
+            v-for="(item, i) in secondaryBuildingParams['SSAdditionallyTypeText']"
             :key="'SSAdditionally-' + i"
             :value="item[0]"
             class="ma-0"
@@ -411,7 +412,7 @@
           tile
         >
           <v-btn
-            v-for="(item, i) in secondaryBuildingParams.NDAdditionallyTypeText"
+            v-for="(item, i) in secondaryBuildingParams['NDAdditionallyTypeText']"
             :key="'NDAdditionally-' + i"
             :value="item[0]"
             class="ma-0"
@@ -454,8 +455,28 @@ import { Component, Vue } from 'vue-property-decorator'
 export default class CreateApartment extends Vue {
   params: Record<string, any> = {}
 
-  newBuildingParams: any | null = {}
-  secondaryBuildingParams: any | null = {}
+  newBuildingParams: any = {}
+  secondaryBuildingParams: any = {
+    adStatusTypeText: [],
+    operationTypeText: [],
+    marketTypeText: [],
+    houseTypeText: [],
+    statusTypeText: [],
+    roomTypeText: [],
+    renovationTypeText: [],
+    propertyRightsTypeText: [],
+    dealTypeText: [],
+    balconyOrLoggiaTypeText: [],
+    leaseAppliancesTypeText: [],
+    viewFromWindowsTypeText: [],
+    courtyardTypeText: [],
+    bathroomMultiTypeText: [],
+    saleOptionsTypeText: [],
+    NDAdditionallyTypeText: [],
+    inHouseTypeText: [],
+    SSAdditionallyTypeText: [],
+    contactMethodTypeText: [],
+  }
 
   rules = {
     email: (v: any) =>
@@ -532,82 +553,86 @@ export default class CreateApartment extends Vue {
     if (!this.params['secondaryBuildingParams']) {
       return (this.secondaryBuildingParams = null)
     }
+
     // Услуга продвижения Авито
-    this.defineNewPropParams('adStatusTypeText', 'adStatusTypeText')
-
+    this.secondaryBuildingParams['adStatusTypeText'] = Object.entries(
+        this.params['secondaryBuildingParams']['adStatusTypeText']
+    )
     // Тип объявления
-    this.defineNewPropParams('operationTypeText', 'operationTypeText')
-
+    this.secondaryBuildingParams['operationTypeText'] = Object.entries(
+        this.params['secondaryBuildingParams']['operationTypeText']
+    )
     // Принадлежность к рынку
-    this.defineNewPropParams('marketTypeText', 'marketTypeText')
-
+    this.secondaryBuildingParams['marketTypeText'] = Object.entries(
+        this.params['secondaryBuildingParams']['marketTypeText']
+    )
     // Тип дома
-    this.defineNewPropParams('houseTypeText', 'houseTypeText')
-
+    this.secondaryBuildingParams['houseTypeText'] = Object.entries(
+        this.params['secondaryBuildingParams']['houseTypeText']
+    )
     // Статус недвижимости
-    this.defineNewPropParams('statusTypeText', 'statusTypeText')
-
+    this.secondaryBuildingParams['statusTypeText'] = Object.entries(
+        this.params['secondaryBuildingParams']['statusTypeText']
+    )
     // Тип комнат
-    this.defineNewPropParams('roomTypeText', 'roomTypeText')
-
+    this.secondaryBuildingParams['roomTypeText'] = Object.entries(
+        this.params['secondaryBuildingParams']['roomTypeText']
+    )
     // Ремонт
-    this.defineNewPropParams('renovationTypeText', 'renovationTypeText')
-
+    this.secondaryBuildingParams['renovationTypeText'] = Object.entries(
+        this.params['secondaryBuildingParams']['renovationTypeText']
+    )
     // Право собственности
-    this.defineNewPropParams('propertyRightsTypeText', 'propertyRightsTypeText')
-
+    this.secondaryBuildingParams['propertyRightsTypeText'] = Object.entries(
+        this.params['secondaryBuildingParams']['propertyRightsTypeText']
+    )
     // Тип сделки
-    this.defineNewPropParams('dealTypeText', 'dealTypeText')
-
+    this.secondaryBuildingParams['dealTypeText'] = Object.entries(
+        this.params['secondaryBuildingParams']['dealTypeText']
+    )
     // Балкон или лоджия
-    this.defineNewPropParams(
-      'balconyOrLoggiaTypeText',
-      'balconyOrLoggiaTypeText'
+    this.secondaryBuildingParams['balconyOrLoggiaTypeText'] = Object.entries(
+        this.params['secondaryBuildingParams']['balconyOrLoggiaTypeText']
     )
-
     // Бытовая техника
-    this.defineNewPropParams(
-      'leaseAppliancesTypeText',
-      'leaseAppliancesTypeText'
+    this.secondaryBuildingParams['leaseAppliancesTypeText'] = Object.entries(
+        this.params['secondaryBuildingParams']['leaseAppliancesTypeText']
     )
-
     // Вид из окон
-    this.defineNewPropParams(
-      'viewFromWindowsTypeText',
-      'viewFromWindowsTypeText'
+    this.secondaryBuildingParams['viewFromWindowsTypeText'] = Object.entries(
+        this.params['secondaryBuildingParams']['viewFromWindowsTypeText']
     )
-
     // Двор
-    this.defineNewPropParams('courtyardTypeText', 'courtyardTypeText')
-
+    this.secondaryBuildingParams['courtyardTypeText'] = Object.entries(
+        this.params['secondaryBuildingParams']['courtyardTypeText']
+    )
     // Санузел
-    this.defineNewPropParams('bathroomMultiTypeText', 'bathroomMultiTypeText')
-
+    this.secondaryBuildingParams['bathroomMultiTypeText'] = Object.entries(
+        this.params['secondaryBuildingParams']['bathroomMultiTypeText']
+    )
     // Способ продажи
-    this.defineNewPropParams('saleOptionsTypeText', 'saleOptionsTypeText')
-
+    this.secondaryBuildingParams['saleOptionsTypeText'] = Object.entries(
+        this.params['secondaryBuildingParams']['saleOptionsTypeText']
+    )
     // Дополнительно
-    this.defineNewPropParams('NDAdditionallyTypeText', 'NDAdditionallyTypeText')
-
+    this.secondaryBuildingParams['NDAdditionallyTypeText'] = Object.entries(
+        this.params['secondaryBuildingParams']['NDAdditionallyTypeText']
+    )
     // В доме
-    this.defineNewPropParams('inHouseTypeText', 'inHouseTypeText')
-
+    this.secondaryBuildingParams['inHouseTypeText'] = Object.entries(
+        this.params['secondaryBuildingParams']['inHouseTypeText']
+    )
     // Дополнительно
-    this.defineNewPropParams('SSAdditionallyTypeText', 'SSAdditionallyTypeText')
-
+    this.secondaryBuildingParams['SSAdditionallyTypeText'] = Object.entries(
+        this.params['secondaryBuildingParams']['SSAdditionallyTypeText']
+    )
     // Способ связи
-    this.defineNewPropParams('contactMethodTypeText', 'contactMethodTypeText')
-
+    this.secondaryBuildingParams['contactMethodTypeText'] = Object.entries(
+        this.params['secondaryBuildingParams']['contactMethodTypeText']
+    )
     // Запрещаем дальнейшее редактирование объекта
     Object.preventExtensions(this.secondaryBuildingParams)
     Object.freeze(this.secondaryBuildingParams)
-  }
-
-  defineNewPropParams(prop: string, value: string) {
-    return Object.defineProperty(this['secondaryBuildingParams'], prop, {
-      value: Object.entries(this.params['secondaryBuildingParams'][value]),
-      writable: false,
-    })
   }
 }
 </script>

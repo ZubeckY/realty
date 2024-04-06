@@ -1,6 +1,6 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { User, Agency, File } from './index.js'
 import * as typeorm from 'typeorm'
-import { User, Agency } from './index.js'
 
 @Entity()
 export class News {
@@ -8,13 +8,21 @@ export class News {
   id!: number
 
   @Column({ comment: 'Текст поста' })
-  text?: string
+  text!: string
 
   @Column({ comment: 'Видео с ютуб', nullable: true })
   youtube?: string
 
   @Column('varchar', { array: true, comment: 'Тэги поста', nullable: true })
   tags?: string[]
+
+  @ManyToOne(() => File, (file) => file.id, {
+    cascade: true,
+    nullable: true,
+    onDelete: 'CASCADE',
+  })
+  @JoinTable()
+  images?: typeorm.Relation<File>[]
 
   @ManyToOne(() => User, (user) => user.id, {
     cascade: true,

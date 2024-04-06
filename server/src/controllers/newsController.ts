@@ -56,8 +56,8 @@ export class NewsController {
     }
   }
 
-  @Get('/list/')
-  async getNewsList(@Body() body: any) {
+  @Post('/list/')
+  async getList(@Body() body: any) {
     try {
       const { agency_id } = body
 
@@ -76,13 +76,14 @@ export class NewsController {
 
       const { id } = agencyFromDB
 
-      return await newsRepository.find({
-        where: {
-          agency: {
-            id: id,
-          },
-        },
-      })
+      return await newsRepository
+        .createQueryBuilder('news')
+        .leftJoinAndSelect('news.user', 'user')
+        .leftJoinAndSelect('news.agency', 'agency')
+        .leftJoinAndSelect('news.images', 'images')
+        .where('news.agency.id = :agencyId', { agencyId: id })
+        .getMany();
+
     } catch (e) {
       return {
         message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',

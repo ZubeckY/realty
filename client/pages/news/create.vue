@@ -3,6 +3,9 @@
     <h3>Добавление новости</h3>
 
     <card class="mb-3">
+
+      <pre v-text="model"></pre>
+
       <div class="createRealty__group mt-3">
         <div class="createRealty__title">Ссылка на видео Youtube</div>
         <div class="mr-3">
@@ -75,8 +78,9 @@
             v-model="model.files"
             :dark="usableTheme"
             :disabled="disabled"
-            prepend-icon=""
             prepend-inner-icon="mdi-upload"
+            prepend-icon=""
+            accept="image/*"
             small-chips
             show-size
             multiple
@@ -145,7 +149,11 @@ export default class Create extends Vue {
   }
 
   async createOne() {
-    if (this.model.text === '' && this.model.youtube === '' && this.model.files.length <= 0) {
+    if (
+      this.model.text === '' &&
+      this.model.youtube === '' &&
+      this.model.files.length <= 0
+    ) {
       return this.setSnackbarValues(
         'error darken-1',
         'Одно из перечисленных значений: ссылка на youtube / текст / фото, должно быть заполнено'
@@ -166,9 +174,11 @@ export default class Create extends Vue {
 
   @Watch('videoModel')
   videoMarkup(): string {
-    return this.getId(this.videoModel) ? (this.model.youtube = this.videoModel
-      ? '//www.youtube.com/embed/' + this.getId(this.videoModel)
-      : '') : ''
+    return this.getId(this.videoModel)
+      ? (this.model.youtube = this.videoModel
+          ? '//www.youtube.com/embed/' + this.getId(this.videoModel)
+          : '')
+      : ''
   }
 
   setSnackbarValues(color: string, message: string) {

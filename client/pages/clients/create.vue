@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h3 :class="usableText">Добавление клиента</h3>
-
     <card class="mb-3">
+      <h3 :class="usableText">Добавление клиента</h3>
+      
       <div class="createClient__group mt-3">
         <div class="createRealty__title">Фио клиента</div>
         <div class="mr-3">

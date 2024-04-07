@@ -196,7 +196,6 @@ thead * {
   padding: 5px;
   border-radius: var(--radius);
   z-index: 100;
-
 }
 
 .card.dark {
@@ -211,7 +210,6 @@ thead * {
   box-shadow: 0 0 6px var(--bkg__dark);
 }
 
-
 /* radius */
 .radius {
   border-radius: var(--radius) !important;
@@ -223,6 +221,50 @@ thead * {
 
 .radius-null {
   border-radius: 0 !important;
+}
+
+/* create */
+.createRealty__title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.createRealty__uploadList {
+  display: flex;
+  overflow: auto;
+}
+
+.createRealty__uploadItem {
+  display: flex;
+  width: 150px;
+  align-items: center;
+  flex-direction: column;
+}
+
+.createRealty__uploadItem + .createRealty__uploadItem {
+  margin-left: 13px;
+}
+
+.createRealty__uploadItem img {
+  display: block;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+
+.createRealty__uploadTitle {
+  position: relative;
+  width: 150px;
+  font-size: 16px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.createRealty__title.required::after {
+  content: ' *';
+  color: red;
 }
 
 /* dialog */

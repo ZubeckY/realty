@@ -1,10 +1,7 @@
 <template>
   <div>
-    <h3>Добавление новости</h3>
-
     <card class="mb-3">
-
-      <pre v-text="model"></pre>
+      <h3 :class="usableText">Добавление новости</h3>
 
       <div class="createRealty__group mt-3">
         <div class="createRealty__title">Ссылка на видео Youtube</div>
@@ -38,7 +35,7 @@
                 <v-icon small>mdi-help-circle-outline</v-icon>
               </v-btn>
             </template>
-            <div>Тэги отображаются внизу поста, помогают проще найти</div>
+            <div>Тэги отображаются внизу поста через запятую</div>
           </v-tooltip>
         </div>
         <div class="mr-3">
@@ -62,7 +59,7 @@
             :dark="usableTheme"
             :disabled="disabled"
             type="text"
-            rows="2"
+            rows="3"
             outlined
             counter
             dense
@@ -74,6 +71,7 @@
         <div class="createRealty__title">Фото</div>
         <div class="mr-3">
           <v-file-input
+            @change="previewImage"
             truncate-length="24"
             v-model="model.files"
             :dark="usableTheme"
@@ -89,6 +87,26 @@
             dense
             chips
           />
+        </div>
+
+        <div class="createRealty__uploadList mb-3">
+          <div
+            class="createRealty__uploadItem"
+            v-for="(src, i) in url_list"
+            :key="'image-' + i"
+          >
+            <div class="createRealty__uploadButtons">
+              <v-btn> < </v-btn>
+              <v-btn> > </v-btn>
+              <v-btn> X </v-btn>
+            </div>
+
+            <img :src="src" alt="#" />
+
+            <div class="createRealty__uploadTitle">
+              {{ imageTitle(model.files[i].name) }}
+            </div>
+          </div>
         </div>
       </div>
 
@@ -122,7 +140,7 @@
       outlined
       text
     >
-      {{ snackbarMessage }}
+      <span v-html="snackbarMessage"></span>
     </v-snackbar>
   </div>
 </template>
@@ -148,15 +166,19 @@ export default class Create extends Vue {
     files: [],
   }
 
+  url_list: any = []
+
   async createOne() {
-    if (
-      this.model.text === '' &&
-      this.model.youtube === '' &&
-      this.model.files.length <= 0
-    ) {
+    if (this.model.text === '') {
       return this.setSnackbarValues(
         'error darken-1',
-        'Одно из перечисленных значений: ссылка на youtube / текст / фото, должно быть заполнено'
+        `
+          Одно из перечисленных значений:
+          <ul>
+            <li>текст</li>
+          </ul>
+           должно быть заполнено
+          `
       )
     }
 
@@ -181,10 +203,24 @@ export default class Create extends Vue {
       : ''
   }
 
+  previewImage() {
+    this.url_list = []
+    for (let i = 0; i < this.model.files.length; i++) {
+      let item = this.model.files[i]
+      this.url_list.push(URL.createObjectURL(item))
+    }
+  }
+
   setSnackbarValues(color: string, message: string) {
     this.snackbar = true
     this.snackbarColor = color
     this.snackbarMessage = message
+  }
+
+  imageTitle(value: string) {
+    return value.length >= 18
+      ? value.substr(0, 10) + '...' + value.substring(value.length - 6)
+      : value
   }
 
   get usableTheme() {
@@ -193,6 +229,10 @@ export default class Create extends Vue {
 
   get usableColor() {
     return new ColorTheme().color()
+  }
+
+  get usableText() {
+    return new ColorTheme().text()
   }
 }
 </script>

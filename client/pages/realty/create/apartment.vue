@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h3>Добавление квартиры</h3>
-
     <card class="my-3">
+      <h3 :class="usableText">Добавление квартиры</h3>
+
       <div class="createRealty__group">
         <div class="createRealty__title required">Адрес</div>
       </div>
@@ -450,6 +450,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { ColorTheme } from "~/assets/script/functions/colorTheme";
 
 @Component
 export default class CreateApartment extends Vue {
@@ -634,17 +635,9 @@ export default class CreateApartment extends Vue {
     Object.preventExtensions(this.secondaryBuildingParams)
     Object.freeze(this.secondaryBuildingParams)
   }
+
+  get usableText() {
+    return new ColorTheme().text()
+  }
 }
 </script>
-<style>
-.createRealty__title {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 8px;
-}
-
-.createRealty__title.required::after {
-  content: ' *';
-  color: red;
-}
-</style>

@@ -21,5 +21,10 @@ const config = {
   SMTP_PORT: 587,
   SMTP_USER: 'help.realtycrm@gmail.com',
   SMTP_PASSWORD: 'scry vpcs akwe lacf',
+  //
+  CLOUD_BUCKET: 'realty',
+  CLOUD_ACCESS_KEY: 'tPTu2LiAhBjXAuD7pCDKcV',
+  CLOUD_SECRET_KEY: '6mjk9EhK1urBMusA3ZP1XyoJcsaFnTMRfWFe9PZcR2Tt'
+
 }
 export default config

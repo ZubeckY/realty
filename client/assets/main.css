@@ -271,7 +271,6 @@ thead * {
     padding: 3px 5px;
     align-items: center;
     opacity: .4;
-    background: var(--bkg__light);
     transition: opacity ease-in .1s;
     border-radius: var(--radius) var(--radius) 0 0;
 }

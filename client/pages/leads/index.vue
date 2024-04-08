@@ -25,12 +25,6 @@
       }"
       dense
     >
-      <template v-slot:item.phone="{ item }">
-        <td class="text-start text-no-wrap">
-          {{ item.phone }}
-        </td>
-      </template>
-
       <template v-slot:item.status="{ item }">
         <td class="text-start">
           <leads-status v-model="item.status" />
@@ -44,12 +38,10 @@
       </template>
 
       <template v-slot:item.actions="{ item }">
-        <td class="text-start text-no-wrap">
-          <div class="d-flex">
-            <leads-edit />
-            <leads-delete />
-          </div>
-        </td>
+        <div class="d-flex">
+          <leads-edit />
+          <leads-delete />
+        </div>
       </template>
     </v-data-table>
 
@@ -83,8 +75,8 @@ export default class Leads extends Vue {
   leads: any = []
   headers: any = [
     { text: 'id', value: 'id' },
-    { text: 'Имя Фамилия', value: 'fullName' },
-    { text: 'Телефон', value: 'phone' },
+    { text: 'Имя Фамилия', value: 'client.fullName' },
+    { text: 'Телефон', value: 'client.phone' },
     { text: 'Тип недвижимости', value: 'realtyType' },
     { text: 'Район', value: 'district' },
     { text: 'Микрорайон', value: 'microDistrict' },
@@ -97,7 +89,7 @@ export default class Leads extends Vue {
     { text: '', value: 'actions', sortable: false },
   ]
 
-   async created() {
+  async created() {
     if (process.client) {
       let authToken = localStorage.getItem('token')
       const agencyID = JSON.parse(

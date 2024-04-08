@@ -23,6 +23,8 @@
         <div class="mr-3">
           <v-text-field
               v-model="model.phone"
+              v-mask="'+7(###)-###-##-##'"
+              @click="changePhoneValue"
               :dark="usableTheme"
               :disabled="disabled"
               type="text"
@@ -99,7 +101,7 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator"
+import { Vue, Component, Watch } from "vue-property-decorator";
 import { ColorTheme } from "~/assets/script/functions/colorTheme"
 import axiosAuthConfig from "~/assets/script/functions/axiosAuthConfig"
 
@@ -158,6 +160,13 @@ export default class Create extends Vue {
             this.$router.push('/clients')
           }, 1000)
         }))
+    }
+  }
+
+  @Watch('model.phone')
+  changePhoneValue() {
+    if (this.model.phone == '') {
+      this.model.phone = '+7('
     }
   }
 

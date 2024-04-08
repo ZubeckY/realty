@@ -13,9 +13,9 @@
 
         <div>
           <v-text-field label="Телефон"
-                        @click="setValue"
                         v-model="model.phone"
                         v-mask="'+7(###)-###-##-##'"
+                        @click="changePhoneValue"
                         type="text"
                         outlined
                         dense />
@@ -47,15 +47,15 @@ import { Component, VModel, Vue, Watch } from "vue-property-decorator";
 
 export default class LeadsForm extends Vue {
   model: Record<string, unknown> = {
-    phone: '+7('
+    phone: ''
   }
 
-  setValue() {
-    if (this.model.phone === '') {
-      this.model.phone = "+7("
+  @Watch('model.phone')
+  changePhoneValue() {
+    if (this.model.phone == '') {
+      this.model.phone = '+7('
     }
   }
-
 };
 </script>
 <style>

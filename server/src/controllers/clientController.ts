@@ -129,6 +129,10 @@ export class ClientController {
       createLead.client = newClient
       createLead.agency = agencyFromDB
 
+      await leadRepository.save(createLead)
+
+      return true
+
     } catch (e) {
       return {
         message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',

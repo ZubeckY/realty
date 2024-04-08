@@ -38,12 +38,12 @@
       </template>
 
       <template v-slot:item.actions="{ item }">
-        <td class="text-start text-no-wrap">
-          <v-icon small color="primary darken-1" class="mr-2"
-            >mdi-pencil
+        <div class="d-flex">
+          <v-icon small color="primary darken-1" class="mr-2">
+            mdi-pencil
           </v-icon>
-          <v-icon small color="error darken-1">mdi-delete</v-icon>
-        </td>
+          <v-icon small color="error darken-1"> mdi-delete </v-icon>
+        </div>
       </template>
     </v-data-table>
 

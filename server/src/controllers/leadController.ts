@@ -26,13 +26,12 @@ export class LeadController {
 
       const { id } = agencyFromDB
 
-      return await leadRepository.find({
-        where: {
-          agency: {
-            id: id,
-          },
-        },
-      })
+      return await leadRepository
+        .createQueryBuilder('lead')
+        .leftJoinAndSelect('lead.client', 'client')
+        .leftJoinAndSelect('lead.agency', 'agency')
+        .where('lead.agency.id = :agencyId', { agencyId: id })
+        .getMany();
     } catch (e) {
       return {
         message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',

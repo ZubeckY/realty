@@ -74,6 +74,7 @@ export class ClientController {
   async create(@Body() body: any) {
     try {
       const { agency, user, client } = body
+      const leadRepository = AppDataSource.getRepository(Lead)
       const userRepository = AppDataSource.getRepository(User)
       const clientRepository = AppDataSource.getRepository(Client)
       const agencyRepository = AppDataSource.getRepository(Agency)
@@ -121,7 +122,13 @@ export class ClientController {
       createClient.comment = client.comment
       createClient.agency = agencyFromDB
 
-      return await clientRepository.save(createClient)
+      const newClient = await clientRepository.save(createClient)
+
+      const createLead = new Lead()
+      createLead.status = 'new_client'
+      createLead.client = newClient
+      createLead.agency = agencyFromDB
+
     } catch (e) {
       return {
         message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
@@ -130,47 +137,47 @@ export class ClientController {
     }
   }
 
-  @Patch('/patch/:id')
-  async editNews(@Req() req: any, @Body() body: any, @Param('id') id: number | string) {
-    try {
-      if (!isNaN(+id)) {
-        return {
-          message: 'Передано некорректное значение',
-        }
-      }
-      const { model } = body
-
-      const leadRepository = AppDataSource.getRepository(Lead)
-      const newsItemFromDB = await leadRepository.findOneBy({
-        id: +id,
-      })
-
-      if (!newsItemFromDB) {
-        return {
-          message: 'Запись не найдена',
-        }
-      }
-
-      const { text, tags, youtube } = model
-      newsItemFromDB.text = text ?? newsItemFromDB.text
-      newsItemFromDB.youtube = youtube ?? newsItemFromDB.youtube
-      newsItemFromDB.tags = [...tags] ?? newsItemFromDB.tags
-
-      await leadRepository.save(newsItemFromDB)
-
-      return {
-        message: 'Успешно изменено',
-      }
-    } catch (e) {
-      return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
-        error: e,
-      }
-    }
-  }
+  // @Patch('/patch/:id')
+  // async edit(@Req() req: any, @Body() body: any, @Param('id') id: number | string) {
+  //   try {
+  //     if (!isNaN(+id)) {
+  //       return {
+  //         message: 'Передано некорректное значение',
+  //       }
+  //     }
+  //     const { model } = body
+  //
+  //     const leadRepository = AppDataSource.getRepository(Lead)
+  //     const newsItemFromDB = await leadRepository.findOneBy({
+  //       id: +id,
+  //     })
+  //
+  //     if (!newsItemFromDB) {
+  //       return {
+  //         message: 'Запись не найдена',
+  //       }
+  //     }
+  //
+  //     const { text, tags, youtube } = model
+  //     newsItemFromDB.text = text ?? newsItemFromDB.text
+  //     newsItemFromDB.youtube = youtube ?? newsItemFromDB.youtube
+  //     newsItemFromDB.tags = [...tags] ?? newsItemFromDB.tags
+  //
+  //     await leadRepository.save(newsItemFromDB)
+  //
+  //     return {
+  //       message: 'Успешно изменено',
+  //     }
+  //   } catch (e) {
+  //     return {
+  //       message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+  //       error: e,
+  //     }
+  //   }
+  // }
 
   @Delete('/delete/:id')
-  async deleteNews(@Param('id') id: number | string) {
+  async delete(@Param('id') id: number | string) {
     try {
       if (!isNaN(+id)) {
         return {
@@ -179,19 +186,28 @@ export class ClientController {
       }
 
       const leadRepository = AppDataSource.getRepository(Lead)
-      const newsItemFromDB = await leadRepository.findOneBy({
+      const clientRepository = AppDataSource.getRepository(Client)
+      const clientFromDB = await clientRepository.findOneBy({
         id: +id,
       })
 
-      if (!newsItemFromDB) {
-        return {}
+      if (!clientFromDB) {
+        return {
+          message: 'Клинет не найден'
+        }
       }
 
-      await leadRepository.remove(newsItemFromDB)
+      const leadFromDB = await leadRepository.findOneBy({
+        client: {
+          id: clientFromDB.id
+        }
+      })
 
-      return {
-        message: 'Новость успешно удалена',
+      if (leadFromDB) {
+        await leadRepository.remove(leadFromDB)
       }
+
+      return await clientRepository.remove(clientFromDB)
     } catch (e) {
       return {
         message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',

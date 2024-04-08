@@ -25,22 +25,22 @@ export class Lead {
   realtyType?: Category
 
   @Column({ comment: 'Район' })
-  district!: string
+  district?: string
 
   @Column({ comment: 'Микрорайон' })
-  microDistrict!: string
+  microDistrict?: string
 
   @Column({ comment: 'Готовность объекта' })
-  objectReadiness!: string
+  objectReadiness?: string
 
   @Column({ comment: 'Цель покупки' })
-  purposeOfPurchase!: string
+  purposeOfPurchase?: string
 
   @Column({ comment: 'Способ оплаты' })
-  paymentMethod!: string
+  paymentMethod?: string
 
   @Column({ comment: 'Стадия в воронке' })
-  status!: string
+  status?: string
 
   @Column({ comment: 'Комментарий', nullable: true })
   comment?: string

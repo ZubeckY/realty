@@ -110,7 +110,7 @@ export default class Leads extends Vue {
 
       await this.$axios
         .post(
-          '/api/client/list/',
+          '/api/lead/list/',
           {
             agency_id: agencyID,
           },

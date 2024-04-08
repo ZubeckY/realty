@@ -1,13 +1,13 @@
-import { Body, Delete, Get, JsonController, Param, Params, Patch, Post, Req, UseAfter } from "routing-controllers";
+import { Body, Delete, Get, JsonController, Param, Params, Patch, Post, Req, UseAfter } from 'routing-controllers'
 import { AppDataSource } from '../connectDataBase.js'
 import { Agency, News, User } from '../entity/index.js'
-import { checkAuth } from "../middleware/checkAuth"
+import { checkAuth } from '../middleware/checkAuth'
 
 @UseAfter(checkAuth)
 @JsonController('/news')
 export class NewsController {
   @Post('/create/')
-  async createNews(@Body() body: any) {
+  async create(@Body() body: any) {
     try {
       const { agency, user, model } = body
       const userRepository = AppDataSource.getRepository(User)
@@ -43,11 +43,7 @@ export class NewsController {
       newsItem.user = userFromDB
       newsItem.agency = agencyFromDB
 
-      await newsRepository.save(newsItem)
-
-      return {
-        message: 'Новость успешно создана',
-      }
+      return await newsRepository.save(newsItem)
     } catch (e) {
       return {
         message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
@@ -82,8 +78,7 @@ export class NewsController {
         .leftJoinAndSelect('news.agency', 'agency')
         .leftJoinAndSelect('news.images', 'images')
         .where('news.agency.id = :agencyId', { agencyId: id })
-        .getMany();
-
+        .getMany()
     } catch (e) {
       return {
         message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
@@ -93,7 +88,7 @@ export class NewsController {
   }
 
   @Get('/list/:id')
-  async getNewsListItem(@Param('id') id: number | string) {
+  async getOne(@Param('id') id: number | string) {
     try {
       if (!isNaN(+id)) {
         return {
@@ -122,7 +117,7 @@ export class NewsController {
   }
 
   @Patch('/patch/:id')
-  async editNews(@Req() req: any, @Body() body: any, @Param('id') id: number | string) {
+  async edit(@Req() req: any, @Body() body: any, @Param('id') id: number | string) {
     try {
       if (!isNaN(+id)) {
         return {
@@ -147,11 +142,7 @@ export class NewsController {
       newsItemFromDB.youtube = youtube ?? newsItemFromDB.youtube
       newsItemFromDB.tags = [...tags] ?? newsItemFromDB.tags
 
-      await newsRepository.save(newsItemFromDB)
-
-      return {
-        message: 'Успешно изменено',
-      }
+      return await newsRepository.save(newsItemFromDB)
     } catch (e) {
       return {
         message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
@@ -161,7 +152,7 @@ export class NewsController {
   }
 
   @Delete('/delete/:id')
-  async deleteNews(@Param('id') id: number | string) {
+  async delete(@Param('id') id: number | string) {
     try {
       if (!isNaN(+id)) {
         return {
@@ -178,11 +169,7 @@ export class NewsController {
         return {}
       }
 
-      await newsRepository.remove(newsItemFromDB)
-
-      return {
-        message: 'Новость успешно удалена',
-      }
+      return await newsRepository.remove(newsItemFromDB)
     } catch (e) {
       return {
         message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',

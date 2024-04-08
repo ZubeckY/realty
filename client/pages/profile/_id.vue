@@ -7,64 +7,79 @@
             <div class="profilePhoto-container">
               <div class="profilePhoto__wrapper">
                 <img
-                    class="profilePhoto__img"
-                    alt="profilePhoto-avatar"
-                    :src="profilePhoto"
+                  class="profilePhoto__img"
+                  alt="profilePhoto-avatar"
+                  :src="profilePhoto"
                 />
 
-                <div v-if="!user" class="profilePhoto__unknown d-flex justify-center align-center">
+                <div
+                  v-if="!user"
+                  class="profilePhoto__unknown d-flex justify-center align-center"
+                >
                   <v-icon size="90">mdi-help</v-icon>
                 </div>
               </div>
 
               <div v-if="!user">
-                <h4 class="profileCard-title text-center mt-2 mb-1">Пользователь не найден!</h4>
+                <h4 class="profileCard-title text-center mt-2 mb-1">
+                  Пользователь не найден!
+                </h4>
               </div>
 
-              <div class="mt-2" v-if="currentUserItsMe">
+              <div
+                class="mt-2"
+                v-if="currentUserItsMe || (userAdmin && isOurAgency)"
+              >
                 <v-btn
-                    elevation="0"
-                    class="radius-small"
-                    :color="usableColor"
-                    @click="switchEditMode"
-                    outlined
-                    block
-                    small
+                  elevation="0"
+                  class="radius-small"
+                  :color="usableColor"
+                  @click="switchEditMode"
+                  outlined
+                  block
+                  small
                 >
                   Редактировать
                 </v-btn>
-
               </div>
 
-              <div class="mt-2" v-if="currentUserItsMe && !editMode">
+              <div
+                class="mt-2"
+                v-if="
+                  (currentUserItsMe || (userAdmin && isOurAgency)) && !editMode
+                "
+              >
                 <v-btn
-                    elevation="0"
-                    class="radius-small"
-                    :color="usableColor"
-                    @click="devicesList = !devicesList"
-                    outlined
-                    block
-                    small
+                  elevation="0"
+                  class="radius-small"
+                  :color="usableColor"
+                  @click="devicesList = !devicesList"
+                  outlined
+                  block
+                  small
                 >
                   Устройства входа
                 </v-btn>
 
                 <action-dialog
-                    v-model="devicesList"
-                    title="Активные устройства входа"
-                    text=""
-                    :popup="true"
+                  v-model="devicesList"
+                  title="Активные устройства входа"
+                  text=""
+                  :popup="true"
                 >
                   <div class="profileCard-devicesList">
                     <v-list
-                        v-for="ud in deviceList"
-                        :key="'user-device-item-' + ud.id"
-                        class="profileCard-devicesList__container"
-                        color="transparent"
-                        :dark="usableTheme"
-                        dense
+                      v-for="ud in deviceList"
+                      :key="'user-device-item-' + ud.id"
+                      class="profileCard-devicesList__container"
+                      color="transparent"
+                      :dark="usableTheme"
+                      dense
                     >
-                      <profile-device-item :item="ud" @uploadDeviceList="getAuthUserDevices"/>
+                      <profile-device-item
+                        :item="ud"
+                        @uploadDeviceList="getAuthUserDevices"
+                      />
                     </v-list>
                   </div>
                 </action-dialog>
@@ -72,22 +87,22 @@
 
               <div class="mt-2" v-if="currentUserItsMe && !editMode">
                 <v-btn
-                    elevation="0"
-                    class="radius-small"
-                    color="error darken-1"
-                    @click="exitDialog = !exitDialog"
-                    outlined
-                    block
-                    small
+                  elevation="0"
+                  class="radius-small"
+                  color="error darken-1"
+                  @click="exitDialog = !exitDialog"
+                  outlined
+                  block
+                  small
                 >
                   Выйти из профиля
                 </v-btn>
 
                 <action-dialog
-                    v-model="exitDialog"
-                    title="Выйти из профиля?"
-                    text="Вы действительно хотите выйти из профиля?"
-                    @isConfirm="exitFromProfile"
+                  v-model="exitDialog"
+                  title="Выйти из профиля?"
+                  text="Вы действительно хотите выйти из профиля?"
+                  @isConfirm="exitFromProfile"
                 />
               </div>
             </div>
@@ -102,21 +117,21 @@
                   <div class="profileInfo-infoGroup mr-2">
                     <div class="profileInfo-infoGroup__title">Имя</div>
                     <div class="profileInfo-infoGroup__value">
-                      {{ user.firstName ?? "" }}
+                      {{ user.firstName ?? '' }}
                     </div>
                   </div>
 
                   <div class="profileInfo-infoGroup">
                     <div class="profileInfo-infoGroup__title">Фамилия</div>
                     <div class="profileInfo-infoGroup__value">
-                      {{ user.lastName ?? "" }}
+                      {{ user.lastName ?? '' }}
                     </div>
                   </div>
 
                   <div class="profileInfo-infoGroup">
                     <div class="profileInfo-infoGroup__title">Отчество</div>
                     <div class="profileInfo-infoGroup__value">
-                      {{ user.patronymic ?? "не указано" }}
+                      {{ user.patronymic ?? 'не указано' }}
                     </div>
                   </div>
 
@@ -125,14 +140,14 @@
                       Дата рождения
                     </div>
                     <div class="profileInfo-infoGroup__value">
-                      {{ user.dateBirthday ?? "не указано" }}
+                      {{ user.dateBirthday ?? 'не указано' }}
                     </div>
                   </div>
 
                   <div class="profileInfo-infoGroup mr-2">
                     <div class="profileInfo-infoGroup__title">О себе</div>
                     <div class="profileInfo-infoGroup__value">
-                      {{ user.aboutMe ?? "" }}
+                      {{ user.aboutMe ?? '' }}
                     </div>
                   </div>
                 </div>
@@ -145,9 +160,9 @@
                   <div class="profileInfo-infoGroup">
                     <div class="profileInfo-infoGroup__title">Телефон</div>
                     <div class="profileInfo-infoGroup__value">
-                      <a v-if="user.phone" :href="'tel:' + user.phone">{{
-                          user.phone ?? "не указано"
-                        }}</a>
+                      <a v-if="user.phone" :href="'tel:' + user.phone">
+                        {{ user.phone ?? 'не указано' }}
+                      </a>
                       <span v-else>не указано</span>
                     </div>
                   </div>
@@ -161,7 +176,10 @@
                 </div>
               </card>
 
-              <card class="profileCard mb-2">
+              <card
+                class="profileCard mb-2"
+                v-if="currentUserItsMe || isOurAgency"
+              >
                 <div class="profileCard-container">
                   <h4 class="profileCard-title mb-2">
                     Корпоративная информация
@@ -170,21 +188,21 @@
                   <div class="profileInfo-infoGroup">
                     <div class="profileInfo-infoGroup__title">Роль</div>
                     <div class="profileInfo-infoGroup__value">
-                      {{ user.role ?? "" }}
+                      {{ user.role ?? '' }}
                     </div>
                   </div>
 
                   <div class="profileInfo-infoGroup">
                     <div class="profileInfo-infoGroup__title">Агентство</div>
                     <div class="profileInfo-infoGroup__value">
-                      {{ userAgency ?? "" }}
+                      {{ userAgency ?? '' }}
                     </div>
                   </div>
 
                   <div class="profileInfo-infoGroup">
                     <div class="profileInfo-infoGroup__title">Должность</div>
                     <div class="profileInfo-infoGroup__value">
-                      {{ user.jobTitle ?? "не указано" }}
+                      {{ user.jobTitle ?? 'не указано' }}
                     </div>
                   </div>
                 </div>
@@ -192,7 +210,10 @@
             </div>
 
             <div v-if="user">
-              <card class="profileCard ml-2 mb-2">
+              <card
+                class="profileCard ml-2 mb-2"
+                v-if="currentUserItsMe || (userAdmin && isOurAgency)"
+              >
                 <div class="profileCard-container">
                   <h4 class="profileCard-title mb-2">Эффективность</h4>
 
@@ -201,7 +222,7 @@
                       Кол-во продаж
                     </div>
                     <div class="profileInfo-infoGroup__value">
-                      {{ user.numberOfSales ?? "" }}
+                      {{ user.numberOfSales ?? '' }}
                     </div>
                   </div>
 
@@ -210,14 +231,14 @@
                       Тариф менеджера
                     </div>
                     <div class="profileInfo-infoGroup__value">
-                      {{ user.coefficient ?? "" }}
+                      {{ user.coefficient ?? '' }}
                     </div>
                   </div>
 
                   <div class="profileInfo-infoGroup">
                     <div class="profileInfo-infoGroup__title">Сумма продаж</div>
                     <div class="profileInfo-infoGroup__value">
-                      {{ user.amountSales ?? "" }}
+                      {{ user.amountSales ?? '' }}
                     </div>
                   </div>
                 </div>
@@ -226,25 +247,24 @@
           </section>
 
           <v-snackbar
-              v-model="snackbar"
-              :color="snackbarColor"
-              :timeout="2000"
-              outlined
-              text
+            v-model="snackbar"
+            :color="snackbarColor"
+            :timeout="2000"
+            outlined
+            text
           >
             {{ snackbarMessage }}
           </v-snackbar>
-
         </div>
       </div>
     </div>
   </section>
 </template>
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator"
-import { ColorTheme } from "~/assets/script/functions/colorTheme"
-import { userPhoto } from "~/assets/script/functions/userPhoto"
-import axiosAuthConfig from "~/assets/script/functions/axiosAuthConfig"
+import { Component, Vue } from 'vue-property-decorator'
+import { ColorTheme } from '~/assets/script/functions/colorTheme'
+import { userPhoto } from '~/assets/script/functions/userPhoto'
+import axiosAuthConfig from '~/assets/script/functions/axiosAuthConfig'
 
 @Component
 export default class Profile extends Vue {
@@ -257,15 +277,15 @@ export default class Profile extends Vue {
   exitDialog: boolean = false
 
   snackbar: boolean = false
-  snackbarColor: string = ""
-  snackbarMessage: string = ""
+  snackbarColor: string = ''
+  snackbarMessage: string = ''
 
   deviceList: any = []
   devicesList: boolean = false
 
   async created() {
     let currentRoute = this.$router.currentRoute.path
-    let array = currentRoute.split("/")
+    let array = currentRoute.split('/')
     let id = array[array.length - 1]
 
     if (!Number(id)) return
@@ -275,19 +295,20 @@ export default class Profile extends Vue {
 
   async getAuthUserDevices() {
     if (process.client) {
-      let authToken = localStorage.getItem("token");
+      let authToken = localStorage.getItem('token')
 
       if (!authToken) {
         return null
       }
 
       await this.$axios
-        .post("/api/auth/get-my-devices/",
+        .post(
+          '/api/auth/get-my-devices/',
           {
-            id: this.user.id
+            id: this.user.id,
           },
           {
-            ...axiosAuthConfig(authToken, "", "crm_client")
+            ...axiosAuthConfig(authToken, '', 'crm_client'),
           }
         )
         .then((data) => {
@@ -297,12 +318,12 @@ export default class Profile extends Vue {
   }
 
   get checkIDToValid() {
-    const route: string[] = this.$router.currentRoute.path.split("/")
+    const route: string[] = this.$router.currentRoute.path.split('/')
     const numericNeedID = route[route.length - 1]
 
     // Проверяем на цифру
     if (!Number.isInteger(Number(numericNeedID))) {
-      return console.log("Неверное значение id")
+      return console.log('Неверное значение id')
     }
 
     return +numericNeedID
@@ -319,31 +340,31 @@ export default class Profile extends Vue {
     }
 
     if (process.client) {
-      let authToken = localStorage.getItem("token")
+      let authToken = localStorage.getItem('token')
 
       if (!authToken) {
         return null
       }
 
       await this.$axios
-          .get(
-              "/api/user/" + this.checkIDToValid,
-              {
-                ...axiosAuthConfig(authToken, "", "crm_client")
-              }
-          )
-          .then((data: any) => {
-            if (data.data?.message) {
-              this.setSnackbarValues("error darken-1", data.data.message)
-              console.log(data.data.error)
-              return
-            }
+        .get('/api/user/' + this.checkIDToValid, {
+          ...axiosAuthConfig(authToken, '', 'crm_client'),
+        })
+        .then((data: any) => {
+          if (data.data?.message) {
+            this.setSnackbarValues('error darken-1', data.data.message)
+            console.log(data.data.error)
+            return
+          }
 
-            return this.user = data.data.user
-          })
-          .finally(() => {
-            this.loading = false
-          })
+          return this.user = data.data
+        })
+        .finally(async () => {
+          if (this.userAdmin && this.isOurAgency) {
+            await this.getAuthUserDevices()
+          }
+          this.loading = false
+        })
     }
   }
 
@@ -357,7 +378,7 @@ export default class Profile extends Vue {
 
   /* EditMode */
   switchEditMode() {
-    if(!this.editMode) {
+    if (!this.editMode) {
       this.changeEditMode()
       this.setUserEditMode()
     } else {
@@ -365,7 +386,6 @@ export default class Profile extends Vue {
       this.clearUserEditMode()
     }
   }
-
 
   changeEditMode() {
     this.editMode = !this.editMode
@@ -385,21 +405,19 @@ export default class Profile extends Vue {
 
   async exitFromProfile() {
     if (process.client) {
-      const token: any = localStorage.getItem("token")
-
+      const token: any = localStorage.getItem('token')
 
       await this.$axios
-          .post("/api/auth/logout/" + token,
-            {
-              ...axiosAuthConfig(token, "", "crm_client")
-            })
-          .then((data) => {
-            localStorage.removeItem("token")
-            window.location.reload()
-          })
-          .catch((e) => {
-            console.log(e)
-          })
+        .post('/api/auth/logout/' + token, {
+          ...axiosAuthConfig(token, '', 'crm_client'),
+        })
+        .then((data) => {
+          localStorage.removeItem('token')
+          window.location.reload()
+        })
+        .catch((e) => {
+          console.log(e)
+        })
     }
   }
 
@@ -407,8 +425,16 @@ export default class Profile extends Vue {
     if (this.user.agency) {
       return this.user.agency.title
     } else {
-      return "не указано"
+      return 'не указано'
     }
+  }
+
+  get userAdmin() {
+    return this.savedUser.role === 'admin'
+  }
+
+  get isOurAgency() {
+    return this.savedUser.agency.id === this.user?.agency?.id
   }
 
   setSnackbarValues(color: string, message: string) {

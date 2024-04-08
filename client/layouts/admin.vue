@@ -171,12 +171,21 @@ export default class Default extends Vue {
   }
 
   get currentBackgroundImage() {
-    const wallpapers = this.$store.state.user.settings.wallpapers;
-    return (
+    const wallpapers = this.$store.state.user.settings.wallpapers
+
+    let result =
+      `background-image: url('` +
+      require('~/static/' + wallpapers + '/' + TimesOfDay().time + '.png') +
+      `')`
+
+    setInterval(() => {
+      result =
         `background-image: url('` +
-        require("~/static/" + wallpapers + "/" + TimesOfDay().time + ".png") +
+        require('~/static/' + wallpapers + '/' + TimesOfDay().time + '.png') +
         `')`
-    );
+    }, 30 * 60 * 1000)
+
+    return result
   }
 
   changePasswordVal(value: string) {

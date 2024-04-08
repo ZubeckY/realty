@@ -25,7 +25,7 @@ export default class Auth extends Vue {
         `background-image: url('` +
         require('~/static/' + wallpapers + '/' + TimesOfDay().time + '.png') +
         `')`
-    }, 60 * 60 * 1000)
+    }, 30 * 60 * 1000)
 
     return result
   }

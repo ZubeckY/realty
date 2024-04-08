@@ -12,6 +12,7 @@
       :headers="headers"
       :items="leads"
       :search="search"
+      no-data-text="Нет данных"
       :class="'custom-table ' + usableBlock"
       :footer-props="{
         showFirstLastPage: true,
@@ -38,7 +39,7 @@
 
       <template v-slot:item.created="{ item }">
         <td class="text-start text-no-wrap">
-          {{ normalizeCreated(item["created"]) }}
+          {{ normalizeCreated(item['created']) }}
         </td>
       </template>
 
@@ -51,23 +52,33 @@
         </td>
       </template>
     </v-data-table>
+
+    <v-snackbar
+      v-model="snackbar"
+      :color="snackbarColor"
+      :timeout="2000"
+      outlined
+      text
+    >
+      {{ snackbarMessage }}
+    </v-snackbar>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { ColorTheme } from '~/assets/script/functions/colorTheme'
-import axiosAuthConfig from "~/assets/script/functions/axiosAuthConfig";
-import { normalizeDate } from "~/assets/script/functions/norlamizeDate";
+import axiosAuthConfig from '~/assets/script/functions/axiosAuthConfig'
+import { normalizeDate } from '~/assets/script/functions/norlamizeDate'
 
 @Component
 export default class Leads extends Vue {
-  loading: boolean = true;
-  search: string = "";
+  loading: boolean = true
+  search: string = ''
 
-  snackbar: boolean = false;
-  snackbarColor: string = "";
-  snackbarMessage: string = "";
+  snackbar: boolean = false
+  snackbarColor: string = ''
+  snackbarMessage: string = ''
 
   leads: any = []
   headers: any = [
@@ -80,38 +91,44 @@ export default class Leads extends Vue {
     { text: '', value: 'actions', sortable: false },
   ]
 
-  async created() {
+   async created() {
     if (process.client) {
-      let authToken = localStorage.getItem("token");
-      const agencyID = JSON.parse(JSON.stringify(this.$store.state.user.user.agency.id));
+      let authToken = localStorage.getItem('token')
+      const agencyID = JSON.parse(
+        JSON.stringify(this.$store.state.user.user.agency.id)
+      )
 
       if (!authToken) {
-        return null;
+        return null
       }
 
-      await this.$axios.post("/api/client/list/", {
-            agency_id: agencyID
+      await this.$axios
+        .post(
+          '/api/client/list/',
+          {
+            agency_id: agencyID,
           },
           {
-            ...axiosAuthConfig(authToken, "", "crm_client")
-          }).then((data) => {
-        if (data.data?.message) {
-          this.setSnackbarValues("error darken-1", data.data.message);
-          console.log(data.data.error);
-          return;
-        }
+            ...axiosAuthConfig(authToken, '', 'crm_client'),
+          }
+        )
+        .then((data) => {
+          if (data.data?.message) {
+            this.setSnackbarValues('error darken-1', data.data.message)
+            console.log(data.data.error)
+            return
+          }
 
-        this.leads = data.data;
-        this.loading = false
-      });
-
+          this.leads = data.data
+          this.loading = false
+        })
     }
   }
 
   setSnackbarValues(color: string, message: string) {
-    this.snackbar = true;
-    this.snackbarColor = color;
-    this.snackbarMessage = message;
+    this.snackbar = true
+    this.snackbarColor = color
+    this.snackbarMessage = message
   }
 
   normalizeCreated(date: any) {

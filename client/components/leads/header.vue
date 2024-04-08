@@ -1,14 +1,25 @@
 <template>
-  <div class="d-flex flex-row" style="width: 100%;">
+  <div class="d-flex flex-row" style="width: 100%">
     <!-- Создать -->
-    <v-btn @click="$router.push('/leads/create')"
-           color="white" elevation="0" x-small fab>
+    <v-btn
+      @click="$router.push('/leads/create')"
+      color="white"
+      elevation="0"
+      x-small
+      fab
+    >
       <v-icon color="primary darken-1">mdi-plus-box-outline</v-icon>
     </v-btn>
 
     <!-- Выгрузка -->
-    <v-btn @click="$router.push('/leads/upload')"
-           class="mx-2" color="white" elevation="0" x-small fab>
+    <v-btn
+      @click="$router.push('/leads/upload')"
+      class="mx-2"
+      color="white"
+      elevation="0"
+      x-small
+      fab
+    >
       <v-icon color="primary darken-1">mdi-upload-box-outline</v-icon>
     </v-btn>
 
@@ -19,9 +30,8 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator"
+import { Component, Vue } from 'vue-property-decorator'
 
 @Component
-export default class LeadsHeader extends Vue {
-};
+export default class LeadsHeader extends Vue {}
 </script>

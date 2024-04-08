@@ -28,7 +28,7 @@ export const state = () => ({
       access: 'agency',
       showItem: true,
       routeName: "todo",
-      headerComponent: ""
+      headerComponent: "todo-header"
     },
     {
       position: 40,

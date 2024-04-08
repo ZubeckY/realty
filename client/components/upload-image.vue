@@ -1,6 +1,6 @@
 <template>
-  <div :class="'createRealty__uploadItem ' + isDisabled">
-    <div class="createRealty__uploadButtons">
+  <div :class="'create__uploadItem ' + isDisabled">
+    <div class="create__uploadButtons">
       <v-spacer />
 
       <v-btn @click="cancelOrDelete" elevation="0" color="white" x-small fab>
@@ -10,7 +10,7 @@
 
     <img :src="previewImage()" alt="#" />
 
-    <div v-if="!item.uploaded" class="createRealty__uploadProgress">
+    <div v-if="!item.uploaded" class="create__uploadProgress">
       <v-progress-linear
         color="primary darken-1"
         :value="progress"
@@ -19,7 +19,7 @@
       />
     </div>
 
-    <div class="createRealty__uploadTitle">
+    <div class="create__uploadTitle">
       {{ imageTitle(item.file.name) }}
     </div>
   </div>

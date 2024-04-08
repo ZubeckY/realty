@@ -2,9 +2,9 @@
   <div>
     <card class="mb-3">
       <h3 :class="usableText">Добавление клиента</h3>
-      
+
       <div class="createClient__group mt-3">
-        <div class="createRealty__title">Фио клиента</div>
+        <div class="create__title">Фио клиента</div>
         <div class="mr-3">
           <v-text-field
               v-model="model.fullName"
@@ -19,7 +19,7 @@
       </div>
 
       <div class="createClient__group mt-3">
-        <div class="createRealty__title">Телефон</div>
+        <div class="create__title">Телефон</div>
         <div class="mr-3">
           <v-text-field
               v-model="model.phone"
@@ -34,7 +34,7 @@
       </div>
 
       <div class="createClient__group mt-3">
-        <div class="createRealty__title">Компания</div>
+        <div class="create__title">Компания</div>
         <div class="mr-3">
           <v-text-field
               v-model="model.company"
@@ -48,8 +48,8 @@
         </div>
       </div>
 
-      <div class="createRealty__group">
-        <div class="createRealty__title">Комментарий</div>
+      <div class="create__group">
+        <div class="create__title">Комментарий</div>
         <div class="mr-3">
           <v-textarea
               v-model="model.comment"
@@ -64,7 +64,7 @@
         </div>
       </div>
 
-      <div class="createRealty__group mb-3">
+      <div class="create__group mb-3">
         <v-btn
             :color="usableColor"
             :loading="loading"

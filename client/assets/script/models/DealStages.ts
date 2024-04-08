@@ -1,4 +1,4 @@
-export enum Stages {
+export enum DealStages {
   new_client = 'потенциальный клиент',
   no_answer = 'нет ответа',
   is_warmed_up = 'покупатель прогрет',

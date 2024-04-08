@@ -1,140 +1,138 @@
 <template>
   <div>
-    <div class="small-input">
-      <v-text-field
-        v-model="newTask"
-        label="Впишите сюда новую задачу"
-        @keydown.enter="create"
-        :dark="usableTheme"
-        outlined
-        dense
-      >
-        <template v-slot:append>
-          <v-fade-transition>
-            <v-icon
-              v-if="newTask"
-              @click="create"
-            >
-              mdi-plus-circle
-            </v-icon>
-          </v-fade-transition>
-        </template>
-      </v-text-field>
-    </div>
+    <v-skeleton-loader
+      v-if="loading"
+      :dark="usableTheme"
+      type="table"
+    ></v-skeleton-loader>
 
-    <h2 class="text-h4 success--text pl-4">
-      Задачи:&nbsp;
-      <v-fade-transition leave-absolute>
-        <span :key="`tasks-${tasks.length}`">
-          {{ tasks.length }}
-        </span>
-      </v-fade-transition>
-    </h2>
-
-    <v-divider class="mt-4"></v-divider>
-
-    <v-row
-      class="my-1"
-      align="center"
+    <v-data-table
+      v-else
+      :dark="usableTheme"
+      :headers="headers"
+      :items="todoList"
+      no-data-text="Нет данных"
+      :class="'custom-table ' + usableBlock"
+      :footer-props="{
+        showFirstLastPage: true,
+        firstIcon: 'mdi-arrow-collapse-left',
+        lastIcon: 'mdi-arrow-collapse-right',
+        prevIcon: 'mdi-minus',
+        nextIcon: 'mdi-plus',
+        itemsPerPageText: 'Кол-во элементов',
+        itemsPerPageOptions: [10, 25, 50, 100, -1],
+      }"
+      dense
     >
-      <strong class="mx-4 info--text text--darken-2">
-        Текущие: {{ remainingTasks }}
-      </strong>
+      <template v-slot:item.status="{ item }">
+        <td class="text-start">
+          <leads-status v-model="item.status" />
+        </td>
+      </template>
 
-      <v-divider vertical></v-divider>
+      <template v-slot:item.created="{ item }">
+        <td class="text-start text-no-wrap">
+          {{ normalizeCreated(item['created']) }}
+        </td>
+      </template>
 
-      <strong class="mx-4 success--text text--darken-2">
-        Завершены: {{ completedTasks }}
-      </strong>
+      <template v-slot:item.actions="{ item }">
+        <td class="text-start text-no-wrap">
+          <div class="d-flex">
+            <leads-edit />
+            <leads-delete />
+          </div>
+        </td>
+      </template>
+    </v-data-table>
 
-      <v-spacer></v-spacer>
-
-      <v-progress-circular
-        :value="progress"
-        class="mr-2"
-      ></v-progress-circular>
-    </v-row>
-
-    <v-divider class="mb-4"></v-divider>
-
-    <card v-if="tasks.length > 0">
-      <v-slide-y-transition
-        class="py-0 transparent"
-        group
-        tag="v-list"
-      >
-        <template v-for="(task, i) in tasks">
-          <v-divider
-            v-if="i !== 0"
-            :key="`${i}-divider`"
-          ></v-divider>
-
-          <v-list-item  :key="`${i}-${task.text}`">
-            <v-list-item-action>
-              <v-checkbox
-                v-model="task.done"
-                :color="task.done && 'grey' || 'primary'"
-              >
-                <template v-slot:label>
-                  <div
-                    :class="task.done && 'grey--text' || 'primary--text'"
-                    class="ml-4"
-                    v-text="task.text"
-                  ></div>
-                </template>
-              </v-checkbox>
-            </v-list-item-action>
-
-            <v-spacer></v-spacer>
-
-            <v-scroll-x-transition>
-              <v-icon
-                v-if="task.done"
-                color="success"
-              >
-                mdi-check
-              </v-icon>
-            </v-scroll-x-transition>
-          </v-list-item>
-        </template>
-      </v-slide-y-transition>
-    </card>
+    <v-snackbar
+      v-model="snackbar"
+      :color="snackbarColor"
+      :timeout="2000"
+      outlined
+      text
+    >
+      {{ snackbarMessage }}
+    </v-snackbar>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
-import { ColorTheme } from "~/assets/script/functions/colorTheme";
+import { Component, Vue } from 'vue-property-decorator'
+import { ColorTheme } from '~/assets/script/functions/colorTheme'
+import { normalizeDate } from '~/assets/script/functions/norlamizeDate'
+import axiosAuthConfig from "~/assets/script/functions/axiosAuthConfig";
 
 @Component
 export default class Todo extends Vue {
-  newTask: any = null;
-  tasks: any = [];
+  loading: boolean = true
 
-  create() {
-    this.tasks.push({
-      done: false,
-      text: this.newTask
-    });
+  snackbar: boolean = false
+  snackbarColor: string = ''
+  snackbarMessage: string = ''
 
-    this.newTask = null;
+  todoList: any = []
+  headers: any = [
+    { text: 'id', value: 'id' },
+    { text: 'Стадия выполнения', value: 'status' },
+    { text: 'Менеджер', value: 'fullName' },
+    { text: 'Комментарий', value: 'comment' },
+    { text: 'Дата создания', value: 'created' },
+    { text: '', value: 'actions', sortable: false },
+  ]
+
+  async created() {
+    if (process.client) {
+      let authToken = localStorage.getItem('token')
+      const agencyID = JSON.parse(
+        JSON.stringify(this.$store.state.user.user.agency.id)
+      )
+
+      if (!authToken) {
+        return null
+      }
+
+      await this.$axios
+        .post(
+          '/api/client/list/',
+          {
+            agency_id: agencyID,
+          },
+          {
+            ...axiosAuthConfig(authToken, '', 'crm_client'),
+          }
+        )
+        .then((data) => {
+          if (data.data?.message) {
+            this.setSnackbarValues('error darken-1', data.data.message)
+            console.log(data.data.error)
+            return
+          }
+
+          this.todoList = data.data
+          this.loading = false
+        })
+    }
   }
 
-  get completedTasks() {
-    return this.tasks.filter((task: Record<string, unknown>) => task.done).length;
+
+  setSnackbarValues(color: string, message: string) {
+    this.snackbar = true
+    this.snackbarColor = color
+    this.snackbarMessage = message
   }
 
-  get progress() {
-    return this.completedTasks / this.tasks.length * 100;
+  normalizeCreated(date: any) {
+    return normalizeDate(date)
   }
 
-  get remainingTasks() {
-    return this.tasks.length - this.completedTasks;
+  get usableBlock() {
+    return new ColorTheme().block()
   }
 
   get usableTheme() {
     return new ColorTheme().isDark()
   }
-
-};
+}
 </script>

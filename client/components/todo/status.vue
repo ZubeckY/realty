@@ -5,15 +5,15 @@
 </template>
 
 <script lang="ts">
-import { Component, VModel, Vue, Watch } from "vue-property-decorator";
-import getColorDeal from "~/assets/script/functions/getColorDeal";
+import { Component, VModel, Vue, Watch } from "vue-property-decorator"
+import getColorTodo from "~/assets/script/functions/getColorTodo"
 
 @Component
-export default class LeadsStatus extends Vue {
+export default class TodoStatus extends Vue {
   @VModel() item!: string;
 
   get color(): string {
-    return getColorDeal(this.item);
+    return getColorTodo(this.item);
   }
 };
 </script>

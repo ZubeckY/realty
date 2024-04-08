@@ -223,19 +223,25 @@ thead * {
     border-radius: 0 !important;
 }
 
+/**/
+.custom-chip {
+  font-size: 13px;
+  white-space: nowrap;
+}
+
 /* create */
-.createRealty__title {
+.create__title {
     font-size: 16px;
     font-weight: bold;
     margin-bottom: 8px;
 }
 
-.createRealty__uploadList {
+.create__uploadList {
     display: flex;
     overflow: auto;
 }
 
-.createRealty__uploadItem {
+.create__uploadItem {
     position: relative;
     display: flex;
     width: 150px;
@@ -243,7 +249,7 @@ thead * {
     flex-direction: column;
 }
 
-.createRealty__uploadItem.disabled::after {
+.create__uploadItem.disabled::after {
     position: absolute;
     content: '';
     width: 100%;
@@ -253,17 +259,17 @@ thead * {
     border-radius: var(--radius);
 }
 
-.createRealty__uploadItem + .createRealty__uploadItem {
+.create__uploadItem + .create__uploadItem {
     margin-left: 13px;
 }
 
-.createRealty__uploadItem.disabled
-.createRealty__uploadButtons {
+.create__uploadItem.disabled
+.create__uploadButtons {
     opacity: 1;
     background: transparent;
 }
 
-.createRealty__uploadButtons {
+.create__uploadButtons {
     position: absolute;
     display: flex;
     width: 100%;
@@ -275,12 +281,12 @@ thead * {
     border-radius: var(--radius) var(--radius) 0 0;
 }
 
-.createRealty__uploadButtons:hover {
+.create__uploadButtons:hover {
     opacity: 1;
     transition: opacity ease-in .1s;
 }
 
-.createRealty__uploadItem img {
+.create__uploadItem img {
     display: block;
     width: 150px;
     height: 150px;
@@ -288,14 +294,14 @@ thead * {
     border-radius: var(--radius);
 }
 
-.createRealty__uploadProgress {
+.create__uploadProgress {
     position: absolute;
     width: 100%;
     top: 130px;
     z-index: 300;
 }
 
-.createRealty__uploadTitle {
+.create__uploadTitle {
     position: relative;
     width: 150px;
     font-size: 16px;
@@ -303,7 +309,7 @@ thead * {
     text-align: center;
 }
 
-.createRealty__title.required::after {
+.create__title.required::after {
     content: ' *';
     color: red;
 }

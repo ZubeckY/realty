@@ -12,6 +12,7 @@
       :headers="headers"
       :items="clients"
       :search="search"
+      no-data-text="Нет данных"
       :class="'custom-table ' + usableBlock"
       :footer-props="{
         showFirstLastPage: true,

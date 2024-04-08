@@ -3,8 +3,8 @@
     <card class="mb-3">
       <h3 :class="usableText">Добавление новости</h3>
 
-      <div class="createRealty__group mt-3">
-        <div class="createRealty__title">Ссылка на видео Youtube</div>
+      <div class="create__group mt-3">
+        <div class="create__title">Ссылка на видео Youtube</div>
         <div class="mr-3">
           <v-text-field
             v-model="videoModel"
@@ -18,8 +18,8 @@
         </div>
       </div>
 
-      <div class="createRealty__group">
-        <div class="createRealty__title d-flex align-center">
+      <div class="create__group">
+        <div class="create__title d-flex align-center">
           <div>Тэги</div>
 
           <v-tooltip right>
@@ -51,8 +51,8 @@
         </div>
       </div>
 
-      <div class="createRealty__group">
-        <div class="createRealty__title">Текст</div>
+      <div class="create__group">
+        <div class="create__title">Текст</div>
         <div class="mr-3">
           <v-textarea
             v-model="model.text"
@@ -67,8 +67,8 @@
         </div>
       </div>
 
-      <div class="createRealty__group">
-        <div class="createRealty__title">Фото</div>
+      <div class="create__group">
+        <div class="create__title">Фото</div>
         <div class="mr-3">
           <v-file-input
             @change="syncFiles"
@@ -89,7 +89,7 @@
           />
         </div>
 
-        <div class="createRealty__uploadList mb-3">
+        <div class="create__uploadList mb-3">
           <upload-image
             v-for="(item, i) in model.files"
             :key="'upload-image-' + i"
@@ -99,7 +99,7 @@
         </div>
       </div>
 
-      <div class="createRealty__group mb-3">
+      <div class="create__group mb-3">
         <v-btn
           :color="usableColor"
           :loading="loading"

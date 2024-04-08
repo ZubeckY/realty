@@ -434,6 +434,7 @@ export class AuthController {
     }
   }
 
+  @UseAfter(checkAuth)
   @Post('/logout/:hash')
   async logout(@Res() res: any, @Param('hash') hash: string) {
     try {

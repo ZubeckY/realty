@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<data>
+    <regionId region="01">
+        <sity id="maykop">
+            <title>Майкоп</title>
+        </sity>
+    </regionId>
+    <regionId region="23">
+        <sity id="krasnodar">
+            <title>Краснодар</title>
+        </sity>
+    </regionId>
+</data>

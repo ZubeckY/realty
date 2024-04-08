@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<data>
+    <regionId region="23">
+        <sityId id="krasnodar">
+            <!-- округ -->
+            <district id="zapadnyy">
+                <type>округ</type>
+                <title>Западный</title>
+            </district>
+            <district id="prikubansky">
+                <type>округ</type>
+                <title>Прикубанский</title>
+            </district>
+            <district id="tsentralnyy">
+                <type>округ</type>
+                <title>Центральный</title>
+            </district>
+            <district id="karasunsky">
+                <type>округ</type>
+                <title>Карасунский</title>
+            </district>
+            <!-- район / м-он -->
+            <district id="festivalnyy">
+                <type>м-он</type>
+                <title>Фестивальный</title>
+            </district>
+            <district id="yubileynyy">
+                <type>м-он</type>
+                <title>Юбилейный</title>
+            </district>
+            <district id="pashkovsky">
+                <type>м-он</type>
+                <title>Пашковский</title>
+            </district>
+            <district id="slavyansky">
+                <type>м-он</type>
+                <title>Славянский</title>
+            </district>
+            <district id="cheromushki">
+                <type>м-он</type>
+                <title>Черёмушки</title>
+            </district>
+            <district id="komsomolskiy">
+                <type>м-он</type>
+                <title>Комсомольский</title>
+            </district>
+            <district id="mikrokhirurgii">
+                <type>район</type>
+                <title>Микрохирургии</title>
+            </district>
+            <district id="gidrostroiteley">
+                <type>м-он</type>
+                <title>Гидростроителей</title>
+            </district>
+            <district id="gidrostroiteley">
+                <type>м-он</type>
+                <title>Гидростроителей</title>
+            </district>
+            <district id="vostochno_kruglikovsky">
+                <type>м-он</type>
+                <title>Восточно-Кругликовский</title>
+            </district>
+            <district id="40_let_pobedy">
+                <type>район</type>
+                <title>40 лет Победы</title>
+            </district>
+            <district id="aviagorodok">
+                <type>район</type>
+                <title>Авиагородок</title>
+            </district>
+            <district id="aeroport">
+                <type>район</type>
+                <title>Аэропорт</title>
+            </district>
+            <district id="muzykalnyy">
+                <type>м-он</type>
+                <title>Музыкальный</title>
+            </district>
+            <district id="vavilova">
+                <type>м-он</type>
+                <title>Вавилова</title>
+            </district>
+            <district id="selkhozinstituta">
+                <type>район</type>
+                <title>Сельхозинститута </title>
+            </district>
+            <district id="теc">
+                <type>район</type>
+                <title>ТЭЦ</title>
+            </district>
+            <district id="zapadnyy_obkhod">
+                <type>м-он</type>
+                <title>Западный обход</title>
+            </district>
+            <district id="moskovskiy">
+                <type>м-он</type>
+                <title>Московский</title>
+            </district>
+            <district id="molodezhnyy">
+                <type>м-он</type>
+                <title>Молодежный</title>
+            </district>
+            <district id="vitaminkombinat">
+                <type>м-он</type>
+                <title>Витаминкомбинат</title>
+            </district>
+            <district id="rostovskoye_shosse">
+                <type>м-он</type>
+                <title>Ростовское шоссе</title>
+            </district>
+            <district id="nemetskaya_Derevnya">
+                <type>м-он</type>
+                <title>Немецкая Деревня</title>
+            </district>
+            <district id="basket-hall">
+                <type>район</type>
+                <title>Баскет-холл</title>
+            </district>
+            <district id="krasnaya_ploshchad">
+                <type>район</type>
+                <title>Красная площадь</title>
+            </district>
+            <district id="Krayevoy_bolnitsy">
+                <type>м-он</type>
+                <title>Краевой больницы</title>
+            </district>
+            <district id="zip">
+                <type>м-он</type>
+                <title>ЗИП</title>
+            </district>
+            <district id="gorgaz">
+                <type>м-он</type>
+                <title>Горгаз</title>
+            </district>
+            <district id="avrora">
+                <type>м-он</type>
+                <title>Аврора</title>
+            </district>
+            <district id="panorama">
+                <type>м-он</type>
+                <title>Панорама</title>
+            </district>
+        </sityId>
+    </regionId>
+</data>

@@ -11,8 +11,14 @@ export class Address {
   @Column({ comment: 'Регион, область' })
   region?: string
 
+  @Column({ comment: 'РегионId' })
+  regionId?: string
+
   @Column({ comment: 'Город' })
   city?: string
+
+  @Column({ comment: 'ГородId' })
+  cityId?: string
 
   @Column({ comment: 'Улица' })
   street?: string

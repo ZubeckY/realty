@@ -357,7 +357,7 @@ export default class Profile extends Vue {
             return
           }
 
-          return this.user = data.data
+          return (this.user = data.data)
         })
         .finally(async () => {
           if (this.userAdmin && this.isOurAgency) {
@@ -412,11 +412,24 @@ export default class Profile extends Vue {
           ...axiosAuthConfig(token, '', 'crm_client'),
         })
         .then((data) => {
-          localStorage.removeItem('token')
-          window.location.reload()
+          if (data.data?.message) {
+            this.setSnackbarValues('error darken-1', data.data.message)
+            console.log(data.data.error)
+            return
+          }
+
+          this.setSnackbarValues('success darken-1', 'Успешно')
+
+          setTimeout(() => {
+            localStorage.removeItem('token')
+            window.location.reload()
+          }, 1000)
         })
         .catch((e) => {
           console.log(e)
+        })
+        .finally(() => {
+          this.exitDialog = false
         })
     }
   }

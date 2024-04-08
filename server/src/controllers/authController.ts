@@ -1,12 +1,12 @@
-import { Body, Get, JsonController, Param, Post, Req, Res, UseAfter } from "routing-controllers";
+import { Body, Get, JsonController, Param, Post, Req, Res, UseAfter } from 'routing-controllers'
 import { AppDataSource } from '../connectDataBase.js'
 import SecurityService from '../service/securityService.js'
 import TokenService from '../service/tokenService.js'
 import MailService from '../service/mailService.js'
 import OTPService from '../service/OTPService.js'
-import { checkAuth } from "../middleware/checkAuth"
+import { checkAuth } from '../middleware/checkAuth'
 import { AuthToken, User } from '../entity/index.js'
-import { roleTypeText } from "../types/role"
+import { roleTypeText } from '../types/role'
 import AuthDto from '../dtos/authDto.js'
 import * as bcrypt from 'bcrypt'
 import * as uuid from 'uuid'
@@ -412,7 +412,7 @@ export class AuthController {
         .leftJoinAndSelect('user.address', 'address')
         .leftJoinAndSelect('user.agency', 'agency')
         .where('user.id = :userId', { userId: id })
-        .getOne();
+        .getOne()
 
       if (!userFromDB) {
         return {
@@ -434,11 +434,23 @@ export class AuthController {
     }
   }
 
-  @UseAfter(checkAuth)
   @Post('/logout/:hash')
-  async logout(@Param('hash') hash: string) {
+  async logout(@Res() res: any, @Param('hash') hash: string) {
     try {
-      return await new TokenService().removeToken(hash)
+      const authTokenRepository = AppDataSource.getRepository(AuthToken)
+      const tokenFromDB = await authTokenRepository.findOneBy({
+        value: hash,
+      })
+
+      if (!tokenFromDB) {
+        return {
+          message: 'Токен не существует',
+        }
+      }
+
+      await authTokenRepository.remove(tokenFromDB)
+
+      return res.status(200).send({ ok: true })
     } catch (e) {
       return {
         message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',

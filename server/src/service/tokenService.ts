@@ -70,34 +70,6 @@ export default class TokenService {
     }
   }
 
-  async removeToken(token: string) {
-    try {
-      const authTokenRepository = AppDataSource.getRepository(AuthToken)
-      const tokenFromDB = await authTokenRepository.findOneBy({
-        value: token,
-      })
-
-      if (!tokenFromDB) {
-        return {
-          message: 'Токен не существует',
-          auth: false,
-        }
-      }
-
-      await authTokenRepository.remove(tokenFromDB)
-
-      return {
-        message: 'Успешно',
-        auth: false,
-      }
-    } catch (e) {
-      return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
-        error: e,
-      }
-    }
-  }
-
   async findToken(token: string) {
     try {
       const authTokenRepository = AppDataSource.getRepository(AuthToken)

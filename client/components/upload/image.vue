@@ -31,6 +31,8 @@ import { Vue, Component, Prop, Watch } from 'vue-property-decorator'
 export default class UploadImage extends Vue {
   @Prop() item!: any
   progress: number = 0
+  stopSignal: boolean = false
+  cancelTokenSource = this.$axios.CancelToken.source();
 
   async created() {
     await this.uploadImage()
@@ -42,17 +44,25 @@ export default class UploadImage extends Vue {
       : value
   }
 
-
   /**
    * todo:
    *  1) upload запрос на собственный
-   *  2) отмена upload запроса
-   *  3) запрос на удаление файла
+   *  2) запрос на удаление файла
    * */
   async uploadImage() {
     const file = this.item.file
+
+    if ((file.size / 1024 / 1024) > 15) {
+      return this.$emit('veryBigFile')
+    }
+
     await this.$axios.post('https://httpbin.org/post', file, {
+      cancelToken: this.cancelTokenSource.token,
       onUploadProgress: (progressEvent: any) => {
+        if (this.stopSignal) {
+          this.cancelTokenSource.cancel('Upload_cancelled');
+        }
+
         const uploadResult = (progressEvent.loaded / progressEvent.total) * 100
         this.progress = Math.round(uploadResult)
 
@@ -62,14 +72,22 @@ export default class UploadImage extends Vue {
           }, 300)
         }
       },
+    }).catch((e) => {
+      if (e.message === 'Upload_cancelled') {
+        return
+      }
+      console.log(e);
     })
   }
 
   cancelOrDelete() {
     if (!this.item.uploaded) {
-      return console.log('now is uploading')
+      this.stopSignal = true
+      this.$emit('clearItem')
+      return
     }
-    console.log('now is uploaded')
+    //
+    this.$emit('clearItem')
   }
 
   previewImage() {

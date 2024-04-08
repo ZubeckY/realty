@@ -1,12 +1,5 @@
 export function TimesOfDay() {
   let hours = new Date().getHours()
-  let result = setResult()
-
-  setInterval(() => {
-    hours = new Date().getHours()
-    result = setResult()
-  }, 60 * 60 * 1000)
-
   function setResult() {
     if (hours >= 0 && hours < 5) {
       return {
@@ -50,5 +43,5 @@ export function TimesOfDay() {
       }
     }
   }
-  return result
+  return setResult()
 }

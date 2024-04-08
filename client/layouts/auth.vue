@@ -1,5 +1,5 @@
 <template>
-  <v-app >
+  <v-app>
     <section class="auth">
       <div class="auth-background" :style="currentBackgroundImage"></div>
       <Nuxt />
@@ -14,11 +14,20 @@ import { TimesOfDay } from '~/assets/script/functions/timesOfDay'
 export default class Auth extends Vue {
   get currentBackgroundImage() {
     const wallpapers = this.$store.state.user.settings.wallpapers
-    return (
+
+    let result =
       `background-image: url('` +
       require('~/static/' + wallpapers + '/' + TimesOfDay().time + '.png') +
       `')`
-    )
+
+    setInterval(() => {
+      result =
+        `background-image: url('` +
+        require('~/static/' + wallpapers + '/' + TimesOfDay().time + '.png') +
+        `')`
+    }, 60 * 60 * 1000)
+
+    return result
   }
 }
 </script>

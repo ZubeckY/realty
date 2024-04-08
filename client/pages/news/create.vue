@@ -76,14 +76,13 @@
             v-model="files"
             :dark="usableTheme"
             :disabled="disabled"
+            placeholder="Выберите файлы"
             prepend-inner-icon="mdi-upload"
             prepend-icon=""
             accept="image/*"
             small-chips
-            show-size
             multiple
             outlined
-            counter
             dense
             chips
           />
@@ -94,6 +93,8 @@
             v-for="(item, i) in model.files"
             :key="'upload-image-' + i"
             @completeUpload="itemUpload(i)"
+            @veryBigFile="veryBigFile(i)"
+            @clearItem="clearItem(i)"
             :item="item"
           />
         </div>
@@ -158,7 +159,7 @@ export default class Create extends Vue {
   }
 
   async createOne() {
-    if(this.fileUploaded) {
+    if (this.fileUploaded) {
       return this.setSnackbarValues(
         'error darken-1',
         'Нельзя создать пост, пока загружаются файлы'
@@ -216,12 +217,28 @@ export default class Create extends Vue {
     this.files = []
   }
 
+  veryBigFile(i: number) {
+    this.setSnackbarValues(
+      'error darken-1',
+      'Файл очень большой, максимальный вес не должен привышать 15мб'
+    )
+    this.clearItem(i)
+  }
+
   itemUpload(i: number) {
     return (this.model.files[i].uploaded = true)
   }
 
+  clearItem(i: number) {
+    if (i > -1) {
+      return this.model.files.splice(i, 1)
+    }
+  }
+
   get fileUploaded() {
-    return this.model.files.map((file: any) => file.uploaded).indexOf(false) > -1
+    return (
+      this.model.files.map((file: any) => file.uploaded).indexOf(false) > -1
+    )
   }
 
   get usableTheme() {

@@ -256,11 +256,20 @@ export default class Default extends Vue {
 
   get currentBackgroundImage() {
     const wallpapers = this.$store.state.user.settings.wallpapers
-    return (
+
+    let result =
       `background-image: url('` +
       require('~/static/' + wallpapers + '/' + TimesOfDay().time + '.png') +
       `')`
-    )
+
+    setInterval(() => {
+      result =
+        `background-image: url('` +
+        require('~/static/' + wallpapers + '/' + TimesOfDay().time + '.png') +
+        `')`
+    }, 60 * 60 * 1000)
+
+    return result
   }
 
   get userName() {

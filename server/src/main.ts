@@ -1,5 +1,6 @@
 import 'reflect-metadata'
 import * as express from 'express'
+import bodyParser from 'body-parser'
 import compression from 'compression'
 import logger from './modules/logger.js'
 import { createExpressServer } from 'routing-controllers'
@@ -16,6 +17,7 @@ const app = createExpressServer({
 app.set('trust proxy', true)
 app.use(compression())
 app.use(express.json())
+app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }))
 
 function start() {

@@ -120,10 +120,10 @@ export default class MenuButtons extends Vue {
       sortable: false,
     },
   ]
-
+  
   created() {
-    const { name }: any = this.$router.currentRoute
-    this.activeMenuItem = name
+    const { path }: any = this.$router.currentRoute
+    this.activeMenuItem = path
   }
 
   get filterProfileLinks() {

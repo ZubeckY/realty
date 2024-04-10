@@ -144,7 +144,7 @@ export default class Default extends Vue {
 
   checkMenu() {
     const { name, path }: any = this.$router.currentRoute;
-    const i = this.findIndexElement(name);
+    const i = this.findIndexElement(path);
 
     const profileLinks: any = this.profileLinks;
     const element = profileLinks[i];
@@ -172,16 +172,16 @@ export default class Default extends Vue {
   }
 
   setHeader() {
-    const { name }: any = this.$router.currentRoute;
-    const i = this.findIndexElement(name);
+    const { name, path }: any = this.$router.currentRoute;
+    const i = this.findIndexElement(path);
     return (this.currentHeader =
         this.profileLinks[i]["headerComponent"] ?? "header-default-empty");
   }
 
   findIndexElement(value: string) {
     return this.profileLinks.findIndex(
-        (el: Record<string, unknown>) => el.routeName === value
-    );
+        (el: Record<string, unknown>) => el.link === value
+    )
   }
 
   get currentBackgroundImage() {

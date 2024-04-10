@@ -10,11 +10,11 @@
       tile
     >
       <v-btn
-        v-for="({ link, title, icon, routeName }, i) in filterProfileLinks"
+        v-for="({ link, title, icon }, i) in filterProfileLinks"
         :class="'justify-start my-0 ' + usableText"
         :key="'profile-list-item-' + i"
         @click="$router.push(routerController(link))"
-        :value="routeName"
+        :value="link"
         small
         text
       >
@@ -120,7 +120,7 @@ export default class MenuButtons extends Vue {
       sortable: false,
     },
   ]
-  
+
   created() {
     const { path }: any = this.$router.currentRoute
     this.activeMenuItem = path

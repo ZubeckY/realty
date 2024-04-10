@@ -7,6 +7,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import axiosAuthConfig from '~/assets/script/functions/axiosAuthConfig'
+import getAuthToken from "~/assets/script/functions/getAuthToken";
 
 @Component
 export default class News extends Vue {
@@ -19,7 +20,7 @@ export default class News extends Vue {
 
   async created() {
     if (process.client) {
-      let authToken = localStorage.getItem('token')
+      let authToken = getAuthToken()
       const agencyID = JSON.parse(
         JSON.stringify(this.$store.state.user.user.agency.id)
       )

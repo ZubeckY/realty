@@ -97,6 +97,7 @@
 import { Vue, Component, Watch } from "vue-property-decorator";
 import { ColorTheme } from "~/assets/script/functions/colorTheme";
 import axiosAuthConfig from "~/assets/script/functions/axiosAuthConfig";
+import getAuthToken from "~/assets/script/functions/getAuthToken";
 
 const srcs = {
   1: "https://www.diamondfacts.org/wp-content/uploads/2017/09/flawless-diamond.png",
@@ -123,7 +124,7 @@ export default class Find extends Vue {
 
   async created() {
     if (process.client) {
-      let authToken = localStorage.getItem("token");
+      let authToken = getAuthToken()
 
       if (!authToken) {
         return null;

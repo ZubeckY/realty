@@ -63,6 +63,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { ColorTheme } from '~/assets/script/functions/colorTheme'
 import { normalizeDate } from '~/assets/script/functions/norlamizeDate'
 import axiosAuthConfig from "~/assets/script/functions/axiosAuthConfig";
+import getAuthToken from "~/assets/script/functions/getAuthToken";
 
 @Component
 export default class Todo extends Vue {
@@ -84,7 +85,7 @@ export default class Todo extends Vue {
 
   async created() {
     if (process.client) {
-      let authToken = localStorage.getItem('token')
+      let authToken = getAuthToken()
       const agencyID = JSON.parse(
         JSON.stringify(this.$store.state.user.user.agency.id)
       )

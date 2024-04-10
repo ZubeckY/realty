@@ -2,23 +2,23 @@
   <div class="auth-container">
     <div :class="'auth-card ' + (usableTheme ? 'dark' : 'light')">
       <v-form
-        ref="valid"
-        v-model="valid"
-        lazy-validation
-        @submit.prevent="stepper"
-        :class="'auth-form ' + (usableTheme ? ' dark' : ' light')"
+          ref="valid"
+          v-model="valid"
+          lazy-validation
+          @submit.prevent="stepper"
+          :class="'auth-form ' + (usableTheme ? ' dark' : ' light')"
       >
         <h2 class="auth-title mt-2 mb-8">Регистрация</h2>
 
         <div class="d-flex">
           <div class="auth-form__textField">
             <v-text-field
-              label="Имя"
-              v-model="model.firstName"
-              :rules="[rules.required]"
-              :disabled="disabled"
-              :dark="usableTheme"
-              outlined
+                label="Имя"
+                v-model="model.firstName"
+                :rules="[rules.required]"
+                :disabled="disabled"
+                :dark="usableTheme"
+                outlined
             />
           </div>
 
@@ -26,12 +26,12 @@
 
           <div class="auth-form__textField">
             <v-text-field
-              label="Фамилия"
-              v-model="model.lastName"
-              :rules="[rules.required]"
-              :disabled="disabled"
-              :dark="usableTheme"
-              outlined
+                label="Фамилия"
+                v-model="model.lastName"
+                :rules="[rules.required]"
+                :disabled="disabled"
+                :dark="usableTheme"
+                outlined
             />
           </div>
         </div>
@@ -52,40 +52,40 @@
 
         <div class="auth-form__textField">
           <v-text-field
-            label="Email"
-            v-model="model.email"
-            :rules="[rules.email, rules.required]"
-            :disabled="disabled"
-            :dark="usableTheme"
-            type="email"
-            outlined
+              label="Email"
+              v-model="model.email"
+              :rules="[rules.email, rules.required]"
+              :disabled="disabled"
+              :dark="usableTheme"
+              type="email"
+              outlined
           />
         </div>
 
         <div class="auth-form__textField">
           <v-text-field
-            label="Пароль"
-            v-model="model.password"
-            :rules="[rules.password, rules.length(8), rules.required]"
-            :append-icon="show.password ? 'mdi-eye' : 'mdi-eye-off'"
-            :type="show.password ? 'text' : 'password'"
-            @click:append="show.password = !show.password"
-            :disabled="disabled"
-            :dark="usableTheme"
-            outlined
-            counter
+              label="Пароль"
+              v-model="model.password"
+              :rules="[rules.password, rules.length(8), rules.required]"
+              :append-icon="show.password ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="show.password ? 'text' : 'password'"
+              @click:append="show.password = !show.password"
+              :disabled="disabled"
+              :dark="usableTheme"
+              outlined
+              counter
           />
         </div>
 
         <v-btn
-          class="radius-small primary darken-1 white--text"
-          :dark="usableTheme"
-          :disabled="!valid || disabled"
-          :loading="loading"
-          @click="stepper"
-          elevation="0"
-          small
-          block
+            class="radius-small primary darken-1 white--text"
+            :dark="usableTheme"
+            :disabled="!valid || disabled"
+            :loading="loading"
+            @click="stepper"
+            elevation="0"
+            small
+            block
         >
           Регистрация
         </v-btn>
@@ -113,15 +113,25 @@
         <!--            </div>-->
         <!--          </div>-->
 
-        <div class="auth-checkbox__wrapper mt-4">
+        <div class="auth-actions mt-3">
+          <span class="auth-actions__title">Есть аккаунт? </span>
+          <a href="/auth/login" class="auth-link primary--text text--darken-1">
+            Зайдите в него прямо сейчас!
+            <v-icon color="primary darken-1" small
+            >mdi-arrow-top-right-thin
+            </v-icon>
+          </a>
+        </div>
+
+        <div class="auth-checkbox__wrapper mt-3">
           <v-checkbox
-            class="auth-checkbox"
-            color="primary darken-1"
-            v-model="model.IAgreeToPrivacyPolicy"
-            :rules="[rules.required]"
-            :dark="usableTheme"
-            hide-details
-            dense
+              class="auth-checkbox"
+              color="primary darken-1"
+              v-model="model.IAgreeToPrivacyPolicy"
+              :rules="[rules.required]"
+              :dark="usableTheme"
+              hide-details
+              dense
           >
             <template v-slot:label>
               <div>
@@ -138,15 +148,15 @@
           </v-checkbox>
         </div>
 
-        <div class="auth-checkbox__wrapper mb-4">
+        <div class="auth-checkbox__wrapper">
           <v-checkbox
-            class="auth-checkbox"
-            color="primary darken-1"
-            v-model="model.IAgreeToTermsOfUse"
-            :rules="[rules.required]"
-            :dark="usableTheme"
-            hide-details
-            dense
+              class="auth-checkbox"
+              color="primary darken-1"
+              v-model="model.IAgreeToTermsOfUse"
+              :rules="[rules.required]"
+              :dark="usableTheme"
+              hide-details
+              dense
           >
             <template v-slot:label>
               <div>
@@ -154,10 +164,10 @@
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on }">
                     <a
-                      target="_blank"
-                      href="https://vuetifyjs.com"
-                      @click.stop
-                      v-on="on"
+                        target="_blank"
+                        href="https://vuetifyjs.com"
+                        @click.stop
+                        v-on="on"
                     >
                       пользовательские соглашения
                     </a>
@@ -168,23 +178,25 @@
           </v-checkbox>
         </div>
 
-        <div class="auth-actions mb-2">
-          <span class="auth-actions__title">Есть аккаунт? </span>
-          <a href="/auth/login" class="auth-link primary--text text--darken-1">
-            Зайдите в него прямо сейчас!
-            <v-icon color="primary darken-1" small
-              >mdi-arrow-top-right-thin
-            </v-icon>
-          </a>
+        <div class="auth-checkbox__wrapper mb-3">
+          <v-checkbox
+              class="auth-checkbox"
+              color="primary darken-1"
+              label="Запомнить меня"
+              v-model="rememberMe"
+              :dark="usableTheme"
+              hide-details
+              dense
+          />
         </div>
       </v-form>
 
       <v-snackbar
-        v-model="snackbar"
-        :color="snackbarColor"
-        :timeout="2000"
-        outlined
-        text
+          v-model="snackbar"
+          :color="snackbarColor"
+          :timeout="2000"
+          outlined
+          text
       >
         {{ snackbarMessage }}
       </v-snackbar>
@@ -193,176 +205,183 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
-import { TimesOfDay } from '~/assets/script/functions/timesOfDay'
-import { ColorTheme } from '~/assets/script/functions/colorTheme'
+import { TimesOfDay } from "~/assets/script/functions/timesOfDay";
+import { ColorTheme } from "~/assets/script/functions/colorTheme";
 
 @Component({
-  layout: 'auth',
+  layout: "auth"
 })
 export default class Reg extends Vue {
-  valid: boolean = false
-  step: number = 1
+  valid: boolean = false;
+  step: number = 1;
 
-  disabled: boolean = false
-  loading: boolean = false
+  rememberMe: boolean = false;
 
-  snackbar: boolean = false
-  snackbarColor: string = ''
-  snackbarMessage: string = ''
+  disabled: boolean = false;
+  loading: boolean = false;
+
+  snackbar: boolean = false;
+  snackbarColor: string = "";
+  snackbarMessage: string = "";
 
   show: Record<string, any> = {
-    password: false,
-  }
+    password: false
+  };
 
   model: Record<string, any> = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    password: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    password: "",
     IAgreeToTermsOfUse: false,
-    IAgreeToPrivacyPolicy: false,
-  }
+    IAgreeToPrivacyPolicy: false
+  };
 
   authServices: any = [
     {
-      text: 'VK',
-      icon: 'vk',
+      text: "VK",
+      icon: "vk"
     },
     {
-      text: 'Yandex',
-      icon: 'yandex',
+      text: "Yandex",
+      icon: "yandex"
     },
     {
-      text: 'Google',
-      icon: 'google',
-    },
-  ]
+      text: "Google",
+      icon: "google"
+    }
+  ];
 
   rules = {
     email: (v: any) =>
-      !!(v || '').match(/@/) ||
-      'Введите действительный адрес электронной почты',
+        !!(v || "").match(/@/) ||
+        "Введите действительный адрес электронной почты",
 
     match: (match: any) => (v: any) =>
-      (!!v && v) === match || 'Пароли должны совпадать',
+        (!!v && v) === match || "Пароли должны совпадать",
 
     length: (len: any) => (v: any) =>
-      (v || '').length >= (len ?? 8) ||
-      `Недопустимая длина символов, требуется ${len} символов`,
+        (v || "").length >= (len ?? 8) ||
+        `Недопустимая длина символов, требуется ${len} символов`,
 
     maxValue: (len: any) => (v: any) =>
-      (v || '') < len ||
-      `Недопустимое значение, максимальное значение - ${len}`,
+        (v || "") < len ||
+        `Недопустимое значение, максимальное значение - ${len}`,
 
     password: (v: any) =>
-      !!(v || '').match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/) ||
-      'Пароль должен содержать заглавную букву, цифру и специальный символ.',
+        !!(v || "").match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*(_|[^\w])).+$/) ||
+        "Пароль должен содержать заглавную букву, цифру и специальный символ.",
 
-    required: (v: any) => !!v || 'Это поле обязательно к заполнению',
-  }
+    required: (v: any) => !!v || "Это поле обязательно к заполнению"
+  };
 
   async stepper() {
-    await this.tryReg()
+    await this.tryReg();
   }
 
   tryRegBySocial(value: string) {
-    console.log(value)
+    console.log(value);
   }
 
-  @Watch('model.phone')
+  @Watch("model.phone")
   changePhoneValue() {
-    if (this.model.phone == '') {
-      this.model.phone = '+7('
+    if (this.model.phone == "") {
+      this.model.phone = "+7(";
     }
   }
 
   async tryReg() {
     if (process.client) {
       const startReg = async () => {
-        this.loading = true
-        this.disabled = true
+        this.loading = true;
+        this.disabled = true;
         await this.$axios
-          .post('/api/auth/reg/', {
-            model: this.model,
-          })
-          .then((data: any) => {
-            if (data.data?.message) {
-              this.setSnackbarValues('error darken-1', data.data.message)
-              console.log(data.data.error)
-              this.disabled = false
-              this.loading = false
-              return
-            }
+            .post("/api/auth/reg/", {
+              model: this.model
+            })
+            .then((data: any) => {
+              if (data.data?.message) {
+                this.setSnackbarValues("error darken-1", data.data.message);
+                console.log(data.data.error);
+                this.disabled = false;
+                this.loading = false;
+                return;
+              }
 
-            this.loading = true
-            this.disabled = true
-            this.setSnackbarValues('success darken-1', 'Успешно')
+              this.loading = true;
+              this.disabled = true;
+              this.setSnackbarValues("success darken-1", "Успешно");
 
-            setTimeout(() => {
-              localStorage.setItem('hash', data.data?.linkHash)
-              this.$router.push('/auth/activate/' + data.data?.linkHash)
-            }, 300)
-          })
-      }
+              if (this.rememberMe) {
+                localStorage.setItem("hash", data.data?.linkHash);
+              } else {
+                sessionStorage.setItem("hash", data.data?.linkHash);
+              }
+
+              setTimeout(() => {
+                this.$router.push("/auth/activate/" + data.data?.linkHash);
+              }, 300);
+            });
+      };
 
       //@ts-ignore
-      this.$refs.valid.validate() && (await startReg())
+      this.$refs.valid.validate() && (await startReg());
     }
   }
 
   get getTimeBackground() {
-    return TimesOfDay().time
+    return TimesOfDay().time;
   }
 
   getItemIcon(icon: string) {
-    return require('@/static/logo/' + icon + '.svg')
+    return require("@/static/logo/" + icon + ".svg");
   }
 
   get currentBackgroundImage() {
-    const wallpapers = this.$store.state.user.settings.wallpapers
+    const wallpapers = this.$store.state.user.settings.wallpapers;
     return (
-      `background-image: url('` +
-      require('~/static/' + wallpapers + '/' + TimesOfDay().time + '.png') +
-      `')`
-    )
+        `background-image: url('` +
+        require("~/static/" + wallpapers + "/" + TimesOfDay().time + ".png") +
+        `')`
+    );
   }
 
   get usableBlock() {
-    return new ColorTheme().block()
+    return new ColorTheme().block();
   }
 
   get usableTheme() {
-    return new ColorTheme().isDark()
+    return new ColorTheme().isDark();
   }
 
   get welcomeMessageAnimation() {
     switch (this.step) {
       case 5:
-        return 'scale-and-transparent__inner'
+        return "scale-and-transparent__inner";
       case 6:
-        return ''
+        return "";
       case 7:
-        return 'transparent__out'
+        return "transparent__out";
       case 8:
-        return 'd-none'
+        return "d-none";
       default:
-        return 'd-none'
+        return "d-none";
     }
   }
 
   get userName() {
-    return JSON.parse(JSON.stringify(this.$store.state.user.user.firstName))
+    return JSON.parse(JSON.stringify(this.$store.state.user.user.firstName));
   }
 
   get getGreetingMessage() {
-    return TimesOfDay().greetings + ' ' + this.userName
+    return TimesOfDay().greetings + " " + this.userName;
   }
 
   setSnackbarValues(color: string, message: string) {
-    this.snackbar = true
-    this.snackbarColor = color
-    this.snackbarMessage = message
+    this.snackbar = true;
+    this.snackbarColor = color;
+    this.snackbarMessage = message;
   }
 }
 </script>

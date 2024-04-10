@@ -64,6 +64,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { ColorTheme } from '~/assets/script/functions/colorTheme'
 import axiosAuthConfig from '~/assets/script/functions/axiosAuthConfig'
 import { normalizeDate } from '~/assets/script/functions/norlamizeDate'
+import getAuthToken from "~/assets/script/functions/getAuthToken";
 
 @Component
 export default class Clients extends Vue {
@@ -87,7 +88,7 @@ export default class Clients extends Vue {
 
   async created() {
     if (process.client) {
-      let authToken = localStorage.getItem('token')
+      let authToken = getAuthToken()
       const agencyID = JSON.parse(
         JSON.stringify(this.$store.state.user.user.agency.id)
       )

@@ -265,6 +265,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { ColorTheme } from '~/assets/script/functions/colorTheme'
 import { userPhoto } from '~/assets/script/functions/userPhoto'
 import axiosAuthConfig from '~/assets/script/functions/axiosAuthConfig'
+import getAuthToken from "~/assets/script/functions/getAuthToken";
 
 @Component
 export default class Profile extends Vue {
@@ -295,7 +296,7 @@ export default class Profile extends Vue {
 
   async getAuthUserDevices() {
     if (process.client) {
-      let authToken = localStorage.getItem('token')
+      let authToken = getAuthToken()
 
       if (!authToken) {
         return null
@@ -340,7 +341,7 @@ export default class Profile extends Vue {
     }
 
     if (process.client) {
-      let authToken = localStorage.getItem('token')
+      let authToken = getAuthToken()
 
       if (!authToken) {
         return null
@@ -405,7 +406,7 @@ export default class Profile extends Vue {
 
   async exitFromProfile() {
     if (process.client) {
-      const token: any = localStorage.getItem('token')
+      const token: any = getAuthToken()
 
       await this.$axios
         .post('/api/auth/logout/' + token, {

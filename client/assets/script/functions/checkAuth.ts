@@ -1,10 +1,11 @@
 import axios from 'axios'
 import axiosAuthConfig from '~/assets/script/functions/axiosAuthConfig'
+import getAuthToken from "~/assets/script/functions/getAuthToken";
 
 export default async function checkAuth(user: any) {
   try {
     if (user.id === 0) {
-      let authToken = localStorage.getItem('token')
+      let authToken = getAuthToken()
 
       if (!authToken) {
         return null

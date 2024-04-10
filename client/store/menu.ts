@@ -164,7 +164,7 @@ export const state = () => ({
     },
     {
       position: 40,
-      icon: "mdi-chart-scatter-plot-hexbin",
+      icon: "mdi-account-group",
       title: "Пользователи",
       link: "/admin/users",
       access: 'agency,role=admin',

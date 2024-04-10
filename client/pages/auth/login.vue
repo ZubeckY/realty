@@ -84,6 +84,7 @@
             class="auth-checkbox"
             color="primary darken-1"
             label="Запомнить меня"
+            v-model="rememberMe"
             :dark="usableTheme"
             hide-details
             dense
@@ -138,6 +139,7 @@ import { ColorTheme } from '~/assets/script/functions/colorTheme'
 })
 export default class Login extends Vue {
   step: number = 1
+  rememberMe: boolean = false
 
   valid: boolean = false
   showPassword: boolean = false
@@ -239,7 +241,13 @@ export default class Login extends Vue {
           }
 
           this.setSnackbarValues('success darken-1', 'Успешно')
-          localStorage.setItem('hash', data.data?.linkHash)
+
+          if (this.rememberMe) {
+            localStorage.setItem('hash', data.data?.linkHash)
+          } else {
+            sessionStorage.setItem('hash', data.data?.linkHash)
+          }
+
           this.linkHash = data.data?.linkHash
           this.step++
         })

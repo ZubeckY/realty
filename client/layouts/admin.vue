@@ -100,7 +100,7 @@ export default class Default extends Vue {
       });
 
       this.profileLinks = JSON.parse(
-          JSON.stringify(this.$store.getters["menu/getMenu"])
+          JSON.stringify(this.$store.getters["menu/getAdminMenu"])
       );
 
       this.myRouterController();

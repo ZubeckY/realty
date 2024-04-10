@@ -24,7 +24,6 @@ export class AgencyController {
   }
 
   @Get('/list/:id')
-  @OnUndefined(204)
   async getOne(@Param('id') id: number) {
     try {
       const agencyRepository = AppDataSource.getRepository(Agency)
@@ -166,13 +165,12 @@ export class AgencyController {
       const { agency } = body
       const agencyInviteRepository = AppDataSource.getRepository(AgencyInvite)
 
-      return await agencyInviteRepository.find({
-        where: {
-          agency: {
-            id: agency.id,
-          },
-        },
-      })
+      return await agencyInviteRepository
+        .createQueryBuilder('AgencyInvite')
+        .leftJoinAndSelect('AgencyInvite.user', 'user')
+        .leftJoinAndSelect('AgencyInvite.agency', 'agency')
+        .where('user.agency.id = :agencyId', { agencyId: agency.id })
+        .getMany();
     } catch (e) {
       return {
         message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',

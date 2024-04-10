@@ -10,7 +10,7 @@
       v-else
       :dark="usableTheme"
       :headers="headers"
-      :items="leads"
+      :items="list"
       :search="search"
       no-data-text="Нет данных"
       :class="'custom-table ' + usableBlock"
@@ -73,7 +73,7 @@ export default class Leads extends Vue {
   snackbarColor: string = ''
   snackbarMessage: string = ''
 
-  leads: any = []
+  list: any = []
   headers: any = [
     { text: 'id', value: 'id' },
     { text: 'Имя Фамилия', value: 'client.fullName' },
@@ -118,7 +118,7 @@ export default class Leads extends Vue {
             return
           }
 
-          this.leads = data.data
+          this.list = data.data
           this.loading = false
         })
     }

@@ -10,7 +10,7 @@
         v-else
         :dark="usableTheme"
         :headers="headers"
-        :items="clients"
+        :items="list"
         :search="search"
         no-data-text="Нет данных"
         :class="'custom-table ' + usableBlock"
@@ -96,7 +96,7 @@ export default class Users extends Vue {
   snackbarColor: string = "";
   snackbarMessage: string = "";
 
-  clients: any = [];
+  list: any = [];
   headers: any = [
     { text: "id", value: "id" },
     { text: "Имя Фамилия", value: "firstName" },
@@ -132,7 +132,7 @@ export default class Users extends Vue {
               return;
             }
 
-            this.clients = data.data;
+            this.list = data.data;
             this.loading = false;
           });
     }

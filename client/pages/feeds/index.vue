@@ -10,7 +10,7 @@
       v-else
       :dark="usableTheme"
       :headers="headers"
-      :items="feeds"
+      :items="list"
       :search="search"
       no-data-text="Нет данных"
       :class="'custom-table ' + usableBlock"
@@ -60,12 +60,12 @@ export default class Feeds extends Vue {
     { text: '', value: 'actions', sortable: false },
   ]
 
-  feeds: any = []
+  list: any = []
 
   created() {
     // todo запрос на бек
     setTimeout(() => {
-      this.feeds = [
+      this.list = [
         {
           id: 1,
           title: 'Avito feed 1',

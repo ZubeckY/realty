@@ -99,26 +99,40 @@ export default class Default extends Vue {
         payload: checkUser
       });
 
+      const sessionID = sessionStorage.getItem('admin_key_id')
+      if (!sessionID) {
+        this.needSuccess = true
+      } else {
+        this.canselNeedConfirm()
+      }
+
       this.profileLinks = JSON.parse(
           JSON.stringify(this.$store.getters["menu/getAdminMenu"])
       );
 
       this.myRouterController();
 
-      this.loaderValue = 0;
-      this.loaderLoading = false;
 
-      setTimeout(() => {
+      if (!sessionID) {
+        this.loaderValue = 0;
+        this.loaderLoading = false;
+
+        setTimeout(() => {
+          this.loaderValue = 100;
+        }, 300);
+
+        setTimeout(() => {
+          this.loading = false;
+        }, 900);
+
+        setTimeout(() => {
+          this.setSnackbarValues("success, darken-1", this.getGreetingMessage);
+        }, 1200);
+      } else {
         this.loaderValue = 100;
-      }, 300);
-
-      setTimeout(() => {
         this.loading = false;
-      }, 900);
+      }
 
-      setTimeout(() => {
-        this.setSnackbarValues("success, darken-1", this.getGreetingMessage);
-      }, 1200);
     }
   }
 
@@ -216,12 +230,16 @@ export default class Default extends Vue {
           return
         }
 
-        this.isConfirmed = true
-        this.needSuccess = false
+        sessionStorage.setItem('admin_key_id', '' + Date.now())
+        this.canselNeedConfirm()
         this.setSnackbarValues("success darken-1", 'Успешно');
       })
-
     }
+  }
+
+  canselNeedConfirm() {
+    this.isConfirmed = true
+    this.needSuccess = false
   }
 
   get userID() {

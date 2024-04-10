@@ -7,25 +7,35 @@ import { User } from "../entity"
 @UseAfter(checkAuth)
 @JsonController('/user')
 export class UserController {
-  @Get('/')
-  getAll() {
-    try {
-    } catch (e) {}
-  }
-
   @Get('/:id')
   async getOne(@Param('id') id: number) {
     try {
       const userRepository = AppDataSource.getRepository(User)
-      const userFromDB = await userRepository
+      return await userRepository
         .createQueryBuilder('user')
         .leftJoinAndSelect('user.photo', 'photo')
         .leftJoinAndSelect('user.address', 'address')
         .leftJoinAndSelect('user.agency', 'agency')
         .where('user.id = :userId', { userId: id })
         .getOne();
+    } catch (e) {
+      return {
+        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        error: e,
+      }
+    }
+  }
 
-      return userFromDB ? userFromDB : null
+  @Post('/list/agency/:id')
+  async getAll(@Param('id') id: number) {
+    try {
+      const userRepository = AppDataSource.getRepository(User)
+      return await userRepository
+        .createQueryBuilder('user')
+        .leftJoinAndSelect('user.photo', 'photo')
+        .leftJoinAndSelect('user.agency', 'agency')
+        .where('user.agency.id = :agencyId', { agencyId: id })
+        .getMany();
     } catch (e) {
       return {
         message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',

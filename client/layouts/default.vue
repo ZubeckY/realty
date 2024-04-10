@@ -117,20 +117,29 @@ export default class Default extends Vue {
       this.initMenu()
       this.myRouterController()
 
-      this.loaderValue = 0
-      this.loaderLoading = false
+      const sessionID = sessionStorage.getItem('home_key_id')
 
-      setTimeout(() => {
-        this.loaderValue = 100
-      }, 300)
+      if (!sessionID) {
+        this.loaderValue = 0;
+        this.loaderLoading = false;
 
-      setTimeout(() => {
-        this.loading = false
-      }, 900)
+        sessionStorage.setItem('home_key_id', '' + Date.now())
 
-      setTimeout(() => {
-        this.setSnackbarValues('succes, darken-1', this.getGreetingMessage)
-      }, 1200)
+        setTimeout(() => {
+          this.loaderValue = 100;
+        }, 300);
+
+        setTimeout(() => {
+          this.loading = false;
+        }, 900);
+
+        setTimeout(() => {
+          this.setSnackbarValues("success, darken-1", this.getGreetingMessage);
+        }, 1200);
+      } else {
+        this.loaderValue = 100;
+        this.loading = false;
+      }
     }
   }
 

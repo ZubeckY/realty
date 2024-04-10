@@ -38,7 +38,21 @@
 
         <div class="auth-form__textField">
           <v-text-field
-            label="Введите email"
+              label="Телефон"
+              @click="changePhoneValue"
+              v-model="model.phone"
+              v-mask="'+7(###)-###-##-##'"
+              :rules="[rules.required]"
+              :disabled="disabled"
+              :dark="usableTheme"
+              type="email"
+              outlined
+          />
+        </div>
+
+        <div class="auth-form__textField">
+          <v-text-field
+            label="Email"
             v-model="model.email"
             :rules="[rules.email, rules.required]"
             :disabled="disabled"
@@ -178,7 +192,7 @@
   </div>
 </template>
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Watch } from "vue-property-decorator";
 import { TimesOfDay } from '~/assets/script/functions/timesOfDay'
 import { ColorTheme } from '~/assets/script/functions/colorTheme'
 
@@ -204,6 +218,7 @@ export default class Reg extends Vue {
     firstName: '',
     lastName: '',
     email: '',
+    phone: '',
     password: '',
     IAgreeToTermsOfUse: false,
     IAgreeToPrivacyPolicy: false,
@@ -253,6 +268,13 @@ export default class Reg extends Vue {
 
   tryRegBySocial(value: string) {
     console.log(value)
+  }
+
+  @Watch('model.phone')
+  changePhoneValue() {
+    if (this.model.phone == '') {
+      this.model.phone = '+7('
+    }
   }
 
   async tryReg() {

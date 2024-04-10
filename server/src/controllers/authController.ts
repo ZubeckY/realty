@@ -71,7 +71,7 @@ export class AuthController {
   async registration(@Body() body: any) {
     try {
       const userRepository = AppDataSource.getRepository(User)
-      const { firstName, lastName, email, password, IAgreeToTermsOfUse, IAgreeToPrivacyPolicy } = body.model
+      const { firstName, lastName, email, password, phone, IAgreeToTermsOfUse, IAgreeToPrivacyPolicy } = body.model
 
       const emailExists: User | null = await userRepository.findOneBy({
         email: email,
@@ -91,6 +91,7 @@ export class AuthController {
       user.firstName = firstName
       user.lastName = lastName
       user.email = email
+      user.phone = phone
       user.password = await bcrypt.hash(password, 3)
       user.IAgreeToTermsOfUse = IAgreeToTermsOfUse
       user.IAgreeToPrivacyPolicy = IAgreeToPrivacyPolicy

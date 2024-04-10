@@ -73,7 +73,7 @@ export default class Default extends Vue {
   profileLinks = [];
   currentHeader: string = "";
 
-  needSuccess: boolean = true;
+  needSuccess: boolean = false;
 
   user: any = {
     id: 0,

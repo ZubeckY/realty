@@ -32,7 +32,7 @@ export const state = () => ({
     },
     {
       position: 40,
-      icon: "mdi-chart-scatter-plot-hexbin",
+      icon: "mdi-chart-tree",
       title: "Админ панель",
       link: "/admin",
       access: 'agency,role=admin',
@@ -144,7 +144,7 @@ export const state = () => ({
     },
     {
       position: 40,
-      icon: "mdi-chart-scatter-plot-hexbin",
+      icon: "mdi-chart-tree",
       title: "Админ панель",
       link: "/admin",
       access: 'agency,role=admin',
@@ -154,7 +154,7 @@ export const state = () => ({
     },
     {
       position: 40,
-      icon: "mdi-chart-scatter-plot-hexbin",
+      icon: "mdi-home-circle",
       title: "Агентство",
       link: "/admin/agency",
       access: 'agency,role=admin',
@@ -174,7 +174,7 @@ export const state = () => ({
     },
     {
       position: 40,
-      icon: "mdi-chart-scatter-plot-hexbin",
+      icon: "mdi-account-plus",
       title: "Заявки",
       link: "/admin/memberships",
       access: 'agency,role=admin',
@@ -184,7 +184,7 @@ export const state = () => ({
     },
     {
       position: 40,
-      icon: "mdi-chart-scatter-plot-hexbin",
+      icon: "mdi-chart-line",
       title: "Статистика",
       link: "/admin/statistics",
       access: 'agency,role=admin',

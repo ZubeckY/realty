@@ -285,7 +285,23 @@ export class AgencyController {
   @Delete('/invite/reject/:hash')
   async rejectInvite(@Param('hash') hash: string) {
     try {
-      // await new MailService().sendUserMailInviteRejected()
+      const inviteRepository = AppDataSource.getRepository(AgencyInvite)
+      const inviteFromDB = await inviteRepository
+        .createQueryBuilder('agencyInvite')
+        .leftJoinAndSelect('agencyInvite.user', 'user')
+        .leftJoinAndSelect('agencyInvite.agency', 'agency')
+        .where('agencyInvite.hash = :agencyHash', { agencyHash: hash })
+        .getOne();
+
+      if (!inviteFromDB) {
+        return {
+          message: 'Приглашение не найдено'
+        }
+      }
+
+      await new MailService().sendUserMailInviteRejected(inviteFromDB.user.email, inviteFromDB.agency.title)
+      await inviteRepository.remove(inviteFromDB)
+      return true
     } catch (e) {
       return {
         message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',

@@ -130,7 +130,7 @@ export default class MailService {
           <h1>Запрос на приглашение был принят агентством ${agency}.</h1>
           <br />
           <p>Агентство ${agency} рассмотрело Ваш запрос и приняла Вас.</p>
-          <p>Теперь вы состоите в агентстве</p>
+          <p>Теперь вы состоите в данном агентстве</p>
         </div>      
       `
 
@@ -146,14 +146,23 @@ export default class MailService {
     }
   }
 
-  async sendUserMailInviteRejected(to: string, html: string) {
+  async sendUserMailInviteRejected(to: string, agency: string) {
     try {
+      const message = `
+        <div>
+          <h1>Запрос на приглашение был отклонён агентством ${agency}.</h1>
+          <br />
+          <p>Агентство ${agency} рассмотрело Ваш запрос и отклонила Ваш запрос.</p>
+          <p>Вы не состоите в данном агентстве</p>
+        </div>      
+      `
+
       await this.transporter.sendMail({
         from: config.SMTP_USER,
         to,
         subject: 'Система оповещения CRealtyM',
         text: '',
-        html,
+        html: message,
       })
     } catch (e) {
       console.log(e);

@@ -191,7 +191,30 @@ export default class Memberships extends Vue {
   }
 
   async rejectItem(item: any) {
+    if (process.client) {
+      let authToken = localStorage.getItem("token");
 
+      if (!authToken) {
+        return null;
+      }
+      await this.$axios
+          .delete("/api/agency/invite/reject/" + item.hash, {
+            ...axiosAuthConfig(authToken, "", "crm_client")
+          })
+          .then((data) => {
+            if (data.data?.message) {
+              this.setSnackbarValues("error darken-1", data.data.message);
+              console.log(data.data.error);
+              return;
+            }
+
+            this.setSnackbarValues("success darken-1", 'Запрос отклонён успешно!');
+            this.getList()
+          })
+          .finally(() => {
+            this.dialog.accept = false
+          })
+    }
   }
 
   setSnackbarValues(color: string, message: string) {

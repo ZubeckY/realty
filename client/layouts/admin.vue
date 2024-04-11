@@ -13,7 +13,7 @@
           />
         </div>
       </div>
-      <div class="main-container" v-else-if="!loading && isConfirmed">
+      <div class="main-container" v-else-if="disabledPage && !loading && isConfirmed">
         <header-component>
           <component :is="currentHeader"></component>
         </header-component>
@@ -28,6 +28,7 @@
     </section>
 
     <action-dialog
+        v-if="disabledPage"
         v-model="needSuccess"
         @isCanceled="goToProfile"
         @isConfirm="tryLogin"
@@ -56,6 +57,7 @@ import axiosAuthConfig from "~/assets/script/functions/axiosAuthConfig"
 @Component
 export default class Default extends Vue {
   isConfirmed: boolean = false;
+  userAgency = this.$store.state.user.user?.agency?.id;
 
   model: Record<string, string> = {
     email: "",
@@ -98,6 +100,10 @@ export default class Default extends Vue {
       await this.$store.dispatch("user/userValues", {
         payload: checkUser
       });
+
+      if (!this.disabledPage) {
+        return this.$router.push("/profile/" + this.user.id);
+      }
 
       const sessionID = sessionStorage.getItem('admin_key_id')
       if (!sessionID) {
@@ -266,6 +272,17 @@ export default class Default extends Vue {
     this.snackbar = true;
     this.snackbarColor = color;
     this.snackbarMessage = message;
+  }
+
+  get disabledPage() {
+    const { path } = this.$router.currentRoute
+    const condition = this.userAgency > 0 && this.user.role != 'unknown'
+
+    if (!condition){
+      return !condition && (path.includes('/profile') || path == '/news')
+    }
+
+    return condition
   }
 }
 </script>

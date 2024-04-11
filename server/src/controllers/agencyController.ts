@@ -6,6 +6,7 @@ import * as uuid from 'uuid'
 import { agencyLegalFormTypeText } from "../types/agencyLegalForm"
 import { Role, roleTypeText } from "../types/role"
 import { checkAuth } from "../middleware/checkAuth"
+import MailService from "../service/mailService";
 
 @UseAfter(checkAuth)
 @JsonController('/agency')
@@ -166,10 +167,10 @@ export class AgencyController {
       const agencyInviteRepository = AppDataSource.getRepository(AgencyInvite)
 
       return await agencyInviteRepository
-        .createQueryBuilder('AgencyInvite')
-        .leftJoinAndSelect('AgencyInvite.user', 'user')
-        .leftJoinAndSelect('AgencyInvite.agency', 'agency')
-        .where('user.agency.id = :agencyId', { agencyId: agency.id })
+        .createQueryBuilder('agencyInvite')
+        .leftJoinAndSelect('agencyInvite.user', 'user')
+        .leftJoinAndSelect('agencyInvite.agency', 'agency')
+        .where('agencyInvite.agency.id = :agencyId', { agencyId: agency.id })
         .getMany();
     } catch (e) {
       return {
@@ -180,8 +181,41 @@ export class AgencyController {
   }
 
   @Post('/invite/create/:hash')
-  async createInvite() {
+  async createInvite(@Body() body: any, @Param('hash') hash: string) {
     try {
+      const { user } = body
+      const userRepository = AppDataSource.getRepository(User)
+      const agencyRepository = AppDataSource.getRepository(Agency)
+      const inviteRepository = AppDataSource.getRepository(AgencyInvite)
+
+      const userFromDB = await userRepository.findOneBy({
+        id: user.id
+      })
+
+      if (!userFromDB) {
+        return {
+          message: 'Пользователь указан неверно'
+        }
+      }
+
+      const agencyFromDB = await agencyRepository.findOneBy({
+        inviteCode: hash
+      })
+
+      if (!agencyFromDB) {
+        return {
+          message: 'Агентство не найдено'
+        }
+      }
+
+      const invite = new AgencyInvite()
+      invite.user = userFromDB
+      invite.agency = agencyFromDB
+      invite.hash = uuid.v4() + '-' + uuid.v4()
+
+      await inviteRepository.save(invite)
+
+      await new MailService().sendUserMailInviteCreated(userFromDB.email, agencyFromDB.title)
 
       return true
     } catch (e) {
@@ -193,8 +227,10 @@ export class AgencyController {
   }
 
   @Post('/invite/accept/:hash')
-  async acceptInvite() {
+  async acceptInvite(@Param('hash') hash: string) {
     try {
+
+      // await new MailService().sendUserMailInviteAccepted()
     } catch (e) {
       return {
         message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
@@ -204,8 +240,9 @@ export class AgencyController {
   }
 
   @Delete('/invite/reject/:hash')
-  async rejectInvite() {
+  async rejectInvite(@Param('hash') hash: string) {
     try {
+      // await new MailService().sendUserMailInviteRejected()
     } catch (e) {
       return {
         message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',

@@ -7,8 +7,8 @@
   >
     <card class="actionDialog__card" :style="'max-width: ' + maxWidth">
       <v-form class="actionDialog__container" v-model="valid">
-        <div class="actionDialog__title">{{ title }}</div>
-        <div class="actionDialog__text">{{ text }}</div>
+        <div class="actionDialog__title" v-html="title"></div>
+        <div class="actionDialog__text" v-html="text"></div>
 
         <div class="actionDialog__textField mt-3" v-if="confirm">
           <div class="actionDialog__textField-item small-input">

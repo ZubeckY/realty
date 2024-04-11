@@ -13,7 +13,7 @@
           />
         </div>
       </div>
-      <div class="main-container" v-else>
+      <div class="main-container" v-else-if="disabledPage">
         <header-component>
           <component :is="currentHeader"></component>
         </header-component>
@@ -76,6 +76,8 @@ import { ColorTheme } from "~/assets/script/functions/colorTheme";
 
 @Component
 export default class Default extends Vue {
+  userAgency = this.$store.state.user.user?.agency?.id;
+
   loading: boolean = true;
   loaderValue: number = 0;
   loaderLoading: boolean = true;
@@ -307,6 +309,17 @@ export default class Default extends Vue {
     this.snackbar = true;
     this.snackbarColor = color;
     this.snackbarMessage = message;
+  }
+
+  get disabledPage() {
+    const { path } = this.$router.currentRoute
+    const condition = this.userAgency > 0 && this.user.role != 'unknown'
+
+    if (!condition){
+      return !condition && (path.includes('/profile') || path == '/news')
+    }
+
+    return condition
   }
 }
 </script>

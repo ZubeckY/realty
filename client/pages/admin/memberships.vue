@@ -8,10 +8,11 @@
 
     <v-data-table
         v-else
-        :dark="usableTheme"
-        :headers="headers"
+        dense
         :items="list"
         :search="search"
+        :dark="usableTheme"
+        :headers="headers"
         no-data-text="Нет данных"
         :class="'custom-table ' + usableBlock"
         :footer-props="{
@@ -23,23 +24,28 @@
         itemsPerPageText: 'Кол-во элементов',
         itemsPerPageOptions: [10, 25, 50, 100, -1],
       }"
-        dense
     >
       <template v-slot:item.user.phone="{ item }">
         <td class="text-start text-no-wrap">
-          {{ item.user.phone }}
+          {{ item.user['phone'] }}
         </td>
       </template>
 
       <template v-slot:item.user.firstName="{ item }">
         <td class="text-start text-no-wrap">
-          {{ item.user.firstName }} {{ item.user.lastName }}
+          {{ getUserFullName(item.user) }}
+        </td>
+      </template>
+
+      <template v-slot:item.user.created="{ item }">
+        <td class="text-start text-no-wrap">
+          {{ normalizeCreated(item.user["created"]) }}
         </td>
       </template>
 
       <template v-slot:item.created="{ item }">
         <td class="text-start text-no-wrap">
-          {{ normalizeCreated(item.user["created"]) }}
+          {{ normalizeCreated(item["created"]) }}
         </td>
       </template>
 
@@ -51,15 +57,21 @@
             </v-icon>
           </v-btn>
 
-          <v-btn icon small>
+          <v-btn icon small @click="dialog.accept = !dialog.accept">
             <v-icon small color="primary darken-1">
-              mdi-pencil
+              mdi-check
             </v-icon>
           </v-btn>
+          <action-dialog
+              v-model="dialog.accept"
+              :text="'Вы действительно хотите принять <br /> пользователя <b>' + getUserFullName(item.user) + '</b> в агентство?'"
+              @isConfirm="acceptItem(item)"
+          ></action-dialog>
+
 
           <v-btn icon small>
             <v-icon small color="error darken-1">
-              mdi-delete
+              mdi-close
             </v-icon>
           </v-btn>
 
@@ -85,11 +97,16 @@ import { normalizeDate } from "~/assets/script/functions/norlamizeDate";
 import { ColorTheme } from "~/assets/script/functions/colorTheme";
 
 @Component({
-  layout: 'admin'
+  layout: "admin"
 })
 export default class Memberships extends Vue {
   loading: boolean = true;
   search: string = "";
+
+  dialog: Record<string, boolean> = {
+    accept: false,
+    reject: false
+  }
 
   snackbar: boolean = false;
   snackbarColor: string = "";
@@ -101,21 +118,19 @@ export default class Memberships extends Vue {
     { text: "Имя Фамилия", value: "user.firstName" },
     { text: "Телефон", value: "user.phone" },
     { text: "Дата регистрации", value: "user.created" },
+    { text: "Дата создания", value: "created" },
     { text: "", value: "actions", sortable: false }
   ];
 
   async created() {
     if (process.client) {
       let authToken = localStorage.getItem("token");
-      const agencyID = JSON.parse(
-          JSON.stringify(this.$store.state.user.user.agency.id)
-      );
 
       if (!authToken) {
         return null;
       }
 
-      const agency = this.$store.state.user.user.agency
+      const agency = this.$store.state.user.user.agency;
 
       await this.$axios
           .post(
@@ -138,6 +153,15 @@ export default class Memberships extends Vue {
     }
   }
 
+  async acceptItem(item: any) {
+
+
+  }
+
+  async rejectItem() {
+
+  }
+
   setSnackbarValues(color: string, message: string) {
     this.snackbar = true;
     this.snackbarColor = color;
@@ -146,6 +170,10 @@ export default class Memberships extends Vue {
 
   normalizeCreated(date: any) {
     return normalizeDate(date);
+  }
+
+  getUserFullName(item: any) {
+    return item['firstName'] + ' ' + item['lastName']
   }
 
   get usableBlock() {

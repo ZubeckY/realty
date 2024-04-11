@@ -1,4 +1,4 @@
-import { CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 import * as typeorm from 'typeorm'
 import { Agency, User } from "./index.js";
@@ -7,6 +7,9 @@ import { Agency, User } from "./index.js";
 export class AgencyInvite {
   @PrimaryGeneratedColumn()
   id!: number
+
+  @Column({ commment: 'hash', unique: true, nullable: true })
+  hash!: string
 
   @ManyToOne(() => User, (user) => user.id, {
     cascade: true,

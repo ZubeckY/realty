@@ -103,7 +103,7 @@ export class AuthController {
 
       // Отправляем код на email
 
-      await new MailService().sendWelcomeMail(email)
+      // await new MailService().sendWelcomeMail(email)
       await new MailService().sendActivationCode(email, activationCode)
 
       return {
@@ -266,16 +266,7 @@ export class AuthController {
 
       const confirmURL = config.API_URL + ':4000/api/auth/forgot-password/confirm-action/' + activationLink
 
-      const mailLayout = `
-        <div>
-          <h1>Изменение пароля</h1>
-          <br />
-          <p>Ваш email был указан при запросе смены пароля. </p>
-          <p>Для продолжения перейдите по ссылке <a href="${confirmURL}">${confirmURL}</a></p>
-        </div>
-      `
-
-      await new MailService().sendSecurityMessage(userFromDB.email, mailLayout)
+      await new MailService().sendMessageChangePassword(userFromDB.email, confirmURL)
 
       return true
     } catch (e) {

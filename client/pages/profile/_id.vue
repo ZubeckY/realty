@@ -40,6 +40,7 @@
                   small
                 >
                   Редактировать
+                  <v-icon class="ml-2" small>mdi-pencil</v-icon>
                 </v-btn>
               </div>
 
@@ -59,6 +60,7 @@
                   small
                 >
                   Устройства входа
+                  <v-icon class="ml-2" small>mdi-cellphone-link</v-icon>
                 </v-btn>
 
                 <action-dialog
@@ -96,6 +98,7 @@
                   small
                 >
                   Выйти из профиля
+                  <v-icon class="ml-2" small>mdi-exit-to-app</v-icon>
                 </v-btn>
 
                 <action-dialog

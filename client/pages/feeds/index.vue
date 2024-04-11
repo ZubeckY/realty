@@ -33,10 +33,6 @@
         <v-icon small color="primary darken-1" class="mr-2">mdi-pencil</v-icon>
         <v-icon small color="error darken-1">mdi-delete</v-icon>
       </template>
-
-      <template v-slot:item.active="{ item }">
-        <v-checkbox v-model="item.active" hide-details dense />
-      </template>
     </v-data-table>
   </div>
 </template>
@@ -56,7 +52,6 @@ export default class Feeds extends Vue {
     { text: 'Комментарий', value: 'comment' },
     { text: 'Ссылка', value: 'link' },
     { text: 'Дата создания', value: 'created' },
-    { text: 'Активный фид', value: 'active' },
     { text: '', value: 'actions', sortable: false },
   ]
 
@@ -72,7 +67,6 @@ export default class Feeds extends Vue {
           comment: 'Фид всех элементов',
           link: 'https://localhost:3000/api/feeds/12312421/',
           created: '32.05.2024',
-          active: true,
         },
         {
           id: 2,
@@ -80,7 +74,6 @@ export default class Feeds extends Vue {
           comment: 'Только объекты к жк черёмушка',
           link: 'https://localhost:3000/api/feeds/12312421/',
           created: '32.05.2024',
-          active: true,
         },
         {
           id: 3,
@@ -88,7 +81,6 @@ export default class Feeds extends Vue {
           comment: 'Комментарий',
           link: 'https://localhost:3000/api/feeds/12312421/',
           created: '32.05.2024',
-          active: true,
         },
       ]
       this.loading = false

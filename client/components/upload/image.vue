@@ -54,7 +54,7 @@ export default class UploadImage extends Vue {
     if (process.client) {
       let authToken = localStorage.getItem("token");
       const agencyID = JSON.parse(
-          JSON.stringify(this.$store.state.user.user.agency.id)
+          JSON.stringify(this.$store.state.user.user?.agency?.id)
       );
 
       if (!authToken) {

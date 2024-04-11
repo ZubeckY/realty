@@ -451,7 +451,7 @@ export default class Profile extends Vue {
   }
 
   get isOurAgency() {
-    return this.savedUser.agency.id === this.user?.agency?.id
+    return this.savedUser?.agency?.id === this.user?.agency?.id
   }
 
   setSnackbarValues(color: string, message: string) {

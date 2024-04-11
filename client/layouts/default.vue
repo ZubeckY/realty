@@ -317,7 +317,7 @@ export default class Default extends Vue {
 
   get disabledPage() {
     const { path } = this.$router.currentRoute
-    const condition = this.user.agency.id > 0 && this.user.role != 'unknown'
+    const condition = this.user?.agency?.id > 0 && this.user.role != 'unknown'
 
     if (!condition){
       return !condition && (path.includes('/profile') || path == '/news')

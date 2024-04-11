@@ -13,7 +13,7 @@
     }
   },
   "scripts": {
-    "dev": "npx nodemon",
+    "dev_server": "npx nodemon",
     "build": "rimraf build && npx tsc",
     "start": "npm run build && node build/main.js",
     "lint": "npx eslint src",

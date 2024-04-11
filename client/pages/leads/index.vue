@@ -94,7 +94,7 @@ export default class Leads extends Vue {
     if (process.client) {
       let authToken = getAuthToken()
       const agencyID = JSON.parse(
-        JSON.stringify(this.$store.state.user.user.agency.id)
+        JSON.stringify(this.$store.state.user.user?.agency?.id)
       )
 
       if (!authToken) {

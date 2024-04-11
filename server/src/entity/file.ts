@@ -7,14 +7,14 @@ export class File {
   @PrimaryGeneratedColumn()
   id!: number
 
-  @Column({ comment: 'Размер файла' })
-  size!: number
+  @Column({ comment: 'Размер файла', nullable: true })
+  size?: number
 
-  @Column({ nullable: true, comment: 'Индекс сортировки' })
+  @Column({ comment: 'Индекс сортировки', nullable: true })
   sort?: number
 
-  @Column({ comment: 'Путь/ссылка на фото' })
-  path!: string
+  @Column({ comment: 'Путь/ссылка на фото', nullable: true, })
+  path?: string
 
   @Column({ default: true, comment: 'Опубликованный файл' })
   isPublished?: boolean
@@ -24,7 +24,7 @@ export class File {
 
   @ManyToOne(() => User, (user) => user.id, {
     cascade: true,
-    nullable: false,
+    nullable: true,
     onDelete: 'CASCADE',
   })
   @JoinColumn()

@@ -91,7 +91,17 @@ export default class UploadImage extends Vue {
         }
       })
           .then((data) => {
-            console.log(data);
+            if (data.data?.message) {
+              const error = {
+                message: data.data?.message,
+                error: data.data?.error
+              }
+              return this.$emit('errorMessage', error)
+            }
+
+            const savedFile = data.data
+            this.$emit('setSavedFileToModel', savedFile)
+
           })
           .catch((e) => {
             if (e.message === "Upload_cancelled") {

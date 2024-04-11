@@ -100,6 +100,7 @@ export default class Default extends Vue {
     }
   };
 
+
   async created() {
     if (process.client) {
       let user = JSON.parse(JSON.stringify(this.$store.state.user.user));
@@ -115,6 +116,10 @@ export default class Default extends Vue {
       });
 
       this.checkMyAgency();
+
+      if (!this.disabledPage) {
+        return window.location.href = "/profile/" + this.user.id
+      }
 
       this.initMenu();
       this.myRouterController();
@@ -138,6 +143,7 @@ export default class Default extends Vue {
         setTimeout(() => {
           this.setSnackbarValues("success, darken-1", this.getGreetingMessage);
         }, 1200);
+
       } else {
         this.loaderValue = 100;
         this.loading = false;

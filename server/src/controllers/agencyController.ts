@@ -1,11 +1,11 @@
-import 'reflect-metadata'
-import { Param, Body, Get, Post, Put, Delete, OnUndefined, JsonController, UseAfter } from "routing-controllers"
-import { Agency, Address, User, AgencyInvite } from '../entity/index.js'
-import { AppDataSource } from '../connectDataBase.js'
-import * as uuid from 'uuid'
-import { agencyLegalFormTypeText } from "../types/agencyLegalForm"
-import { Role, roleTypeText } from "../types/role"
-import { checkAuth } from "../middleware/checkAuth"
+import "reflect-metadata";
+import { Body, Delete, Get, JsonController, Param, Post, UseAfter } from "routing-controllers";
+import { Agency, AgencyInvite, User } from "../entity/index.js";
+import { AppDataSource } from "../connectDataBase.js";
+import * as uuid from "uuid";
+import { agencyLegalFormTypeText } from "../types/agencyLegalForm";
+import { Role } from "../types/role";
+import { checkAuth } from "../middleware/checkAuth";
 import MailService from "../service/mailService";
 
 @UseAfter(checkAuth)
@@ -229,8 +229,51 @@ export class AgencyController {
   @Post('/invite/accept/:hash')
   async acceptInvite(@Param('hash') hash: string) {
     try {
+      const userRepository = AppDataSource.getRepository(User)
+      const agencyRepository = AppDataSource.getRepository(Agency)
+      const inviteRepository = AppDataSource.getRepository(AgencyInvite)
 
-      // await new MailService().sendUserMailInviteAccepted()
+      const inviteFromDB = await inviteRepository
+        .createQueryBuilder('agencyInvite')
+        .leftJoinAndSelect('agencyInvite.user', 'user')
+        .leftJoinAndSelect('agencyInvite.agency', 'agency')
+        .where('agencyInvite.hash = :agencyHash', { agencyHash: hash })
+        .getOne();
+
+      if (!inviteFromDB) {
+        return {
+          message: 'Приглашение не найдено'
+        }
+      }
+
+      const userFromDB = await userRepository.findOneBy({
+        id: inviteFromDB.user.id
+      })
+
+      if (!userFromDB) {
+        return {
+          message: 'Пользовател был указан неверно'
+        }
+      }
+
+      const agencyFromDB = await agencyRepository.findOneBy({
+        id: inviteFromDB.agency.id
+      })
+
+      if (!agencyFromDB) {
+        return {
+          message: 'Агентство было указано неверно'
+        }
+      }
+
+      userFromDB.agency = agencyFromDB
+      userFromDB.role = Role.MANAGER
+
+      await userRepository.save(userFromDB)
+      await new MailService().sendUserMailInviteAccepted(userFromDB.email, agencyFromDB.title)
+
+      await inviteRepository.remove(inviteFromDB)
+      return true
     } catch (e) {
       return {
         message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',

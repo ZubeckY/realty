@@ -76,8 +76,6 @@ import { ColorTheme } from "~/assets/script/functions/colorTheme";
 
 @Component
 export default class Default extends Vue {
-  userAgency = this.$store.state.user.user?.agency?.id;
-
   loading: boolean = true;
   loaderValue: number = 0;
   loaderLoading: boolean = true;
@@ -319,11 +317,12 @@ export default class Default extends Vue {
 
   get disabledPage() {
     const { path } = this.$router.currentRoute
-    const condition = this.userAgency > 0 && this.user.role != 'unknown'
+    const condition = this.user.agency.id > 0 && this.user.role != 'unknown'
 
     if (!condition){
       return !condition && (path.includes('/profile') || path == '/news')
     }
+
 
     return condition
   }

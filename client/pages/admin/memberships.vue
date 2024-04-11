@@ -27,7 +27,7 @@
     >
       <template v-slot:item.user.phone="{ item }">
         <td class="text-start text-no-wrap">
-          {{ item.user['phone'] }}
+          {{ item.user["phone"] }}
         </td>
       </template>
 
@@ -62,18 +62,24 @@
               mdi-check
             </v-icon>
           </v-btn>
+
           <action-dialog
               v-model="dialog.accept"
               :text="'Вы действительно хотите принять <br /> пользователя <b>' + getUserFullName(item.user) + '</b> в агентство?'"
               @isConfirm="acceptItem(item)"
           ></action-dialog>
 
-
           <v-btn icon small>
             <v-icon small color="error darken-1">
               mdi-close
             </v-icon>
           </v-btn>
+
+          <action-dialog
+              v-model="dialog.reject"
+              :text="'Вы действительно хотите не принимать <br /> пользователя <b>' + getUserFullName(item.user) + '</b> в агентство?'"
+              @isConfirm="rejectItem(item)"
+          ></action-dialog>
 
         </div>
       </template>
@@ -106,7 +112,7 @@ export default class Memberships extends Vue {
   dialog: Record<string, boolean> = {
     accept: false,
     reject: false
-  }
+  };
 
   snackbar: boolean = false;
   snackbarColor: string = "";
@@ -123,6 +129,10 @@ export default class Memberships extends Vue {
   ];
 
   async created() {
+    await this.getList()
+  }
+
+  async getList() {
     if (process.client) {
       let authToken = localStorage.getItem("token");
 
@@ -154,11 +164,33 @@ export default class Memberships extends Vue {
   }
 
   async acceptItem(item: any) {
+    if (process.client) {
+      let authToken = localStorage.getItem("token");
 
+      if (!authToken) {
+        return null;
+      }
+      await this.$axios
+          .post("/api/agency/invite/accept/" + item.hash, {}, {
+            ...axiosAuthConfig(authToken, "", "crm_client")
+          })
+          .then((data) => {
+            if (data.data?.message) {
+              this.setSnackbarValues("error darken-1", data.data.message);
+              console.log(data.data.error);
+              return;
+            }
 
+            this.setSnackbarValues("success darken-1", 'Пользователь принят в агентство!');
+            this.getList()
+          })
+          .finally(() => {
+            this.dialog.accept = false
+          })
+    }
   }
 
-  async rejectItem() {
+  async rejectItem(item: any) {
 
   }
 
@@ -173,7 +205,7 @@ export default class Memberships extends Vue {
   }
 
   getUserFullName(item: any) {
-    return item['firstName'] + ' ' + item['lastName']
+    return item["firstName"] + " " + item["lastName"];
   }
 
   get usableBlock() {

@@ -8,7 +8,7 @@ export class AgencyInvite {
   @PrimaryGeneratedColumn()
   id!: number
 
-  @Column({ commment: 'hash', unique: true, nullable: true })
+  @Column({ commment: 'hash', unique: true })
   hash!: string
 
   @ManyToOne(() => User, (user) => user.id, {

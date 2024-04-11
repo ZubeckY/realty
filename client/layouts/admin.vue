@@ -57,7 +57,6 @@ import axiosAuthConfig from "~/assets/script/functions/axiosAuthConfig"
 @Component
 export default class Default extends Vue {
   isConfirmed: boolean = false;
-  userAgency = this.$store.state.user.user?.agency?.id;
 
   model: Record<string, string> = {
     email: "",
@@ -276,13 +275,13 @@ export default class Default extends Vue {
 
   get disabledPage() {
     const { path } = this.$router.currentRoute
-    const condition = this.userAgency > 0 && this.user.role != 'unknown'
+    const condition = this.user.agency.id > 0 && this.user.role != 'unknown'
 
     if (!condition){
       return !condition && (path.includes('/profile') || path == '/news')
     }
 
-    return condition
+    return condition && this.user.role.includes('admin')
   }
 }
 </script>

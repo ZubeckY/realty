@@ -31,7 +31,6 @@ export default class News extends Vue {
     if (process.client) {
       let authToken = getAuthToken()
       const agencyID = this.$store.state.user.user?.agency?.id
-      console.log(agencyID);
 
       if (!authToken) {
         return null
@@ -62,8 +61,6 @@ export default class News extends Vue {
 
           this.posts = data.data
           this.loading = false
-
-          console.log(this.posts)
         })
     }
   }

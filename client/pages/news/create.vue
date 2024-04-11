@@ -4,6 +4,22 @@
       <h3 :class="usableText">Добавление новости</h3>
 
       <div class="create__group mt-3">
+        <div class="create__title">Текст</div>
+        <div class="mr-3">
+          <v-textarea
+              v-model="model.text"
+              :dark="usableTheme"
+              :disabled="disabled"
+              type="text"
+              rows="3"
+              outlined
+              counter
+              dense
+          />
+        </div>
+      </div>
+
+      <div class="create__group">
         <div class="create__title">Ссылка на видео Youtube</div>
         <div class="mr-3">
           <v-text-field
@@ -44,22 +60,6 @@
             :dark="usableTheme"
             :disabled="disabled"
             type="text"
-            outlined
-            counter
-            dense
-          />
-        </div>
-      </div>
-
-      <div class="create__group">
-        <div class="create__title">Текст</div>
-        <div class="mr-3">
-          <v-textarea
-            v-model="model.text"
-            :dark="usableTheme"
-            :disabled="disabled"
-            type="text"
-            rows="3"
             outlined
             counter
             dense

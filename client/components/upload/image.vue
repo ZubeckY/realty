@@ -66,9 +66,12 @@ export default class UploadImage extends Vue {
       if ((file.size / 1024 / 1024) > 15) {
         return this.$emit("veryBigFile");
       }
-      // https://httpbin.org/post
 
-      await this.$axios.post("/api/file/upload-image/", file, {
+      const formData = new FormData()
+      formData.append('file', file)
+
+      // https://httpbin.org/post
+      await this.$axios.post("/api/file/upload-image/", formData, {
         ...axiosAuthConfig(authToken, "", "crm_client"),
         cancelToken: this.cancelTokenSource.token,
         onUploadProgress: (progressEvent: any) => {

@@ -45,6 +45,84 @@
         </div>
 
         <div class="auth-form__textField">
+          <v-text-field
+              label="Адрес"
+              @click="addressFormDialog = !addressFormDialog"
+              v-model="addressInput"
+              :rules="[rules.required]"
+              :disabled="disabled"
+              :dark="usableTheme"
+              type="text"
+              outlined
+              readonly
+          />
+        </div>
+
+        <action-dialog v-model="addressFormDialog"
+                       title="Добавление адреса"
+                       text=""
+                       cancel-text="Отмена"
+                       confirm-text="Добавить"
+                       @isConfirm="addressFormDialog = !addressFormDialog">
+          <div class="mt-3">
+            <div class="auth-form__textField">
+              <v-autocomplete
+                  label="Регион"
+                  :items="regionList"
+                  item-value="id"
+                  item-text="title"
+                  v-model="model.address.regionId"
+                  :rules="[rules.required]"
+                  :disabled="disabled"
+                  :dark="usableTheme"
+                  type="email"
+                  outlined
+              />
+            </div>
+
+            <div class="auth-form__textField">
+              <v-autocomplete
+                  label="Город"
+                  :items="getCityList"
+                  item-value="id"
+                  item-text="title"
+                  v-model="model.address.cityId"
+                  :rules="[rules.required]"
+                  :disabled="disabled"
+                  :dark="usableTheme"
+                  type="email"
+                  outlined
+              />
+            </div>
+
+            <div class="d-flex">
+              <div class="auth-form__textField mr-1">
+                <v-text-field
+                    label="Улица"
+                    v-model="model.address.street"
+                    :rules="[rules.required]"
+                    :disabled="disabled"
+                    :dark="usableTheme"
+                    type="text"
+                    outlined
+                />
+              </div>
+              <div class="auth-form__textField ml-1">
+                <v-text-field
+                    label="Дом"
+                    v-model="model.address.number"
+                    :rules="[rules.required]"
+                    :disabled="disabled"
+                    :dark="usableTheme"
+                    type="text"
+                    outlined
+                />
+              </div>
+            </div>
+          </div>
+        </action-dialog>
+
+        <div class="auth-form__textField">
           <v-autocomplete
               v-model="model.legalForm"
               :rules="[rules.required]"
@@ -98,7 +176,7 @@
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
+import { Vue, Component, Watch } from "vue-property-decorator";
 import { ColorTheme } from "~/assets/script/functions/colorTheme";
 import axiosAuthConfig from "~/assets/script/functions/axiosAuthConfig";
 
@@ -107,13 +185,26 @@ import axiosAuthConfig from "~/assets/script/functions/axiosAuthConfig";
 })
 export default class Create extends Vue {
   valid: boolean = false;
+  addressInput: string = "";
+  addressFormDialog: boolean = false;
   legalForms: any = [];
+
+  regionList: any = [];
+  cityList: any = [];
 
   model: any = {
     title: "",
     inn: "",
     email: "",
-    legalForm: ""
+    legalForm: "",
+    address: {
+      region: "",
+      regionId: "",
+      city: "",
+      cityId: "",
+      street: "",
+      number: ""
+    }
   };
 
   snackbar: boolean = false;
@@ -154,6 +245,8 @@ export default class Create extends Vue {
       if (!authToken) {
         return null;
       }
+
+      await this.submitRegion();
 
       await this.$axios.get("/api/agency/legal-form/list", {
         ...axiosAuthConfig(authToken, "", "crm_client")
@@ -231,6 +324,62 @@ export default class Create extends Vue {
     this.snackbar = true;
     this.snackbarColor = color;
     this.snackbarMessage = message;
+  }
+
+  async submitRegion() {
+    await this.$axios
+        .get("/api/file/region-list/")
+        .then((data) => {
+          this.regionList = data.data;
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+  }
+
+
+  @Watch("addressFormDialog")
+  changeAddressModel() {
+    const { regionId, cityId, street, number } = this.model.address;
+    if (regionId.length > 0 && cityId.length > 0 && street.length > 0 && number.length > 0) {
+      this.addressInput = this.regionTypeText + ", " + this.cityTypeText + ", " + street + ", " + number;
+      this.model.address.city = this.cityTypeText;
+      this.model.address.region = this.regionTypeText;
+      return;
+    }
+    this.addressInput = "";
+    this.model.address.city = "";
+    this.model.address.region = "";
+  }
+
+  @Watch("model.address.regionId")
+  async submitCity() {
+    if (this.model.address.regionId) {
+      await this.$axios
+          .get("/api/file/city-list/?regions=" + this.model.address.regionId)
+          .then((data) => {
+            this.cityList = data.data;
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+    }
+  }
+
+  get getCityList() {
+    return this.cityList[0]?.cityList ?? [];
+  }
+
+  get regionTypeText() {
+    const { regionId } = this.model.address;
+    const needRegion = this.regionList.filter((item: any) => item.id === regionId);
+    return needRegion[0]?.title ?? "";
+  }
+
+  get cityTypeText() {
+    const { cityId } = this.model.address;
+    const needCity = this.getCityList.filter((item: any) => item.id === cityId);
+    return needCity[0]?.title ?? "";
   }
 
   get usableBlock() {

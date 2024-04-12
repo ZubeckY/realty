@@ -1,4 +1,3 @@
-import 'reflect-metadata'
 import { Param, Body, Get, Post, Put, Delete, UseAfter, JsonController } from 'routing-controllers'
 import { checkAuth } from '../middleware/checkAuth.js'
 import { AppDataSource } from "../connectDataBase"

@@ -1,12 +1,11 @@
-import "reflect-metadata";
-import { Body, Delete, Get, JsonController, Param, Post, UseAfter } from "routing-controllers";
-import { Agency, AgencyInvite, User } from "../entity/index.js";
-import { AppDataSource } from "../connectDataBase.js";
 import * as uuid from "uuid";
+import { Body, Delete, Get, JsonController, Param, Post, UseAfter } from "routing-controllers";
+import { Address, Agency, AgencyInvite, User } from "../entity/index.js";
 import { agencyLegalFormTypeText } from "../types/agencyLegalForm";
-import { Role } from "../types/role";
+import { AppDataSource } from "../connectDataBase.js";
 import { checkAuth } from "../middleware/checkAuth";
 import MailService from "../service/mailService";
+import { Role } from "../types/role";
 
 @UseAfter(checkAuth)
 @JsonController('/agency')
@@ -54,10 +53,13 @@ export class AgencyController {
   @Post('/create/')
   async createAgency(@Body() body: any) {
     try {
-      const { agency, user, address } = body
+      const { agency, user } = body
+
+      const { address } = agency
 
       const userRepository = AppDataSource.getRepository(User)
       const agencyRepository = AppDataSource.getRepository(Agency)
+      const addressRepository = AppDataSource.getRepository(Address)
 
       // ищем агентство по названию
       const agencyByTitle = await agencyRepository.findOneBy({
@@ -119,6 +121,16 @@ export class AgencyController {
         }
       }
 
+      const createAddress = new Address()
+      createAddress.region = address.region
+      createAddress.regionId = address.regionId
+      createAddress.city = address.city
+      createAddress.cityId = address.cityId
+      createAddress.street = address.street
+      createAddress.number = address.number
+
+      const saveAddress = await addressRepository.save(createAddress)
+
       // Пытаемся создать новое агентство
       const createAgency: Agency = new Agency()
       createAgency.title = agency!.title
@@ -128,6 +140,7 @@ export class AgencyController {
       createAgency.legalForm = agency!.legalForm
       createAgency.inviteCode = uuid.v4()
       createAgency.ownerUser = user
+      createAgency.address = saveAddress
 
       await agencyRepository.save(createAgency)
 
@@ -151,7 +164,6 @@ export class AgencyController {
         agency: createAgency,
       }
     } catch (e) {
-      console.log(e)
       return {
         message: 'Ошибка сервера',
         error: e,

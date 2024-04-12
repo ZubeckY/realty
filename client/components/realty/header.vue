@@ -18,16 +18,16 @@
     <realty-create />
 
     <!-- Корзина -->
-    <v-btn
-      class="mx-2 py-3 px-4"
-      :color="usableColor"
-      elevation="0"
-      outlined
-      x-small
-    >
-      Корзина
-      <v-icon class="ml-2" x-small>mdi-delete</v-icon>
-    </v-btn>
+<!--    <v-btn-->
+<!--      class="mx-2 py-3 px-4"-->
+<!--      :color="usableColor"-->
+<!--      elevation="0"-->
+<!--      outlined-->
+<!--      x-small-->
+<!--    >-->
+<!--      Корзина-->
+<!--      <v-icon class="ml-2" x-small>mdi-delete</v-icon>-->
+<!--    </v-btn>-->
   </div>
 </template>
 <script lang="ts">

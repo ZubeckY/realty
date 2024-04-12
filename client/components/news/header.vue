@@ -13,19 +13,6 @@
       Создать
       <v-icon class="ml-2" small>mdi-plus</v-icon>
     </v-btn>
-
-    <!-- Корзина -->
-    <v-btn
-      class="mx-2 py-3 px-4"
-      :disabled="!disabled"
-      :color="usableColor"
-      elevation="0"
-      outlined
-      x-small
-    >
-      Корзина
-      <v-icon class="ml-2" x-small>mdi-delete</v-icon>
-    </v-btn>
   </div>
 </template>
 

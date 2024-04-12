@@ -1,30 +1,48 @@
 <template>
-  <div class="d-flex flex-row" style="width: 100%;">
+  <div class="d-flex flex-row" style="width: 100%">
     <!-- Создать -->
-    <v-btn @click="$router.push('/news/create')"
-           :disabled="!disabled"
-           color="white" elevation="0" x-small fab>
-      <v-icon color="primary darken-1">mdi-plus-box-outline</v-icon>
+    <v-btn
+      @click="$router.push('/news/create')"
+      :disabled="!disabled"
+      :color="usableColor"
+      class="py-3 px-4"
+      elevation="0"
+      outlined
+      x-small
+    >
+      Создать
+      <v-icon class="ml-2" small>mdi-plus</v-icon>
     </v-btn>
 
     <!-- Корзина -->
-    <v-btn :disabled="!disabled"
-           class="mx-2" color="white"
-           elevation="0" x-small fab>
-      <v-icon color="primary darken-1">mdi-delete</v-icon>
+    <v-btn
+      class="mx-2 py-3 px-4"
+      :disabled="!disabled"
+      :color="usableColor"
+      elevation="0"
+      outlined
+      x-small
+    >
+      Корзина
+      <v-icon class="ml-2" x-small>mdi-delete</v-icon>
     </v-btn>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue } from 'vue-property-decorator'
+import { ColorTheme } from '~/assets/script/functions/colorTheme'
 
 @Component
 export default class NewsHeader extends Vue {
-  userAgency = this.$store.state.user.user?.agency?.id;
+  userAgency = this.$store.state.user.user?.agency?.id
 
   get disabled() {
-    return this.userAgency > 0;
+    return this.userAgency > 0
   }
-};
+
+  get usableColor() {
+    return new ColorTheme().color()
+  }
+}
 </script>

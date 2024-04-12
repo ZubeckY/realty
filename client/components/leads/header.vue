@@ -3,35 +3,38 @@
     <!-- Создать -->
     <v-btn
       @click="$router.push('/leads/create')"
-      color="white"
+      class="mr-2 py-3 px-4"
+      :color="usableColor"
       elevation="0"
+      outlined
       x-small
-      fab
     >
-      <v-icon color="primary darken-1">mdi-plus-box-outline</v-icon>
+      Создать
+      <v-icon class="ml-2" x-small>mdi-plus</v-icon>
     </v-btn>
 
-    <!-- Выгрузка -->
+    <!-- Создать -->
     <v-btn
       @click="$router.push('/leads/upload')"
-      class="mx-2"
-      color="white"
+      class="py-3 px-4"
+      :color="usableColor"
       elevation="0"
+      outlined
       x-small
-      fab
     >
-      <v-icon color="primary darken-1">mdi-upload-box-outline</v-icon>
-    </v-btn>
-
-    <!-- Корзина -->
-    <v-btn color="white" elevation="0" x-small fab>
-      <v-icon color="primary darken-1">mdi-delete</v-icon>
+      Выгрузка
+      <v-icon class="ml-2" x-small>mdi-upload</v-icon>
     </v-btn>
   </div>
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { ColorTheme } from "~/assets/script/functions/colorTheme";
 
 @Component
-export default class LeadsHeader extends Vue {}
+export default class LeadsHeader extends Vue {
+  get usableColor() {
+    return new ColorTheme().color()
+  }
+}
 </script>

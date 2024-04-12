@@ -1,15 +1,18 @@
 <template>
   <div>
+    <!-- Создать -->
     <v-btn
       @click="changeDialog"
-      class="ml-2"
-      color="white"
+      :color="usableColor"
+      class="mx-2 py-3 px-4"
       elevation="0"
+      outlined
       x-small
-      fab
     >
-      <v-icon color="primary darken-1">mdi-filter-plus</v-icon>
+      Фильтр
+      <v-icon class="ml-2" small>mdi-filter</v-icon>
     </v-btn>
+
     <action-dialog
       v-model="dialog"
       title="Фильтры"
@@ -37,6 +40,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { ColorTheme } from "~/assets/script/functions/colorTheme";
 
 @Component
 export default class FilterDialog extends Vue {
@@ -71,6 +75,10 @@ export default class FilterDialog extends Vue {
     this.price.range = [1_000_000, 45_000_000]
 
     this.managerCurrent = []
+  }
+
+  get usableColor() {
+    return new ColorTheme().color()
   }
 }
 </script>

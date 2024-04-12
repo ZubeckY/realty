@@ -1,9 +1,17 @@
 <template>
   <div>
-    <v-btn @click="changeDialog" class="mx-2"
-           color="white" elevation="0" x-small fab>
-      <v-icon color="primary darken-1">mdi-plus-box-outline</v-icon>
+    <v-btn
+      @click="changeDialog"
+      :color="usableColor"
+      class="py-3 px-4"
+      elevation="0"
+      outlined
+      x-small
+    >
+      Создать
+      <v-icon class="ml-2" small>mdi-plus</v-icon>
     </v-btn>
+
     <action-dialog v-model="dialog"
                    :popup="true"
                    title="Добавить недвижимость"
@@ -22,6 +30,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import { ColorTheme } from "~/assets/script/functions/colorTheme";
 
 @Component
 export default class RealtyCreate extends Vue {
@@ -44,6 +53,10 @@ export default class RealtyCreate extends Vue {
 
   changeDialog() {
     this.dialog = !this.dialog
+  }
+
+  get usableColor() {
+    return new ColorTheme().color()
   }
 }
 </script>

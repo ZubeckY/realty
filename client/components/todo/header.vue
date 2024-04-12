@@ -3,18 +3,25 @@
     <!-- Создать -->
     <v-btn
       @click="$router.push('/todo/create')"
-      color="white"
+      :color="usableColor"
+      class="py-3 px-4"
       elevation="0"
+      outlined
       x-small
-      fab
     >
-      <v-icon color="primary darken-1">mdi-plus-box-outline</v-icon>
+      Создать
+      <v-icon class="ml-2" small>mdi-plus</v-icon>
     </v-btn>
   </div>
 </template>
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
+import { ColorTheme } from '~/assets/script/functions/colorTheme'
 
 @Component({})
-export default class TodoHeader extends Vue {}
+export default class TodoHeader extends Vue {
+  get usableColor() {
+    return new ColorTheme().color()
+  }
+}
 </script>

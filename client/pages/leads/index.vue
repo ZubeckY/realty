@@ -31,6 +31,18 @@
         </td>
       </template>
 
+      <template v-slot:item.client.fullName="{ item }">
+        <td class="text-start text-no-wrap">
+          {{ item.client.fullName }}
+        </td>
+      </template>
+
+      <template v-slot:item.client.phone="{ item }">
+        <td class="text-start text-no-wrap">
+          {{ item.client.phone }}
+        </td>
+      </template>
+
       <template v-slot:item.created="{ item }">
         <td class="text-start text-no-wrap">
           {{ normalizeCreated(item['created']) }}

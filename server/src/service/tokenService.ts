@@ -15,7 +15,7 @@ export default class TokenService {
       }
     } catch (e) {
       return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        message: 'Ошибка сервера',
         error: e,
       }
     }
@@ -64,7 +64,7 @@ export default class TokenService {
       return await authTokenRepository.save(createToken)
     } catch (e) {
       return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        message: 'Ошибка сервера',
         error: e,
       }
     }

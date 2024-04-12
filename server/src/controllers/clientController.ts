@@ -35,7 +35,7 @@ export class ClientController {
       })
     } catch (e) {
       return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        message: 'Ошибка сервера',
         error: e,
       }
     }
@@ -64,7 +64,7 @@ export class ClientController {
       return newsItemFromDB
     } catch (e) {
       return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        message: 'Ошибка сервера',
         error: e,
       }
     }
@@ -135,7 +135,7 @@ export class ClientController {
 
     } catch (e) {
       return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        message: 'Ошибка сервера',
         error: e,
       }
     }
@@ -174,7 +174,7 @@ export class ClientController {
   //     }
   //   } catch (e) {
   //     return {
-  //       message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+  //       message: 'Ошибка сервера',
   //       error: e,
   //     }
   //   }
@@ -214,7 +214,7 @@ export class ClientController {
       return await clientRepository.remove(clientFromDB)
     } catch (e) {
       return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        message: 'Ошибка сервера',
         error: e,
       }
     }

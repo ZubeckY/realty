@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <data>
+    <regionId region="01">
+        <cityId id="maykop">
+            <district id="adigeya">
+                <type>округ</type>
+                <title>новая Адыгея</title>
+            </district>
+        </cityId>
+    </regionId>
     <regionId region="23">
-        <sityId id="krasnodar">
+        <cityId id="goryachiy-klyuch">
+            <district id="razvilka">
+                <type>район</type>
+                <title>Развилка</title>
+            </district>
+        </cityId>
+        <cityId id="krasnodar">
             <!-- округ -->
             <district id="zapadnyy">
                 <type>округ</type>
@@ -82,7 +96,7 @@
             </district>
             <district id="selkhozinstituta">
                 <type>район</type>
-                <title>Сельхозинститута </title>
+                <title>Сельхозинститута</title>
             </district>
             <district id="теc">
                 <type>район</type>
@@ -140,6 +154,6 @@
                 <type>м-он</type>
                 <title>Панорама</title>
             </district>
-        </sityId>
+        </cityId>
     </regionId>
 </data>

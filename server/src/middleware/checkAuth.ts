@@ -34,7 +34,7 @@ export async function checkAuth(req: any, res: any, next: (err?: any) => any) {
     return stepValid >= 2 ? next() : null
   } catch (e) {
     return res.send({
-      message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+      message: 'Ошибка сервера',
       error: e,
     })
   }

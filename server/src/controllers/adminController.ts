@@ -36,7 +36,7 @@ export class AdminController {
       return true
     } catch (e) {
       return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        message: 'Ошибка сервера',
         error: e,
       }
     }

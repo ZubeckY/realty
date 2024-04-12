@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <data>
     <regionId region="01">
-        <sity id="maykop">
+        <city id="maykop">
             <title>Майкоп</title>
-        </sity>
+        </city>
     </regionId>
     <regionId region="23">
-        <sity id="krasnodar">
+        <city id="krasnodar">
             <title>Краснодар</title>
-        </sity>
+        </city>
+        <city id="goryachiy-klyuch">
+            <title>Горячий Ключ</title>
+        </city>
     </regionId>
 </data>

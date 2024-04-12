@@ -34,7 +34,7 @@ export class LeadController {
         .getMany();
     } catch (e) {
       return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        message: 'Ошибка сервера',
         error: e,
       }
     }
@@ -63,7 +63,7 @@ export class LeadController {
       return newsItemFromDB
     } catch (e) {
       return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        message: 'Ошибка сервера',
         error: e,
       }
     }
@@ -122,7 +122,7 @@ export class LeadController {
       return await leadRepository.save(leadCreate)
     } catch (e) {
       return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        message: 'Ошибка сервера',
         error: e,
       }
     }
@@ -157,7 +157,7 @@ export class LeadController {
   //     }
   //   } catch (e) {
   //     return {
-  //       message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+  //       message: 'Ошибка сервера',
   //       error: e,
   //     }
   //   }
@@ -195,7 +195,7 @@ export class LeadController {
       return await leadRepository.remove(leadFromDB)
     } catch (e) {
       return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        message: 'Ошибка сервера',
         error: e,
       }
     }

@@ -21,7 +21,7 @@ export class AuthController {
       return roleTypeText
     } catch (e) {
       return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        message: 'Ошибка сервера',
         error: e,
       }
     }
@@ -61,7 +61,7 @@ export class AuthController {
       })
     } catch (e) {
       return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        message: 'Ошибка сервера',
         error: e,
       }
     }
@@ -111,7 +111,7 @@ export class AuthController {
       }
     } catch (e) {
       return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        message: 'Ошибка сервера',
         error: e,
       }
     }
@@ -159,7 +159,7 @@ export class AuthController {
       }
     } catch (e) {
       return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        message: 'Ошибка сервера',
         error: e,
       }
     }
@@ -237,7 +237,7 @@ export class AuthController {
       return tokens
     } catch (e) {
       return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        message: 'Ошибка сервера',
         error: e,
       }
     }
@@ -271,7 +271,7 @@ export class AuthController {
       return true
     } catch (e) {
       return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        message: 'Ошибка сервера',
         error: e,
       }
     }
@@ -303,7 +303,7 @@ export class AuthController {
       return res.redirect(redirectLink)
     } catch (e) {
       return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        message: 'Ошибка сервера',
         error: e,
       }
     }
@@ -341,7 +341,7 @@ export class AuthController {
       })
     } catch (e) {
       return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        message: 'Ошибка сервера',
         error: e,
       }
     }
@@ -362,7 +362,7 @@ export class AuthController {
       return !!emailExists
     } catch (e) {
       return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        message: 'Ошибка сервера',
         error: e,
       }
     }
@@ -420,7 +420,7 @@ export class AuthController {
       }
     } catch (e) {
       return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        message: 'Ошибка сервера',
         error: e,
       }
     }
@@ -446,7 +446,7 @@ export class AuthController {
       return res.status(200).send({ ok: true })
     } catch (e) {
       return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        message: 'Ошибка сервера',
         error: e,
       }
     }
@@ -490,7 +490,7 @@ export class AuthController {
       return userFromDB
     } catch (e) {
       return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        message: 'Ошибка сервера',
         error: e,
       }
     }
@@ -502,7 +502,7 @@ export class AuthController {
       return true
     } catch (e) {
       return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        message: 'Ошибка сервера',
         error: e,
       }
     }
@@ -533,7 +533,7 @@ export class AuthController {
       return true
     } catch (e) {
       return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        message: 'Ошибка сервера',
         error: e,
       }
     }
@@ -556,7 +556,7 @@ export class AuthController {
       return userFromDB.IsActivatedAccount
     } catch (e) {
       return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        message: 'Ошибка сервера',
         error: e,
       }
     }

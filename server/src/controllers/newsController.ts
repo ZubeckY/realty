@@ -46,7 +46,7 @@ export class NewsController {
       return await newsRepository.save(newsItem)
     } catch (e) {
       return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        message: 'Ошибка сервера',
         error: e,
       }
     }
@@ -81,7 +81,7 @@ export class NewsController {
         .getMany()
     } catch (e) {
       return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        message: 'Ошибка сервера',
         error: e,
       }
     }
@@ -110,7 +110,7 @@ export class NewsController {
       return newsItemFromDB
     } catch (e) {
       return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        message: 'Ошибка сервера',
         error: e,
       }
     }
@@ -145,7 +145,7 @@ export class NewsController {
       return await newsRepository.save(newsItemFromDB)
     } catch (e) {
       return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        message: 'Ошибка сервера',
         error: e,
       }
     }
@@ -172,7 +172,7 @@ export class NewsController {
       return await newsRepository.remove(newsItemFromDB)
     } catch (e) {
       return {
-        message: 'Ошибка сервера, чтобы посмотреть подробнее, зайдите в консоль',
+        message: 'Ошибка сервера',
         error: e,
       }
     }

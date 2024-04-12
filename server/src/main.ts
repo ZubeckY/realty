@@ -1,19 +1,19 @@
 import "reflect-metadata";
 import * as express from "express";
+import * as fs from "fs";
 import path from "path";
 import multer from "multer";
 import config from "./config.js";
 import bodyParser from "body-parser";
 import compression from "compression";
+import { User, File } from "./entity";
 import logger from "./modules/logger.js";
 import { createExpressServer } from "routing-controllers";
-import { AppDataSource, connectDataBase } from "./connectDataBase.js";
 import controllers from "./controllers/index.js";
 import { checkAuth } from "./middleware/checkAuth";
-import commonjsVariables from "commonjs-variables-for-esmodules";
 import TokenService from "./service/tokenService";
-import { User, File } from "./entity";
-import * as fs from "fs";
+import { AppDataSource, connectDataBase } from "./connectDataBase.js";
+import commonjsVariables from "commonjs-variables-for-esmodules";
 //   @ts-ignore
 const { __filename, __dirname } = commonjsVariables(import.meta);
 
@@ -72,7 +72,7 @@ const limits = {
 const upload = multer({ storage, limits });
 
 app.post(
-  "/api/file/upload-image",
+  "/api/file/upload-image/",
   checkAuth,
   upload.single("file"),
   async (req: any, res: any, next: (err?: any) => any) => {
@@ -118,7 +118,7 @@ app.post(
       return res.send(savedFile);
     } catch (e) {
       return res.send({
-        message: "",
+        message: 'Ошибка сервера',
         error: e
       });
     }

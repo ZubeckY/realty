@@ -1,4 +1,13 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn
+} from "typeorm";
 import * as typeorm from 'typeorm'
 import { Address, File, User } from './index.js'
 import { Category } from '../types/category.js'
@@ -173,7 +182,8 @@ export class Realty {
   @Column({ nullable: true, comment: 'Год постройки' })
   builtYear?: number
 
-  @ManyToOne(() => File, (file) => file.id, {
+  @ManyToMany(() => File, (file) => file.id, {
+    array: true,
     cascade: true,
     nullable: true,
     onDelete: 'CASCADE',

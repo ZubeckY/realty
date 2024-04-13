@@ -1,7 +1,8 @@
 import { Body, Delete, Get, JsonController, Param, Params, Patch, Post, Req, UseAfter } from 'routing-controllers'
 import { AppDataSource } from '../connectDataBase.js'
-import { Agency, News, User } from '../entity/index.js'
+import { Agency, News, User, File } from '../entity/index.js'
 import { checkAuth } from '../middleware/checkAuth'
+import { In } from "typeorm";
 
 @UseAfter(checkAuth)
 @JsonController('/news')
@@ -10,6 +11,7 @@ export class NewsController {
   async create(@Body() body: any) {
     try {
       const { agency, user, model } = body
+      const fileRepository = AppDataSource.getRepository(File)
       const userRepository = AppDataSource.getRepository(User)
       const newsRepository = AppDataSource.getRepository(News)
       const agencyRepository = AppDataSource.getRepository(Agency)
@@ -34,14 +36,36 @@ export class NewsController {
         }
       }
 
+      const filesFromDB: any = model.filesFromDB
+      const listID = []
+
+      if (filesFromDB) {
+        for (let i = 0; i < filesFromDB.length; i++) {
+          const fileItem = filesFromDB[i]
+          listID.push(fileItem.id)
+        }
+      }
+
       const { text, tags, youtube } = model
       const newsItem = new News()
+
+      await fileRepository.update(
+        { id: In(listID) },
+        { usage: true, isPublished: true }
+      )
+
+      const listFilesFromDB = await fileRepository.find({
+        where: {
+          id: In(listID)
+        }
+      })
 
       newsItem.text = text
       newsItem.youtube = youtube
       newsItem.tags = [...tags]
       newsItem.user = userFromDB
       newsItem.agency = agencyFromDB
+      newsItem.images = listFilesFromDB
 
       return await newsRepository.save(newsItem)
     } catch (e) {

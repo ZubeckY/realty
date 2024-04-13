@@ -16,6 +16,9 @@ export class File {
   @Column({ comment: 'Путь/ссылка на фото', nullable: true, })
   path?: string
 
+  @Column({ comment: 'Использующийся файл', default: false })
+  usage?: boolean
+
   @Column({ default: true, comment: 'Опубликованный файл' })
   isPublished?: boolean
 

@@ -29,6 +29,7 @@
           <div class="newsCard-images">
             <v-carousel
               class="newsCard-images__carousel radius"
+              :show-arrows="postImages.length > 1"
               hide-delimiter-background
             >
               <v-carousel-item
@@ -36,9 +37,14 @@
                 class="newsCard-images__carouselItem"
                 :key="'newsCardImage-' + i"
               >
-                <div class="newsCard-image" v-if="item.type === 'image'">
+                <a
+                  v-if="item.type === 'image'"
+                  class="newsCard-image"
+                  :href="item.src"
+                  target="_blank"
+                >
                   <img class="newsCard-image__img" :src="item.src" alt="#" />
-                </div>
+                </a>
 
                 <div class="newsCard-video" v-if="item.type === 'video'">
                   <div class="newsCard-video__container">
@@ -56,13 +62,10 @@
               </v-carousel-item>
             </v-carousel>
 
-            <div class="newsCard-video__tags">
+            <div class="newsCard-video__tags" v-if="item.tags.length > 0">
               <div class="newsCard-video__tags-title">Теги:</div>
               <div class="newsCard-video__tags-items">
-                <span v-for="(text, i) in item.tags" :key="'tag-' + i">
-                  {{ text }}
-                </span>
-                ,
+                {{ item.tags }}
               </div>
             </div>
           </div>
@@ -80,17 +83,29 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 
 @Component({})
 export default class Item extends Vue {
-  @Prop() item!: Record<string, unknown>
+  @Prop() item!: Record<string, any>
+  postImages: any = []
 
-  postImages = [
-    {
-      type: 'image',
-      src: 'https://mimi-panda.com/wp-content/uploads/2023/02/marguerite-729510_640.jpg',
-    },
-    {
-      type: 'video',
-      src: '//www.youtube.com/embed/S_dfq9rFWAE',
-    },
-  ]
+  created() {
+    const youtube: any = this.item.youtube
+    const imagesList: any = this.item.images
+    if (youtube) {
+      this.postImages.push({
+        type: 'video',
+        src: youtube,
+      })
+    }
+
+    for (let i = 0; i < imagesList.length; i++) {
+      let image = imagesList[i]
+      // todo заменить ссылку
+      const path = 'http://localhost:4000' + image.path
+
+      this.postImages.push({
+        type: 'image',
+        src: path,
+      })
+    }
+  }
 }
 </script>

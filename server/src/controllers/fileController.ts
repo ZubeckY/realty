@@ -1,56 +1,88 @@
-import { Get, JsonController, Param, Post, QueryParam, UseAfter } from "routing-controllers"
-import XmlService from "../service/xmlService"
+import { Delete, Get, JsonController, Param, Params, Post, QueryParam, UseAfter } from 'routing-controllers'
+import * as fs from 'node:fs'
+import { File } from '../entity'
+import { AppDataSource } from '../connectDataBase'
+import XmlService from '../service/xmlService'
+import commonjsVariables from 'commonjs-variables-for-esmodules'
+//   @ts-ignore
+const {  __dirname } = commonjsVariables(import.meta)
 
-@JsonController("/file")
+@JsonController('/file')
 export class FileController {
-  @Get("/region-list/")
+  @Get('/region-list/')
   async getRegionList() {
     try {
-      return await new XmlService().getRegionList();
+      return await new XmlService().getRegionList()
     } catch (e) {
       return {
-        message: "Ошибка сервера",
-        error: e
-      };
+        message: 'Ошибка сервера',
+        error: e,
+      }
     }
   }
 
-  @Get("/city-list/")
-  async getCityList(@QueryParam("regions", { isArray: true }) regions: string[]) {
+  @Get('/city-list/')
+  async getCityList(@QueryParam('regions', { isArray: true }) regions: string[]) {
     try {
-      return await new XmlService().getCityList(regions);
+      return await new XmlService().getCityList(regions)
     } catch (e) {
       return {
-        message: "Ошибка сервера",
-        error: e
-      };
+        message: 'Ошибка сервера',
+        error: e,
+      }
     }
   }
 
-  @Get("/district-list/")
+  @Get('/district-list/')
   async getDistrictList(
-    @QueryParam("regions", { isArray: true }) regions: string[],
-    @QueryParam("cities", { isArray: true }) cities: string[]
+    @QueryParam('regions', { isArray: true }) regions: string[],
+    @QueryParam('cities', { isArray: true }) cities: string[],
   ) {
     try {
-      return await new XmlService().getDistrictList(regions, cities);
+      return await new XmlService().getDistrictList(regions, cities)
     } catch (e) {
       return {
-        message: "Ошибка сервера",
-        error: e
-      };
+        message: 'Ошибка сервера',
+        error: e,
+      }
     }
   }
 
-  @Get("/read-xml/:hash")
-  async readXMLFile(@Param("hash") hash: string) {
+  @Get('/read-xml/:hash')
+  async readXMLFile(@Param('hash') hash: string) {
     try {
-      return new XmlService().readXMlAndGetJSON(hash);
+      return new XmlService().readXMlAndGetJSON(hash)
     } catch (e) {
       return {
-        message: "Ошибка сервера",
-        error: e
-      };
+        message: 'Ошибка сервера',
+        error: e,
+      }
+    }
+  }
+
+  @Delete('/delete/:id')
+  async deleteFile(@Param('id') id: any) {
+    try {
+      const fileRepository = AppDataSource.getRepository(File)
+      const fileFromDB = await fileRepository.findOneBy({
+        id: +id,
+      })
+
+      if (!fileFromDB) {
+        return {
+          message: 'Файл не найден',
+        }
+      }
+
+      const linkFile = __dirname.split('controllers')[0]
+      const fullLink = linkFile + fileFromDB.path
+      fs.unlinkSync(fullLink)
+      return await fileRepository.remove(fileFromDB)
+    } catch (e) {
+      return {
+        message: 'Ошибка сервера',
+        error: e,
+      }
     }
   }
 }

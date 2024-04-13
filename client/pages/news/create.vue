@@ -7,14 +7,14 @@
         <div class="create__title">Текст</div>
         <div class="mr-3">
           <v-textarea
-              v-model="model.text"
-              :dark="usableTheme"
-              :disabled="disabled"
-              type="text"
-              rows="3"
-              outlined
-              counter
-              dense
+            v-model="model.text"
+            :dark="usableTheme"
+            :disabled="disabled"
+            type="text"
+            rows="3"
+            outlined
+            counter
+            dense
           />
         </div>
       </div>
@@ -23,13 +23,13 @@
         <div class="create__title">Ссылка на видео Youtube</div>
         <div class="mr-3">
           <v-text-field
-              v-model="videoModel"
-              :dark="usableTheme"
-              :disabled="disabled"
-              type="text"
-              outlined
-              counter
-              dense
+            v-model="videoModel"
+            :dark="usableTheme"
+            :disabled="disabled"
+            type="text"
+            outlined
+            counter
+            dense
           />
         </div>
       </div>
@@ -41,12 +41,12 @@
           <v-tooltip right>
             <template v-slot:activator="{ on, attrs }">
               <v-btn
-                  class="ml-1"
-                  :color="usableColor"
-                  v-bind="attrs"
-                  v-on="on"
-                  small
-                  icon
+                class="ml-1"
+                :color="usableColor"
+                v-bind="attrs"
+                v-on="on"
+                small
+                icon
               >
                 <v-icon small>mdi-help-circle-outline</v-icon>
               </v-btn>
@@ -56,69 +56,71 @@
         </div>
         <div class="mr-3">
           <v-text-field
-              v-model="model.tags"
-              :dark="usableTheme"
-              :disabled="disabled"
-              type="text"
-              outlined
-              counter
-              dense
+            v-model="model.tags"
+            :dark="usableTheme"
+            :disabled="disabled"
+            type="text"
+            outlined
+            counter
+            dense
           />
         </div>
       </div>
+
+      {{model}}
 
       <div class="create__group">
         <div class="create__title">Фото</div>
         <div class="mr-3">
           <v-file-input
-              @change="syncFiles"
-              truncate-length="24"
-              v-model="files"
-              :dark="usableTheme"
-              :disabled="disabled"
-              placeholder="Выберите файлы"
-              prepend-inner-icon="mdi-upload"
-              prepend-icon=""
-              accept="image/*"
-              small-chips
-              multiple
-              outlined
-              dense
-              chips
+            @change="syncFiles"
+            truncate-length="24"
+            v-model="files"
+            :dark="usableTheme"
+            :disabled="disabled"
+            placeholder="Выберите файлы"
+            prepend-inner-icon="mdi-upload"
+            prepend-icon=""
+            accept="image/*"
+            small-chips
+            multiple
+            outlined
+            dense
+            chips
           />
         </div>
 
         <div class="create__uploadList mb-3">
           <upload-image
-              v-for="(item, i) in model.files"
-              :key="'upload-image-' + i"
-              @errorMessage="setErrorSnackbar"
-              @setSavedFileToModel="setSavedFileToModel"
-              @completeUpload="itemUpload(i)"
-              @veryBigFile="veryBigFile(i)"
-              @clearItem="clearItem(i)"
-              :item="item"
+            v-for="(item, i) in model.files"
+            :key="'upload-image-' + i"
+            @errorMessage="setErrorSnackbar"
+            @setSavedFileToModel="setSavedFileToModel"
+            @completeUpload="itemUpload(i)"
+            @veryBigFile="veryBigFile(i)"
+            @clearItem="clearItem(i)"
+            :item="item"
           />
         </div>
       </div>
 
       <div class="create__group mb-3">
         <v-btn
-            :color="usableColor"
-            :loading="loading"
-            :disabled="disabled"
-            @click="createOne"
-            outlined
-            small
+          :color="usableColor"
+          :loading="loading"
+          :disabled="disabled"
+          @click="createOne"
+          outlined
+          small
         >
           Создать
         </v-btn>
         <v-btn
-            color="error darken-1"
-            @click="$router.push('/news')"
-            :disabled="disabled"
-            outlined
-            small
+          color="error darken-1"
+          @click="$router.push('/news')"
+          :disabled="disabled"
+          outlined
+          small
         >
           Отмена
         </v-btn>
@@ -126,64 +128,109 @@
     </card>
 
     <v-snackbar
-        v-model="snackbar"
-        :color="snackbarColor"
-        :timeout="2000"
-        outlined
-        text
+      v-model="snackbar"
+      :color="snackbarColor"
+      :timeout="2000"
+      outlined
+      text
     >
       <span v-html="snackbarMessage"></span>
     </v-snackbar>
   </div>
 </template>
 <script lang="ts">
-import { Vue, Component, Watch } from "vue-property-decorator";
-import { ColorTheme } from "~/assets/script/functions/colorTheme";
+import { Vue, Component, Watch } from 'vue-property-decorator'
+import { ColorTheme } from '~/assets/script/functions/colorTheme'
+import getAuthToken from '~/assets/script/functions/getAuthToken'
+import axiosAuthConfig from '~/assets/script/functions/axiosAuthConfig'
 
 @Component({})
 export default class Create extends Vue {
-  loading: boolean = false;
-  disabled: boolean = false;
+  loading: boolean = false
+  disabled: boolean = false
 
-  videoModel: string = "";
+  videoModel: string = ''
 
-  snackbar: boolean = false;
-  snackbarColor: string = "";
-  snackbarMessage: string = "";
+  snackbar: boolean = false
+  snackbarColor: string = ''
+  snackbarMessage: string = ''
 
-  files: any = [];
+  files: any = []
 
   model: any = {
-    text: "",
-    youtube: "",
+    text: '',
+    youtube: '',
     tags: [],
     files: [],
-    filesFromDB: []
-  };
+    filesFromDB: [],
+  }
 
   async createOne() {
     if (this.fileUploaded) {
       return this.setSnackbarValues(
-          "error darken-1",
-          "Нельзя создать пост, пока загружаются файлы"
-      );
+        'error darken-1',
+        'Нельзя создать пост, пока загружаются файлы'
+      )
     }
 
-    if (this.model.text === "") {
+    if (this.model.text === '') {
       return this.setSnackbarValues(
-          "error darken-1",
-          `
+        'error darken-1',
+        `
           Одно из перечисленных значений:
           <ul>
             <li>текст</li>
           </ul>
            должно быть заполнено
           `
-      );
+      )
     }
 
-    this.loading = true;
-    this.disabled = true;
+    if (process.client) {
+      let authToken = getAuthToken()
+
+      if (!authToken) {
+        return null
+      }
+
+      this.loading = true
+      this.disabled = true
+
+      const user = this.$store.state.user.user
+      const agency = this.$store.state.user.user.agency
+
+      await this.$axios
+        .post(
+          '/api/news/create/',
+          {
+            model: this.model,
+            user,
+            agency,
+          },
+          {
+            ...axiosAuthConfig(authToken, '', 'crm_client'),
+          }
+        )
+        .then((data) => {
+          if (data.data?.message) {
+            this.setSnackbarValues('error darken-1', data.data.message)
+            console.log(data.data.error)
+            return
+          }
+
+          this.setSnackbarValues('success darken-1', 'Успешно')
+          setTimeout(() => {
+            this.$router.push('/news')
+          }, 1000)
+        })
+        .catch((e) => {
+          console.log(e)
+        })
+        .finally(() => {
+          this.loading = false
+          this.disabled = false
+        })
+    }
   }
 
   setErrorSnackbar(data: any) {
@@ -198,72 +245,83 @@ export default class Create extends Vue {
 
   getId(url: string) {
     const regExp =
-        /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-    const match = url.match(regExp);
+      /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/
+    const match = url.match(regExp)
 
-    return match && match[2].length === 11 ? match[2] : null;
+    return match && match[2].length === 11 ? match[2] : null
   }
 
-  @Watch("videoModel")
+  @Watch('videoModel')
   videoMarkup(): string {
     return this.getId(this.videoModel)
-        ? (this.model.youtube = this.videoModel
-            ? "//www.youtube.com/embed/" + this.getId(this.videoModel)
-            : "")
-        : "";
+      ? (this.model.youtube = this.videoModel
+          ? '//www.youtube.com/embed/' + this.getId(this.videoModel)
+          : '')
+      : ''
   }
 
   setSnackbarValues(color: string, message: string) {
-    this.snackbar = true;
-    this.snackbarColor = color;
-    this.snackbarMessage = message;
+    this.snackbar = true
+    this.snackbarColor = color
+    this.snackbarMessage = message
   }
 
   syncFiles() {
     for (let i = 0; i < this.files.length; i++) {
-      let file = this.files[i];
+      let file = this.files[i]
       this.model.files.push({
         uploaded: false,
-        file: file
-      });
+        file: file,
+      })
     }
-    this.files = [];
+    this.files = []
   }
 
   veryBigFile(i: number) {
     this.setSnackbarValues(
-        "error darken-1",
-        "Файл очень большой, максимальный вес не должен привышать 15мб"
-    );
-    this.clearItem(i);
+      'error darken-1',
+      'Файл очень большой, максимальный вес не должен привышать 15мб'
+    )
+    this.clearItem(i)
   }
 
   itemUpload(i: number) {
-    return (this.model.files[i].uploaded = true);
+    return (this.model.files[i].uploaded = true)
   }
 
   clearItem(i: number) {
     if (i > -1) {
-      return this.model.files.splice(i, 1);
+      const deleteFile = this.model.filesFromDB[i]
+      this.$axios.delete('/api/file/delete/' + deleteFile.id, {})
+        .then((data) => {
+          if (data.data?.message) {
+            this.setSnackbarValues('error darken-1', data.data.message)
+            console.log(data.data.error)
+            return
+          }
+          this.model.filesFromDB.splice(i, 1)
+          this.model.files.splice(i, 1)
+        })
+      return
     }
   }
 
   get fileUploaded() {
     return (
-        this.model.files.map((file: any) => file.uploaded).indexOf(false) > -1
-    );
+      this.model.files.map((file: any) => file.uploaded).indexOf(false) > -1
+    )
   }
 
   get usableTheme() {
-    return new ColorTheme().isDark();
+    return new ColorTheme().isDark()
   }
 
   get usableColor() {
-    return new ColorTheme().color();
+    return new ColorTheme().color()
   }
 
   get usableText() {
-    return new ColorTheme().text();
+    return new ColorTheme().text()
   }
 }
 </script>

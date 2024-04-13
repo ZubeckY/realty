@@ -1,4 +1,12 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  JoinTable, ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn
+} from "typeorm";
 import { User, Agency, File } from './index.js'
 import * as typeorm from 'typeorm'
 
@@ -16,7 +24,8 @@ export class News {
   @Column('varchar', { array: true, comment: 'Тэги поста', nullable: true })
   tags?: string[]
 
-  @ManyToOne(() => File, (file) => file.id, {
+  @ManyToMany(() => File, (file) => file.id, {
+    array: true,
     cascade: true,
     nullable: true,
     onDelete: 'CASCADE',

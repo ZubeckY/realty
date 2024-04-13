@@ -3,11 +3,11 @@
     <news-item v-for="post in posts" :key="'post-' + post['id']" :item="post" />
 
     <v-snackbar
-        v-model="snackbar"
-        :color="snackbarColor"
-        :timeout="2000"
-        outlined
-        text
+      v-model="snackbar"
+      :color="snackbarColor"
+      :timeout="2000"
+      outlined
+      text
     >
       {{ snackbarMessage }}
     </v-snackbar>
@@ -17,7 +17,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import axiosAuthConfig from '~/assets/script/functions/axiosAuthConfig'
-import getAuthToken from "~/assets/script/functions/getAuthToken";
+import getAuthToken from '~/assets/script/functions/getAuthToken'
 
 @Component
 export default class News extends Vue {
@@ -27,6 +27,7 @@ export default class News extends Vue {
   snackbar: boolean = false
   snackbarColor: string = ''
   snackbarMessage: string = ''
+
   async created() {
     if (process.client) {
       let authToken = getAuthToken()
@@ -38,7 +39,10 @@ export default class News extends Vue {
 
       if (!agencyID) {
         this.posts = []
-        this.setSnackbarValues('info darken-1', 'Вы не можете просматривать другие новости, пока вы не состоите в агентстве')
+        this.setSnackbarValues(
+          'info darken-1',
+          'Вы не можете просматривать другие новости, пока вы не состоите в агентстве'
+        )
         return
       }
 

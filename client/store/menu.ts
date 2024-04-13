@@ -2,16 +2,6 @@ export const state = () => ({
   menu: [
     {
       position: 10,
-      icon: "mdi-newspaper-variant",
-      title: "Новости",
-      link: "/news",
-      access: true,
-      showItem: true,
-      routeName: "news",
-      headerComponent: "news-header"
-    },
-    {
-      position: 20,
       icon: "mdi-account",
       title: "Профиль",
       link: "/profile/",
@@ -19,6 +9,16 @@ export const state = () => ({
       showItem: true,
       routeName: "profile-id",
       headerComponent: "profile-header"
+    },
+    {
+      position: 20,
+      icon: "mdi-newspaper-variant",
+      title: "Новости",
+      link: "/news",
+      access: true,
+      showItem: true,
+      routeName: "news",
+      headerComponent: "news-header"
     },
     {
       position: 30,
@@ -114,16 +114,6 @@ export const state = () => ({
   menuAdmin: [
     {
       position: 10,
-      icon: "mdi-newspaper-variant",
-      title: "Новости",
-      link: "/news",
-      access: true,
-      showItem: true,
-      routeName: "news",
-      headerComponent: "news-header"
-    },
-    {
-      position: 20,
       icon: "mdi-account",
       title: "Профиль",
       link: "/profile/",
@@ -131,6 +121,16 @@ export const state = () => ({
       showItem: true,
       routeName: "profile-id",
       headerComponent: "profile-header"
+    },
+    {
+      position: 20,
+      icon: "mdi-newspaper-variant",
+      title: "Новости",
+      link: "/news",
+      access: true,
+      showItem: true,
+      routeName: "news",
+      headerComponent: "news-header"
     },
     {
       position: 30,

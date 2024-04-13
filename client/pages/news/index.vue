@@ -74,16 +74,5 @@ export default class News extends Vue {
     this.snackbarColor = color
     this.snackbarMessage = message
   }
-
-  postImages = [
-    {
-      type: 'image',
-      src: 'https://mimi-panda.com/wp-content/uploads/2023/02/marguerite-729510_640.jpg',
-    },
-    {
-      type: 'video',
-      src: '//www.youtube.com/embed/S_dfq9rFWAE',
-    },
-  ]
 }
 </script>

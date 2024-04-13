@@ -680,6 +680,10 @@ thead * {
   max-width: 760px;
 }
 
+.newsCard + .newsCard {
+  margin-top: 10px;
+}
+
 .newsCard-created {
   font-size: 12px;
   margin-top: 4px;

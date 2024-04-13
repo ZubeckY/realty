@@ -102,6 +102,7 @@ export class NewsController {
         .leftJoinAndSelect('news.agency', 'agency')
         .leftJoinAndSelect('news.images', 'images')
         .where('news.agency.id = :agencyId', { agencyId: id })
+        .orderBy("news.created", "DESC")
         .getMany()
     } catch (e) {
       return {

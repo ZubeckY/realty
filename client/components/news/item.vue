@@ -17,7 +17,7 @@
           </div>
         </div>
 
-        <div class="newsCard-created">11.02.2024</div>
+        <div class="newsCard-created">{{ normalizeCreated(item.created) }}</div>
       </div>
 
       <div class="newsCard-body">
@@ -80,6 +80,7 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
+import { normalizeDate } from "~/assets/script/functions/norlamizeDate";
 
 @Component({})
 export default class Item extends Vue {
@@ -106,6 +107,10 @@ export default class Item extends Vue {
         src: path,
       })
     }
+  }
+
+  normalizeCreated(date: any) {
+    return normalizeDate(date)
   }
 }
 </script>

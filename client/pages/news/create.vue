@@ -67,8 +67,6 @@
         </div>
       </div>
 
-      {{model}}
-
       <div class="create__group">
         <div class="create__title">Фото</div>
         <div class="mr-3">
@@ -160,7 +158,7 @@ export default class Create extends Vue {
   model: any = {
     text: '',
     youtube: '',
-    tags: [],
+    tags: '',
     files: [],
     filesFromDB: [],
   }

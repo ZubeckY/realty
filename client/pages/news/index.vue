@@ -1,6 +1,12 @@
 <template>
   <div>
-    <news-item v-for="post in posts" :key="'post-' + post['id']" :item="post" />
+    <news-item
+      v-for="post in posts"
+      :key="'post-' + post['id']"
+      :item="post"
+      @deleteAndRefresh="deleteAndRefresh"
+      @deleteError="deleteError"
+    />
 
     <v-snackbar
       v-model="snackbar"
@@ -29,7 +35,13 @@ export default class News extends Vue {
   snackbarMessage: string = ''
 
   async created() {
+    await this.initPostsList()
+  }
+
+  async initPostsList() {
     if (process.client) {
+      this.loading = true
+
       let authToken = getAuthToken()
       const agencyID = this.$store.state.user.user?.agency?.id
 
@@ -62,11 +74,22 @@ export default class News extends Vue {
             console.log(data.data.error)
             return
           }
-
           this.posts = data.data
           this.loading = false
         })
     }
+  }
+
+  async deleteAndRefresh() {
+    this.setSnackbarValues('success darken-1', 'Успешно')
+    setTimeout(async () => {
+      await this.initPostsList()
+    }, 500)
+  }
+
+  deleteError(data: any) {
+    this.setSnackbarValues('error darken-1', data.message)
+    console.log(data?.error)
   }
 
   setSnackbarValues(color: string, message: string) {

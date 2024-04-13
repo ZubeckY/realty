@@ -21,8 +21,8 @@ export class News {
   @Column({ comment: 'Видео с ютуб', nullable: true })
   youtube?: string
 
-  @Column('varchar', { array: true, comment: 'Тэги поста', nullable: true })
-  tags?: string[]
+  @Column('varchar', { comment: 'Тэги поста', nullable: true })
+  tags?: string
 
   @ManyToMany(() => File, (file) => file.id, {
     array: true,

@@ -1,4 +1,4 @@
-import { Body, Delete, Get, JsonController, Param, Params, Patch, Post, Req, UseAfter } from 'routing-controllers'
+import { Body, Delete, Get, JsonController, Param, Params, Patch, Post, Req, Res, UseAfter } from "routing-controllers";
 import { AppDataSource } from '../connectDataBase.js'
 import { Agency, News, User, File } from '../entity/index.js'
 import { checkAuth } from '../middleware/checkAuth'
@@ -62,7 +62,7 @@ export class NewsController {
 
       newsItem.text = text
       newsItem.youtube = youtube
-      newsItem.tags = [...tags]
+      newsItem.tags = tags
       newsItem.user = userFromDB
       newsItem.agency = agencyFromDB
       newsItem.images = listFilesFromDB
@@ -165,7 +165,7 @@ export class NewsController {
       const { text, tags, youtube } = model
       newsItemFromDB.text = text ?? newsItemFromDB.text
       newsItemFromDB.youtube = youtube ?? newsItemFromDB.youtube
-      newsItemFromDB.tags = [...tags] ?? newsItemFromDB.tags
+      newsItemFromDB.tags = tags ?? newsItemFromDB.tags
 
       return await newsRepository.save(newsItemFromDB)
     } catch (e) {
@@ -176,25 +176,23 @@ export class NewsController {
     }
   }
 
-  @Delete('/delete/:id')
-  async delete(@Param('id') id: number | string) {
+  @Post('/delete/:id')
+  async delete(@Res() res: any, @Param('id') id: number) {
     try {
-      if (!isNaN(+id)) {
-        return {
-          message: 'Передано некорректное значение',
-        }
-      }
-
       const newsRepository = AppDataSource.getRepository(News)
       const newsItemFromDB = await newsRepository.findOneBy({
         id: +id,
       })
 
       if (!newsItemFromDB) {
-        return {}
+        return {
+          message: 'Запись не найдена'
+        }
       }
 
-      return await newsRepository.remove(newsItemFromDB)
+      await newsRepository.remove(newsItemFromDB)
+
+      return res.status(200).send({ ok: true })
     } catch (e) {
       return {
         message: 'Ошибка сервера',

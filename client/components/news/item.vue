@@ -48,7 +48,6 @@
             ></action-dialog>
           </div>
         </div>
-
         <div class="newsCard-created">{{ normalizeCreated(item.created) }}</div>
       </div>
 
@@ -94,19 +93,17 @@
               </v-carousel-item>
             </v-carousel>
 
-            <div class="newsCard-video__tags" v-if="item.tags.length > 0">
-              <div class="newsCard-video__tags-title">Теги:</div>
-              <div class="newsCard-video__tags-items">
+            <div class="newsCard__tags" v-if="item.tags.length > 0">
+              <div class="newsCard__tags-title">Теги:</div>
+              <div class="newsCard__tags-items">
                 {{ item.tags }}
               </div>
             </div>
+
           </div>
         </div>
       </div>
 
-      <div class="newsCard-footer">
-        <div class="newsCard-footer__container"></div>
-      </div>
     </div>
   </card>
 </template>

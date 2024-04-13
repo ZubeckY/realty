@@ -686,14 +686,14 @@ thead * {
 
 .newsCard-created {
   font-size: 12px;
-  margin-top: 4px;
-  margin-left: 40px;
+  margin-top: 10px;
+  margin-left: 7px;
 }
 
 .newsCard-body {
   display: block;
   margin-top: 7px;
-  margin-left: 40px;
+  margin-left: 7px;
 }
 
 .newsCard-text {
@@ -754,20 +754,20 @@ thead * {
   height: 100%;
 }
 
-.newsCard-video__tags {
+.newsCard__tags {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  margin-top: 15px;
+  margin-top: 10px;
 }
 
-.newsCard-video__tags-title {
+.newsCard__tags-title {
   font-size: 12px;
   font-weight: bold;
   margin-right: 7px;
 }
 
-.newsCard-video__tags-items {
+.newsCard__tags-items {
   font-size: 12px;
 }
 

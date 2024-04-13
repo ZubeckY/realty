@@ -7,20 +7,20 @@
 <script lang="ts">
 import { Component, VModel, Vue, Watch } from "vue-property-decorator";
 import getColorDeal from "~/assets/script/functions/getColorDeal";
-import { DealStages } from "~/assets/script/models/DealStages";
+import { DealStages, dealStagesTypeText } from "~/assets/script/models/DealStages";
 
 @Component
 export default class LeadsStatus extends Vue {
   @VModel() item!: string;
 
   get color(): string {
-    return getColorDeal(this.normalizeValue);
+    return getColorDeal(this.item);
   }
 
   get normalizeValue() {
     const list = Object.keys(DealStages)
     const index = list.indexOf(this.item)
-    return Object.values(DealStages)[index]
+    return Object.values(dealStagesTypeText)[index]
   }
 };
 </script>

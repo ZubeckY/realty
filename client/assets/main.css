@@ -764,3 +764,35 @@ thead * {
 .newsCard-video__tags-items {
   font-size: 12px;
 }
+
+/* deal */
+.dealColumn {
+  display: block;
+  flex: 1 1 auto;
+  width: calc((100% / 5) - 10px);
+}
+
+.dealColumn + .dealColumn {
+  margin-left: 10px;
+}
+
+.dealColumn__title {
+  display: table-cell;
+  height: 56px;
+  vertical-align: middle;
+}
+
+.dealColumn__list {
+  padding: 4px;
+  min-height: 300px;
+  border-radius: var(--radius-small);
+  border: 1px solid var(--bkg__dark);
+}
+
+.dealColumn__list-item {
+  border-radius: var(--radius-small) !important;
+}
+
+.dealColumn__list-item + .dealColumn__list-item {
+  margin-top: 7px;
+}

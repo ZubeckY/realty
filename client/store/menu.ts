@@ -62,8 +62,8 @@ export const state = () => ({
     },
     {
       position: 70,
-      icon: "mdi-filter-variant",
-      title: "Сделки",
+      icon: "mdi-filter-settings",
+      title: "Воронка",
       link: "/deals",
       access: 'agency,role=admin',
       showItem: true,
@@ -214,8 +214,8 @@ export const state = () => ({
     },
     {
       position: 70,
-      icon: "mdi-filter-variant",
-      title: "Сделки",
+      icon: "mdi-filter-settings",
+      title: "Воронка",
       link: "/deals",
       access: 'agency,role=admin',
       showItem: true,

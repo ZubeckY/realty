@@ -1,8 +1,8 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import * as typeorm from 'typeorm'
-import { Agency, Address, File } from './index.js'
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Agency, Address, File, JobTitle } from './index.js'
 import { Nationality } from '../types/nationality.js'
 import { Role } from '../types/role.js'
+import * as typeorm from 'typeorm'
 
 @Entity()
 export class User {
@@ -63,6 +63,14 @@ export class User {
     nullable: false,
   })
   role!: Role
+
+  @ManyToOne(() => JobTitle, {
+    cascade: true,
+    nullable: true,
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn()
+  jobTitle?: typeorm.Relation<JobTitle> | null
 
   @ManyToOne(() => Agency, (agency) => agency.id, {
     cascade: true,

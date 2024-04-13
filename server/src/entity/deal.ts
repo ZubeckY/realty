@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Agency, Lead, Realty } from "./index"
 import * as typeorm from 'typeorm'
 
@@ -8,7 +8,13 @@ export class Deal {
   id!: number
 
   @Column({ comment: 'Стадия в воронке', nullable: true })
-  status?: string
+  stage?: string
+
+  @Column({ comment: 'Финальная сумма сделки', nullable: true })
+  endPrice?: number
+
+  @Column({ comment: 'Завершён', default: false })
+  endStatus?: boolean
 
   @ManyToOne(() => Lead, (lead) => lead.id, {
     cascade: true,
@@ -36,4 +42,7 @@ export class Deal {
 
   @Column({ comment: 'Комментарий', nullable: true })
   comment?: string
+
+  @CreateDateColumn({ comment: 'Дата создания' })
+  created!: Date
 }

@@ -1,7 +1,7 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
-import { User, Client, Agency } from './index.js'
+import { Client, Agency, User } from './index.js'
+import { Category } from '../types/category'
 import * as typeorm from 'typeorm'
-import { Category } from "../types/category";
 
 @Entity()
 export class Lead {
@@ -40,10 +40,28 @@ export class Lead {
   paymentMethod?: string
 
   @Column({ comment: 'Стадия в воронке', nullable: true })
-  status?: string
+  stage?: string
 
   @Column({ comment: 'Комментарий', nullable: true })
   comment?: string
+
+  /* Менеджер */
+  @ManyToOne(() => User, {
+    cascade: true,
+    nullable: true,
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn()
+  manager?: typeorm.Relation<User> | null
+
+  /* Ответственный за сделку (Исполнительное лицо) */
+  @ManyToOne(() => User, {
+    cascade: true,
+    nullable: true,
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn()
+  user?: typeorm.Relation<User> | null
 
   @ManyToOne(() => Agency, (agency) => agency.id, {
     cascade: true,
@@ -52,6 +70,9 @@ export class Lead {
   })
   @JoinColumn()
   agency?: typeorm.Relation<Agency> | null
+
+  @Column({ comment: 'Завершён', default: false })
+  endStatus?: boolean
 
   @CreateDateColumn({ comment: 'Дата создания' })
   created!: Date

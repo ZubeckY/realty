@@ -27,7 +27,7 @@
     >
       <template v-slot:item.status="{ item }">
         <td class="text-start">
-          <leads-status v-model="item.status" />
+          <leads-status v-model="item.stage" />
         </td>
       </template>
 

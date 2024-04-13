@@ -115,7 +115,7 @@ export class LeadController {
 
       const leadCreate = new Lead()
 
-      leadCreate.status = 'new_client'
+      leadCreate.stage = 'new_client'
       leadCreate.comment = lead.comment
       leadCreate.client = clientFinal
 

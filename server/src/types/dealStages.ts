@@ -1,3 +1,5 @@
+import { DictionaryValue } from './DictionaryValue'
+
 export enum DealStages {
   new_client = 'new_client',
   no_answer = 'no_answer',
@@ -6,7 +8,7 @@ export enum DealStages {
   is_closed = 'is_closed',
 }
 
-export const dealStagesTypeText = {
+export const dealStagesTypeText: DictionaryValue<DealStages> = {
   [DealStages['new_client']]: 'потенциальный клиент',
   [DealStages['no_answer']]: 'нет ответа',
   [DealStages['is_warmed_up']]: 'покупатель прогрет',

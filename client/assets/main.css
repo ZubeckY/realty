@@ -644,6 +644,28 @@ thead * {
   font-size: 14px;
 }
 
+.profileWallpapers__container {
+  display: block;
+  width: 160px;
+}
+
+.profileWallpapers__image {
+  display: block;
+  width: 50%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.profileWallpapers__image.left {
+  object-position: center;
+  border-radius: var(--radius-small) 0 0 var(--radius-small);
+}
+
+.profileWallpapers__image.right {
+  object-position: -180px center;
+  border-radius: 0 var(--radius-small) var(--radius-small) 0;
+}
+
 /* personal */
 .personal-button {
   height: auto;

@@ -47,6 +47,9 @@ export class User {
   @Column('varchar', { comment: 'Пароль' })
   password!: string
 
+  @Column('varchar', { comment: 'Обои', default: 'toronto' })
+  wallpapers!: string
+
   @ManyToOne(() => Address, (address) => address.id, {
     cascade: true,
     nullable: true,

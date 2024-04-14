@@ -13,7 +13,9 @@ import { TimesOfDay } from '~/assets/script/functions/timesOfDay'
 @Component
 export default class Auth extends Vue {
   get currentBackgroundImage() {
-    const wallpapers = this.$store.state.user.settings.wallpapers
+    const userWallpapers = this.$store.state.user.user.wallpapers;
+    const defaultWallpapers = this.$store.state.user.settings.wallpapers;
+    const wallpapers = userWallpapers ?? defaultWallpapers
 
     let result =
       `background-image: url('` +

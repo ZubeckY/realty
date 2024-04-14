@@ -339,7 +339,10 @@ export default class Reg extends Vue {
   }
 
   get currentBackgroundImage() {
-    const wallpapers = this.$store.state.user.settings.wallpapers;
+    const userWallpapers = this.$store.state.user.user.wallpapers;
+    const defaultWallpapers = this.$store.state.user.settings.wallpapers;
+    const wallpapers = userWallpapers ?? defaultWallpapers
+
     return (
         `background-image: url('` +
         require("~/static/" + wallpapers + "/" + TimesOfDay().time + ".png") +

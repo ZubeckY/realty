@@ -26,6 +26,82 @@
                 </h4>
               </div>
 
+              <div class="mt-2" v-if="currentUserItsMe && editMode">
+                <v-btn
+                  elevation="0"
+                  class="radius-small"
+                  :color="usableColor"
+                  @click="userPhotoSwitch"
+                  outlined
+                  block
+                  small
+                >
+                  Изменить фото
+                  <v-icon class="ml-2" small>mdi-file-image</v-icon>
+                </v-btn>
+              </div>
+
+              <div class="mt-2" v-if="currentUserItsMe && editMode">
+                <v-btn
+                  elevation="0"
+                  class="radius-small"
+                  :color="usableColor"
+                  @click="userWallpapersSwitch"
+                  outlined
+                  block
+                  small
+                >
+                  Выбрать обои
+                  <v-icon class="ml-2" small>mdi-wallpaper</v-icon>
+                </v-btn>
+              </div>
+
+              <action-dialog
+                v-model="userWallpapersEdit"
+                title="Выбрать обои"
+                text=""
+                confirm-text="Выбрать"
+                cancel-text="Отмена"
+                @isCanceled="selectedWallpapers = 'toronto'"
+                @isConfirm="changeUserWallpapers"
+              >
+                <v-item-group mandatory v-model="selectedWallpapers">
+                  <div class="d-flex flex-row justify-space-around">
+                    <v-item
+                      v-for="(item, i) in wallPaperList"
+                      v-slot="{ active, toggle }"
+                      :value="item.value"
+                      :key="i"
+                    >
+                      <v-card
+                        :color="active ? 'primary' : 'transparent'"
+                        class="d-flex align-center justify-center radius-small elevation-0"
+                        @click="toggle"
+                        height="200"
+                      >
+                        <card class="profileWallpapers">
+                          <div class="profileWallpapers__container">
+                            <div class="d-flex radius-small">
+                              <img
+                                class="profileWallpapers__image left"
+                                :src="getImageMorning(item.value)"
+                                alt="#"
+                              />
+                              <img
+                                class="profileWallpapers__image right"
+                                :src="getImageSunset(item.value)"
+                                alt="#"
+                              />
+                            </div>
+                            <h5 class="mt-2 text-center">{{ item.text }}</h5>
+                          </div>
+                        </card>
+                      </v-card>
+                    </v-item>
+                  </div>
+                </v-item-group>
+              </action-dialog>
+
               <div
                 class="mt-2"
                 v-if="currentUserItsMe || (userAdmin && isOurAgency)"
@@ -268,7 +344,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { ColorTheme } from '~/assets/script/functions/colorTheme'
 import { userPhoto } from '~/assets/script/functions/userPhoto'
 import axiosAuthConfig from '~/assets/script/functions/axiosAuthConfig'
-import getAuthToken from "~/assets/script/functions/getAuthToken";
+import getAuthToken from '~/assets/script/functions/getAuthToken'
 
 @Component
 export default class Profile extends Vue {
@@ -279,6 +355,10 @@ export default class Profile extends Vue {
 
   editMode: boolean = false
   exitDialog: boolean = false
+  userPhotoEdit: boolean = false
+
+  selectedWallpapers: any = 'toronto'
+  userWallpapersEdit: boolean = false
 
   snackbar: boolean = false
   snackbarColor: string = ''
@@ -378,6 +458,61 @@ export default class Profile extends Vue {
 
   get currentUserItsMe() {
     return this.savedUser.id == this.checkIDToValid
+  }
+
+  userPhotoSwitch() {
+    this.userPhotoEdit = !this.userPhotoEdit
+  }
+
+  get wallPaperList() {
+    return JSON.parse(
+      JSON.stringify(this.$store.state.user.settings.wallpaperList)
+    )
+  }
+
+  getImageSunset(item: string) {
+    return require('~/static/' + item + '/sunset.png')
+  }
+
+  getImageMorning(item: string) {
+    return require('~/static/' + item + '/morning.png')
+  }
+
+  async changeUserWallpapers() {
+    if (process.client) {
+      const token: any = getAuthToken()
+      await this.$axios
+        .post(
+          '/api/user/change-wallpapers',
+          {
+            wallpapers: this.selectedWallpapers,
+            userId: this.user.id,
+          },
+          {
+            ...axiosAuthConfig(token, '', 'crm_client'),
+          }
+        )
+        .then((data) => {
+          if (data.data?.message) {
+            this.setSnackbarValues('error darken-1', data.data.message)
+            console.log(data.data.error)
+            return
+          }
+
+          this.setSnackbarValues('success darken-1', 'Успешно')
+          this.userWallpapersSwitch()
+
+          setTimeout(() => {
+            window.location.reload()
+          }, 1000)
+        })
+    }
+  }
+
+
+  userWallpapersSwitch() {
+    this.userWallpapersEdit = !this.userWallpapersEdit
+    this.selectedWallpapers = this.user.wallpapers
   }
 
   /* EditMode */

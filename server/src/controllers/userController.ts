@@ -16,7 +16,7 @@ export class UserController {
         .leftJoinAndSelect('user.address', 'address')
         .leftJoinAndSelect('user.agency', 'agency')
         .where('user.id = :userId', { userId: id })
-        .getOne();
+        .getOne()
     } catch (e) {
       return {
         message: 'Ошибка сервера',
@@ -34,7 +34,33 @@ export class UserController {
         .leftJoinAndSelect('user.photo', 'photo')
         .leftJoinAndSelect('user.agency', 'agency')
         .where('user.agency.id = :agencyId', { agencyId: id })
-        .getMany();
+        .getMany()
+    } catch (e) {
+      return {
+        message: 'Ошибка сервера',
+        error: e,
+      }
+    }
+  }
+
+  @Post('/change-wallpapers/')
+  async changeWallpaper(@Body() body: any) {
+    try {
+      const { wallpapers, userId } = body
+      const userRepository = AppDataSource.getRepository(User)
+      const userFromDB = await userRepository.findOneBy({
+        id: userId
+      })
+
+      if (!userFromDB) {
+        return {
+          message: 'Пользователь не найден'
+        }
+      }
+
+      userFromDB.wallpapers = wallpapers
+
+      return await userRepository.save(userFromDB)
     } catch (e) {
       return {
         message: 'Ошибка сервера',

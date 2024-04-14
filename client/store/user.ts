@@ -9,8 +9,17 @@ export const state = () => ({
     }
   },
   settings: {
-    // wallpapers: 'mountains'
-    wallpapers: 'toronto'
+    wallpapers: 'toronto',
+    wallpaperList: [
+      {
+        text: 'Торонто',
+        value: 'toronto'
+      },
+      {
+        text: 'Горы',
+        value: 'mountains'
+      },
+    ]
   }
 });
 

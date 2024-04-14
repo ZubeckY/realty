@@ -124,7 +124,7 @@ thead * {
 
 .menuButtons {
   width: 100%;
-  max-width: 210px;
+  max-width: fit-content;
   height: fit-content;
 }
 

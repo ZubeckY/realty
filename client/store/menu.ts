@@ -55,7 +55,7 @@ export const state = () => ({
       icon: "mdi-lead-pencil",
       title: "Лиды",
       link: "/leads",
-      access: 'agency,role=admin&manager&rop',
+      access: 'agency',
       showItem: true,
       routeName: "leads",
       headerComponent: "leads-header"
@@ -65,7 +65,7 @@ export const state = () => ({
       icon: "mdi-filter-settings",
       title: "Воронка",
       link: "/deals",
-      access: 'agency,role=admin',
+      access: 'agency',
       showItem: true,
       routeName: "deals",
       headerComponent: "deals-header"
@@ -75,7 +75,7 @@ export const state = () => ({
       icon: "mdi-account-multiple-outline",
       title: "Клиенты",
       link: "/clients",
-      access: 'agency,role=admin',
+      access: 'agency',
       showItem: true,
       routeName: "clients",
       headerComponent: "clients-header"
@@ -145,7 +145,7 @@ export const state = () => ({
     {
       position: 40,
       icon: "mdi-chart-tree",
-      title: "Админ панель",
+      title: "Админ панель > Главная",
       link: "/admin",
       access: 'agency,role=admin',
       showItem: true,
@@ -155,7 +155,7 @@ export const state = () => ({
     {
       position: 40,
       icon: "mdi-home-circle",
-      title: "Агентство",
+      title: "Админ панель > Агентство",
       link: "/admin/agency",
       access: 'agency,role=admin',
       showItem: true,
@@ -165,7 +165,7 @@ export const state = () => ({
     {
       position: 40,
       icon: "mdi-account-group",
-      title: "Пользователи",
+      title: "Админ панель > Пользователи",
       link: "/admin/users",
       access: 'agency,role=admin',
       showItem: true,
@@ -175,7 +175,7 @@ export const state = () => ({
     {
       position: 40,
       icon: "mdi-account-plus",
-      title: "Заявки",
+      title: "Админ панель > Заявки",
       link: "/admin/memberships",
       access: 'agency,role=admin',
       showItem: true,
@@ -185,7 +185,7 @@ export const state = () => ({
     {
       position: 40,
       icon: "mdi-chart-line",
-      title: "Статистика",
+      title: "Админ панель > Статистика",
       link: "/admin/statistics",
       access: 'agency,role=admin',
       showItem: true,

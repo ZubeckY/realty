@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-form v-model="valid">
     <card class="mb-3">
       <h3 :class="usableText">Добавление задачи</h3>
 
@@ -11,6 +11,7 @@
             :dark="usableTheme"
             :disabled="disabled"
             :items="todoStatusList"
+            :rules="[rules.required]"
             item-value="value"
             item-text="text"
             type="text"
@@ -26,11 +27,34 @@
         </div>
       </div>
 
+      <div class="create__group mt-3" v-if="showSetUsers">
+        <div class="create__title">Менеджер</div>
+        <div class="mr-3">
+          <todo-user
+            v-model="model.manager"
+            :disabled="disabled"
+            :rules="[rules.required]"
+          />
+        </div>
+      </div>
+
+      <div class="create__group mt-3" v-if="showSetUsers">
+        <div class="create__title">Исполнитель</div>
+        <div class="mr-3">
+          <todo-user
+            v-model="model.user"
+            :disabled="disabled"
+            :rules="[rules.required]"
+          />
+        </div>
+      </div>
+
       <div class="create__group mt-3">
         <div class="create__title">Комментарий</div>
         <div class="mr-3">
           <v-textarea
             placeholder="Опишите, что нужно сделать в задаче"
+            :rules="[rules.required]"
             v-model="model.comment"
             :dark="usableTheme"
             :disabled="disabled"
@@ -47,7 +71,7 @@
         <v-btn
           :color="usableColor"
           :loading="loading"
-          :disabled="disabled"
+          :disabled="disabled || !valid"
           @click="createOne"
           outlined
           small
@@ -56,7 +80,7 @@
         </v-btn>
         <v-btn
           color="error darken-1"
-          @click="$router.push('/news')"
+          @click="$router.push('/todo')"
           :disabled="disabled"
           outlined
           small
@@ -75,19 +99,21 @@
     >
       <span v-html="snackbarMessage"></span>
     </v-snackbar>
-
-  </div>
+  </v-form>
 </template>
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import { ColorTheme } from '~/assets/script/functions/colorTheme'
 import { todoStatusTypeText } from '~/assets/script/models/TodoStatus'
 import getAuthToken from '~/assets/script/functions/getAuthToken'
+import axiosAuthConfig from '~/assets/script/functions/axiosAuthConfig'
 
 @Component({})
 export default class Create extends Vue {
+  valid: boolean = false
   loading: boolean = false
   disabled: boolean = false
+  showSetUsers: boolean = false
 
   snackbar: boolean = false
   snackbarColor: string = ''
@@ -100,6 +126,26 @@ export default class Create extends Vue {
     comment: '',
   }
 
+  rules = {
+    length: (len: any) => (v: any) =>
+      (v || '').length >= (len ?? 8) ||
+      `Недопустимая длина символов, требуется ${len} символов`,
+    maxValue: (len: any) => (v: any) =>
+      (v || '') < len ||
+      `Недопустимое значение, максимальное значение - ${len}`,
+    required: (v: any) => !!v || 'Это поле обязательно к заполнению',
+  }
+
+  created() {
+    if (!this.currentRoleHigh) {
+      this.model.user = this.currentUser
+      this.model.manager = this.currentUser
+      this.showSetUsers = false
+      return
+    }
+    this.showSetUsers = true
+  }
+
   async createOne() {
     if (process.client) {
       let authToken = getAuthToken()
@@ -108,8 +154,45 @@ export default class Create extends Vue {
         return null
       }
 
-      const agency = this.$store.state.user.user.agency
+      const agency = this.currentUser.agency
+
+      this.loading = true
+      this.disabled = true
+
+      await this.$axios
+        .post(
+          '/api/todo/create',
+          {
+            model: this.model,
+            agency,
+          },
+          {
+            ...axiosAuthConfig(authToken, '', 'crm_client'),
+          }
+        )
+        .then((data) => {
+          if (data.data?.message) {
+            this.setSnackbarValues('error darken-1', data.data.message)
+            console.log(data.data.error)
+            return
+          }
+
+          this.setSnackbarValues('success darken-1', 'Успешно')
+
+          this.loading = false
+          this.disabled = true
+
+          setTimeout(() => {
+            this.$router.push('/todo')
+          }, 1000)
+        })
     }
+  }
+
+  setSnackbarValues(color: string, message: string) {
+    this.snackbar = true
+    this.snackbarColor = color
+    this.snackbarMessage = message
   }
 
   get todoStatusList() {
@@ -117,19 +200,22 @@ export default class Create extends Vue {
       return [
         {
           value: 'created',
-          text: 'создано'
+          text: 'создано',
         },
         {
           value: 'in_process',
-          text: 'в процессе выполнения'
+          text: 'в процессе выполнения',
         },
         {
           value: 'awaiting_confirmation',
-          text: 'ожидает подтверждения'
+          text: 'ожидает подтверждения',
+        },
+        {
+          value: 'is_closed',
+          text: 'завершено',
         },
       ]
     }
-
 
     const list = Object.entries(todoStatusTypeText)
     const todoStatus: any = []
@@ -142,12 +228,16 @@ export default class Create extends Vue {
     return todoStatus
   }
 
-  get currentRoleHigh() {
-    return ['admin', 'rop', 'office_manager'].includes(this.currentUserRole)
+  get currentUser() {
+    return this.$store.state.user.user
   }
 
   get currentUserRole() {
-    return this.$store.state.user.user.role
+    return this.currentUser.role
+  }
+
+  get currentRoleHigh() {
+    return ['admin', 'rop', 'office_manager'].includes(this.currentUserRole)
   }
 
   get usableColor() {

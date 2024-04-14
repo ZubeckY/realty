@@ -101,7 +101,7 @@ export default class Clients extends Vue {
         .post(
           '/api/client/list/',
           {
-            agency_id: agencyID,
+            agencyID: agencyID,
           },
           {
             ...axiosAuthConfig(authToken, '', 'crm_client'),

@@ -62,7 +62,7 @@ export default class News extends Vue {
         .post(
           '/api/news/list/',
           {
-            agency_id: agencyID,
+            agencyID: agencyID,
           },
           {
             ...axiosAuthConfig(authToken, '', 'crm_client'),

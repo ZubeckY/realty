@@ -9,13 +9,13 @@ export class ClientController {
   @Post('/list/')
   async getList(@Body() body: any) {
     try {
-      const { agency_id } = body
+      const { agencyID } = body
 
       const clientRepository = AppDataSource.getRepository(Client)
       const agencyRepository = AppDataSource.getRepository(Agency)
 
       const agencyFromDB = await agencyRepository.findOneBy({
-        id: +agency_id,
+        id: +agencyID,
       })
 
       if (!agencyFromDB) {

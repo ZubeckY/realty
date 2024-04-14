@@ -24,15 +24,27 @@
       }"
       dense
     >
-      <template v-slot:item.status="{ item }">
+      <template v-slot:item.stage="{ item }">
         <td class="text-start">
-          <leads-status v-model="item.status" />
+          <todo-status v-model="item.stage" />
         </td>
       </template>
 
       <template v-slot:item.created="{ item }">
         <td class="text-start text-no-wrap">
           {{ normalizeCreated(item['created']) }}
+        </td>
+      </template>
+
+      <template v-slot:item.manager.firstName="{ item }">
+        <td class="text-start text-no-wrap">
+          {{ userFullName(item['manager']) }}
+        </td>
+      </template>
+
+      <template v-slot:item.user.firstName="{ item }">
+        <td class="text-start text-no-wrap">
+          {{ userFullName(item['user']) }}
         </td>
       </template>
 
@@ -87,9 +99,8 @@ export default class Todo extends Vue {
   todoList: any = []
   headers: any = [
     { text: 'id', value: 'id' },
-    { text: 'Стадия выполнения', value: 'status' },
-    { text: 'Менеджер', value: 'fullName' },
     { text: 'Комментарий', value: 'comment' },
+    { text: 'Стадия выполнения', value: 'stage' },
     { text: 'Дата создания', value: 'created' },
     { text: '', value: 'actions', sortable: false },
   ]
@@ -105,11 +116,13 @@ export default class Todo extends Vue {
         return null
       }
 
+      this.initHeaders()
+
       await this.$axios
         .post(
-          '/api/client/list/',
+          '/api/todo/list/',
           {
-            agency_id: agencyID,
+            agencyID: agencyID,
           },
           {
             ...axiosAuthConfig(authToken, '', 'crm_client'),
@@ -128,6 +141,28 @@ export default class Todo extends Vue {
     }
   }
 
+  initHeaders() {
+    if (!this.currentRoleHigh) {
+      return this.headers = [
+        { text: 'id', value: 'id' },
+        { text: 'Менеджер', value: 'manager.firstName' },
+        { text: 'Комментарий', value: 'comment' },
+        { text: 'Стадия выполнения', value: 'stage' },
+        { text: 'Дата создания', value: 'created' },
+        { text: '', value: 'actions', sortable: false },
+      ]
+    }
+
+    this.headers = [
+      { text: 'id', value: 'id' },
+      { text: 'Менеджер', value: 'manager.firstName' },
+      { text: 'Исполнитель', value: 'user.firstName' },
+      { text: 'Комментарий', value: 'comment' },
+      { text: 'Стадия выполнения', value: 'stage' },
+      { text: 'Дата создания', value: 'created' },
+      { text: '', value: 'actions', sortable: false },
+    ]
+  }
 
   setSnackbarValues(color: string, message: string) {
     this.snackbar = true
@@ -137,6 +172,22 @@ export default class Todo extends Vue {
 
   normalizeCreated(date: any) {
     return normalizeDate(date)
+  }
+
+  userFullName(user: any) {
+    return user.firstName + ' ' + user.lastName
+  }
+
+  get currentUser() {
+    return this.$store.state.user.user
+  }
+
+  get currentUserRole() {
+    return this.currentUser.role
+  }
+
+  get currentRoleHigh() {
+    return ['admin', 'rop', 'office_manager'].includes(this.currentUserRole)
   }
 
   get usableBlock() {

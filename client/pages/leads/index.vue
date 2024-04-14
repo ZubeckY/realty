@@ -117,7 +117,7 @@ export default class Leads extends Vue {
         .post(
           '/api/lead/list/',
           {
-            agency_id: agencyID,
+            agencyID: agencyID,
           },
           {
             ...axiosAuthConfig(authToken, '', 'crm_client'),

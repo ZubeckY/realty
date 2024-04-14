@@ -7,6 +7,7 @@ import { FileController } from './fileController.js'
 import { LeadController } from './leadController.js'
 import { NewsController } from './newsController.js'
 import { RealtyController } from './realtyController.js'
+import { TodoController } from './todoController.js'
 import { UserController } from './userController.js'
 
 const controllers: any[] = []
@@ -20,6 +21,7 @@ controllers.push(FileController)
 controllers.push(LeadController)
 controllers.push(NewsController)
 controllers.push(RealtyController)
+controllers.push(TodoController)
 controllers.push(UserController)
 
 export default controllers

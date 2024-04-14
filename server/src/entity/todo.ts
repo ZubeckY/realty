@@ -22,7 +22,7 @@ export class Todo {
   @JoinColumn()
   manager?: typeorm.Relation<User> | null
 
-  /* Ответственный за сделку (Исполнительное лицо) */
+  /* Исполнительное лицо */
   @ManyToOne(() => User, {
     cascade: true,
     nullable: true,

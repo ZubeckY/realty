@@ -5,12 +5,12 @@
       <v-autocomplete
         v-model="managerCurrent"
         label="Выберите менеджера"
-        color="primary darken-1"
+        :color="usableColor"
         :items="managerList"
         :dark="usableTheme"
-        item-text="name"
-        item-value="name"
-        deletable-chips
+        item-value="id"
+        item-text="firstName"
+        clearable
         outlined
         multiple
         chips
@@ -18,16 +18,15 @@
       >
         <template v-slot:selection="data">
           <v-chip
+            :dark="usableTheme"
             v-bind="data.attrs"
-            :input-value="data.selected"
-            close
             @click="data.select"
-            @click:close="remove(data.item)"
+            :input-value="data.selected"
           >
             <v-avatar left>
-              <v-img :src="data.item.avatar"></v-img>
+              <v-img :src="getUserPhoto(data.item)"></v-img>
             </v-avatar>
-            {{ data.item.name }}
+            {{ getUserFullName(data.item) }}
           </v-chip>
         </template>
         <template v-slot:item="data">
@@ -36,12 +35,12 @@
           </template>
           <template v-else>
             <v-list-item-avatar>
-              <img :src="data.item.avatar" />
+              <img :src="getUserPhoto(data.item)" alt="#"/>
             </v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title v-html="data.item.name"></v-list-item-title>
+              <v-list-item-title v-html="getUserFullName(data.item)"></v-list-item-title>
               <v-list-item-subtitle
-                v-html="data.item.group"
+                v-html="data.item.role"
               ></v-list-item-subtitle>
             </v-list-item-content>
           </template>
@@ -53,39 +52,68 @@
 <script lang="ts">
 import { Component, VModel, Vue, Prop } from 'vue-property-decorator'
 import { ColorTheme } from '~/assets/script/functions/colorTheme'
+import axiosAuthConfig from "~/assets/script/functions/axiosAuthConfig";
+import { userPhoto } from "~/assets/script/functions/userPhoto";
 
 @Component
 export default class FilterManager extends Vue {
   @VModel() managerCurrent!: any
   @Prop({ default: false }) hideTitle?: boolean
 
-  srcs = {
-    1: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
-    2: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
-    3: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
-    4: 'https://cdn.vuetifyjs.com/images/lists/4.jpg',
-    5: 'https://cdn.vuetifyjs.com/images/lists/5.jpg',
+  managerList: any = []
+
+  async created() {
+    await this.initManagerList()
   }
 
-  managerList: any = [
-    { header: 'Администратор' },
-    { name: 'Trevor Hansen', group: 'Администратор', avatar: this.srcs[1] },
-    { divider: true },
-    { header: 'РОП' },
-    { name: 'Sandra Adams', group: 'РОП', avatar: this.srcs[3] },
-    { name: 'Ali Connors', group: 'РОП', avatar: this.srcs[2] },
-    { name: 'Tucker Smith', group: 'РОП', avatar: this.srcs[2] },
-    { divider: true },
-    { header: 'Менеджер' },
-    { name: 'Britta Holt', group: 'Менеджер', avatar: this.srcs[4] },
-    { name: 'Jane Smith ', group: 'Менеджер', avatar: this.srcs[5] },
-    { name: 'John Smith', group: 'Менеджер', avatar: this.srcs[1] },
-    { name: 'Sandra Williams', group: 'Менеджер', avatar: this.srcs[3] },
-  ]
+  async initManagerList() {
+    if (process.client) {
+      let authToken = localStorage.getItem("token");
+      const agencyID = JSON.parse(
+        JSON.stringify(this.$store.state.user.user?.agency?.id)
+      );
 
-  remove(item: Record<string, unknown>) {
-    const index = this.managerCurrent.indexOf(item.name)
-    if (index >= 0) this.managerCurrent.splice(index, 1)
+      if (!authToken) {
+        return null;
+      }
+
+      if (!agencyID) {
+        return null
+      }
+
+      if (this.managerList.length) {
+        return
+      }
+
+      await this.$axios
+        .post(
+          "/api/user/list/binding/" + agencyID,
+          {},
+          {
+            ...axiosAuthConfig(authToken, "", "crm_client")
+          }
+        )
+        .then((data) => {
+          if (data.data?.message) {
+            console.log(data.data.message);
+            console.log(data.data.error);
+            return;
+          }
+          this.managerList = data.data;
+        });
+    }
+  }
+
+  getUserPhoto(user: any) {
+    return userPhoto(user?.photo?.src)
+  }
+
+  getUserFullName(user: any) {
+    return user.firstName + ' ' + user.lastName
+  }
+
+  get usableColor() {
+    return new ColorTheme().color()
   }
 
   get usableTheme() {

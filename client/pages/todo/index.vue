@@ -38,9 +38,20 @@
 
       <template v-slot:item.actions="{ item }">
         <td class="text-start text-no-wrap">
-          <div class="d-flex">
-            <leads-edit />
-            <leads-delete />
+          <div class="d-flex align-center">
+
+            <v-btn elevation="0" x-small icon>
+              <v-icon color="primary darken-1">mdi-pencil</v-icon>
+            </v-btn>
+
+            <v-btn class="mx-2" elevation="0" x-small icon>
+              <v-icon color="primary darken-1" size="25">mdi-playlist-edit</v-icon>
+            </v-btn>
+
+            <v-btn elevation="0" x-small icon>
+              <v-icon color="error darken-1">mdi-delete</v-icon>
+            </v-btn>
+
           </div>
         </td>
       </template>

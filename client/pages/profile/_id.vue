@@ -539,7 +539,7 @@ export default class Profile extends Vue {
   }
 
   get profilePhoto() {
-    return userPhoto(this.user?.avatar?.src)
+    return userPhoto(this.user?.photo?.src)
   }
 
   async exitFromProfile() {

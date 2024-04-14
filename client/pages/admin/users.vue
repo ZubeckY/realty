@@ -110,16 +110,20 @@ export default class Users extends Vue {
     if (process.client) {
       let authToken = localStorage.getItem("token");
       const agencyID = JSON.parse(
-          JSON.stringify(this.$store.state.user.user?.agency?.id)
+        JSON.stringify(this.$store.state.user.user?.agency?.id)
       );
 
       if (!authToken) {
         return null;
       }
 
+      if (!agencyID) {
+        return null
+      }
+
       await this.$axios
           .post(
-              "/api/user/list/agency/1/",
+              "/api/user/list/agency/" + agencyID,
               {},
               {
                 ...axiosAuthConfig(authToken, "", "crm_client")

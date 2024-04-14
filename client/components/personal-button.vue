@@ -43,7 +43,7 @@ export default class PersonalButton extends Vue {
   }
 
   get userPhoto() {
-    return userPhoto(this.currentUser?.avatar?.src)
+    return userPhoto(this.currentUser?.photo?.src)
   }
 
   get usableText() {

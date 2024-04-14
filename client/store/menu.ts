@@ -90,26 +90,26 @@ export const state = () => ({
       routeName: "reservation",
       headerComponent: "reservation-header"
     },
-    {
-      position: 100,
-      icon: "mdi-file-arrow-left-right",
-      title: "Фиды",
-      link: "/feeds",
-      access: 'agency',
-      showItem: true,
-      routeName: "feeds",
-      headerComponent: "feeds-header"
-    },
-    {
-      position: 110,
-      icon: "mdi-chess-rook",
-      title: "Шахматка",
-      link: "/chess",
-      access: 'agency',
-      showItem: false,
-      routeName: "chess",
-      headerComponent: "chess-header"
-    }
+    // {
+    //   position: 100,
+    //   icon: "mdi-file-arrow-left-right",
+    //   title: "Фиды",
+    //   link: "/feeds",
+    //   access: 'agency',
+    //   showItem: true,
+    //   routeName: "feeds",
+    //   headerComponent: "feeds-header"
+    // },
+    // {
+    //   position: 110,
+    //   icon: "mdi-chess-rook",
+    //   title: "Шахматка",
+    //   link: "/chess",
+    //   access: 'agency',
+    //   showItem: true,
+    //   routeName: "chess",
+    //   headerComponent: "chess-header"
+    // }
   ],
   menuAdmin: [
     {
@@ -242,26 +242,26 @@ export const state = () => ({
       routeName: "reservation",
       headerComponent: "reservation-header"
     },
-    {
-      position: 100,
-      icon: "mdi-file-arrow-left-right",
-      title: "Фиды",
-      link: "/feeds",
-      access: 'agency',
-      showItem: true,
-      routeName: "feeds",
-      headerComponent: "feeds-header"
-    },
-    {
-      position: 110,
-      icon: "mdi-chess-rook",
-      title: "Шахматка",
-      link: "/chess",
-      access: 'agency',
-      showItem: false,
-      routeName: "chess",
-      headerComponent: "chess-header"
-    }
+    // {
+    //   position: 100,
+    //   icon: "mdi-file-arrow-left-right",
+    //   title: "Фиды",
+    //   link: "/feeds",
+    //   access: 'agency',
+    //   showItem: true,
+    //   routeName: "feeds",
+    //   headerComponent: "feeds-header"
+    // },
+    // {
+    //   position: 110,
+    //   icon: "mdi-chess-rook",
+    //   title: "Шахматка",
+    //   link: "/chess",
+    //   access: 'agency',
+    //   showItem: false,
+    //   routeName: "chess",
+    //   headerComponent: "chess-header"
+    // }
   ],
 });
 export const mutations = {};

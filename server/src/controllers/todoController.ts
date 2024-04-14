@@ -8,6 +8,61 @@ import { Role } from '../types/role'
 @UseAfter(checkAuth)
 @JsonController('/todo')
 export class TodoController {
+  @Post('/set-stage/')
+  async setStage(@Body() body: any) {
+    try {
+      const { stage, todo } = body
+      const todoRepository = AppDataSource.getRepository(Todo)
+
+      const todoFromDB = await todoRepository.findOneBy({
+        id: todo.id
+      })
+
+      if (!todoFromDB) {
+        return {
+          message: 'Задача не найдена'
+        }
+      }
+
+      todoFromDB.stage = stage
+
+      return await todoRepository.save(todoFromDB)
+    } catch (e) {
+      return {
+        message: 'Ошибка сервера',
+        error: e,
+      }
+    }
+  }
+
+@Post('/set-end-status/')
+  async setEndStatus(@Body() body: any) {
+    try {
+      const { stage, todo } = body
+      const todoRepository = AppDataSource.getRepository(Todo)
+
+      const todoFromDB = await todoRepository.findOneBy({
+        id: todo.id
+      })
+
+      if (!todoFromDB) {
+        return {
+          message: 'Задача не найдена'
+        }
+      }
+
+      todoFromDB.stage = stage
+      todoFromDB.endStatus = true
+
+      return await todoRepository.save(todoFromDB)
+    } catch (e) {
+      return {
+        message: 'Ошибка сервера',
+        error: e,
+      }
+    }
+  }
+
   @Post('/create')
   async createOne(@Body() body: any) {
     try {

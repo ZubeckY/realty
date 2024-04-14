@@ -1,7 +1,7 @@
-import { Body, Delete, Get, JsonController, Param, Params, Patch, Post, Req, UseAfter } from "routing-controllers";
+import { Body, Delete, Get, JsonController, Param, Post, UseAfter } from "routing-controllers";
 import { AppDataSource } from '../connectDataBase.js'
 import { Agency, News, User, Lead, Client } from '../entity/index.js'
-import { checkAuth } from "../middleware/checkAuth"
+import { checkAuth } from "../middleware/checkAuth.js"
 
 @UseAfter(checkAuth)
 @JsonController('/client')
@@ -125,7 +125,7 @@ export class ClientController {
       const newClient = await clientRepository.save(createClient)
 
       const createLead = new Lead()
-      createLead.status = 'new_client'
+      createLead.stage = 'new_client'
       createLead.client = newClient
       createLead.agency = agencyFromDB
 

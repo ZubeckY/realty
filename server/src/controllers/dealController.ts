@@ -1,7 +1,7 @@
-import { Body, Get, JsonController, Param, Post, UseAfter } from 'routing-controllers'
-import { checkAuth } from '../middleware/checkAuth'
-import { AppDataSource } from '../connectDataBase'
-import { Deal } from '../entity'
+import { Body, JsonController, Param, Post, UseAfter } from 'routing-controllers'
+import { checkAuth } from '../middleware/checkAuth.js'
+import { AppDataSource } from '../connectDataBase.js'
+import { Deal } from '../entity/index.js'
 
 @UseAfter(checkAuth)
 @JsonController('/deal')

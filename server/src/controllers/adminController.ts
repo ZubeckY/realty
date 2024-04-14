@@ -1,8 +1,8 @@
 // @ts-ignore
 import { Body, JsonController, Post, UseAfter } from "routing-controllers"
-import { checkAuth } from "../middleware/checkAuth"
-import { AppDataSource } from "../connectDataBase"
-import { User } from "../entity"
+import { checkAuth } from "../middleware/checkAuth.js"
+import { AppDataSource } from "../connectDataBase.js"
+import { User } from "../entity/index.js"
 import * as bcrypt from "bcrypt"
 
 @UseAfter(checkAuth)

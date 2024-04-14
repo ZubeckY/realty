@@ -1,11 +1,11 @@
-import * as uuid from "uuid";
-import { Body, Delete, Get, JsonController, Param, Post, UseAfter } from "routing-controllers";
-import { Address, Agency, AgencyInvite, User } from "../entity/index.js";
-import { agencyLegalFormTypeText } from "../types/agencyLegalForm";
-import { AppDataSource } from "../connectDataBase.js";
-import { checkAuth } from "../middleware/checkAuth";
-import MailService from "../service/mailService";
-import { Role } from "../types/role";
+import * as uuid from 'uuid'
+import { Body, Delete, Get, JsonController, Param, Post, UseAfter } from 'routing-controllers'
+import { Address, Agency, AgencyInvite, User } from '../entity/index.js'
+import { agencyLegalFormTypeText } from '../types/agencyLegalForm.js'
+import { AppDataSource } from '../connectDataBase.js'
+import { checkAuth } from '../middleware/checkAuth.js'
+import MailService from '../service/mailService.js'
+import { Role } from '../types/role.js'
 
 @UseAfter(checkAuth)
 @JsonController('/agency')
@@ -39,7 +39,7 @@ export class AgencyController {
   }
 
   @Get('/legal-form/list')
-  async getLegalFormList(){
+  async getLegalFormList() {
     try {
       return agencyLegalFormTypeText
     } catch (e) {
@@ -74,9 +74,11 @@ export class AgencyController {
       }
 
       // ищем агентство по email
-      const agencyByEmail = agency?.email ? await agencyRepository.findOneBy({
-        email: agency?.email,
-      }) : null
+      const agencyByEmail = agency?.email
+        ? await agencyRepository.findOneBy({
+            email: agency?.email,
+          })
+        : null
 
       // если агентство найдено
       if (agencyByEmail) {
@@ -183,7 +185,7 @@ export class AgencyController {
         .leftJoinAndSelect('agencyInvite.user', 'user')
         .leftJoinAndSelect('agencyInvite.agency', 'agency')
         .where('agencyInvite.agency.id = :agencyId', { agencyId: agency.id })
-        .getMany();
+        .getMany()
     } catch (e) {
       return {
         message: 'Ошибка сервера',
@@ -201,22 +203,22 @@ export class AgencyController {
       const inviteRepository = AppDataSource.getRepository(AgencyInvite)
 
       const userFromDB = await userRepository.findOneBy({
-        id: user.id
+        id: user.id,
       })
 
       if (!userFromDB) {
         return {
-          message: 'Пользователь указан неверно'
+          message: 'Пользователь указан неверно',
         }
       }
 
       const agencyFromDB = await agencyRepository.findOneBy({
-        inviteCode: hash
+        inviteCode: hash,
       })
 
       if (!agencyFromDB) {
         return {
-          message: 'Агентство не найдено'
+          message: 'Агентство не найдено',
         }
       }
 
@@ -250,31 +252,31 @@ export class AgencyController {
         .leftJoinAndSelect('agencyInvite.user', 'user')
         .leftJoinAndSelect('agencyInvite.agency', 'agency')
         .where('agencyInvite.hash = :agencyHash', { agencyHash: hash })
-        .getOne();
+        .getOne()
 
       if (!inviteFromDB) {
         return {
-          message: 'Приглашение не найдено'
+          message: 'Приглашение не найдено',
         }
       }
 
       const userFromDB = await userRepository.findOneBy({
-        id: inviteFromDB.user.id
+        id: inviteFromDB.user.id,
       })
 
       if (!userFromDB) {
         return {
-          message: 'Пользовател был указан неверно'
+          message: 'Пользовател был указан неверно',
         }
       }
 
       const agencyFromDB = await agencyRepository.findOneBy({
-        id: inviteFromDB.agency.id
+        id: inviteFromDB.agency.id,
       })
 
       if (!agencyFromDB) {
         return {
-          message: 'Агентство было указано неверно'
+          message: 'Агентство было указано неверно',
         }
       }
 
@@ -303,11 +305,11 @@ export class AgencyController {
         .leftJoinAndSelect('agencyInvite.user', 'user')
         .leftJoinAndSelect('agencyInvite.agency', 'agency')
         .where('agencyInvite.hash = :agencyHash', { agencyHash: hash })
-        .getOne();
+        .getOne()
 
       if (!inviteFromDB) {
         return {
-          message: 'Приглашение не найдено'
+          message: 'Приглашение не найдено',
         }
       }
 

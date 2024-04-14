@@ -1,9 +1,9 @@
 import { Body, JsonController, Post, Req, UseAfter } from 'routing-controllers'
-import { checkAuth } from '../middleware/checkAuth'
-import { AppDataSource } from '../connectDataBase'
-import TokenService from '../service/tokenService'
-import { Agency, Todo, User } from '../entity'
-import { Role } from '../types/role'
+import { checkAuth } from '../middleware/checkAuth.js'
+import { AppDataSource } from '../connectDataBase.js'
+import TokenService from '../service/tokenService.js'
+import { Agency, Todo, User } from '../entity/index.js'
+import { Role } from '../types/role.js'
 
 @UseAfter(checkAuth)
 @JsonController('/todo')
@@ -15,12 +15,12 @@ export class TodoController {
       const todoRepository = AppDataSource.getRepository(Todo)
 
       const todoFromDB = await todoRepository.findOneBy({
-        id: todo.id
+        id: todo.id,
       })
 
       if (!todoFromDB) {
         return {
-          message: 'Задача не найдена'
+          message: 'Задача не найдена',
         }
       }
 
@@ -35,19 +35,19 @@ export class TodoController {
     }
   }
 
-@Post('/set-end-status/')
+  @Post('/set-end-status/')
   async setEndStatus(@Body() body: any) {
     try {
       const { stage, todo } = body
       const todoRepository = AppDataSource.getRepository(Todo)
 
       const todoFromDB = await todoRepository.findOneBy({
-        id: todo.id
+        id: todo.id,
       })
 
       if (!todoFromDB) {
         return {
-          message: 'Задача не найдена'
+          message: 'Задача не найдена',
         }
       }
 
@@ -135,7 +135,7 @@ export class TodoController {
         }
       }
 
-      const data = new TokenService().validateAccessToken(token)
+      const data: any = new TokenService().validateAccessToken(token)
       const currentUserFromDB = await userRepository
         .createQueryBuilder('user')
         .leftJoinAndSelect('user.agency', 'agency')

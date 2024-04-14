@@ -1,9 +1,9 @@
 import { Param, Body, Get, Post, Put, Delete, UseAfter, JsonController, Req } from 'routing-controllers'
 import { checkAuth } from '../middleware/checkAuth.js'
-import { AppDataSource } from '../connectDataBase'
-import { User } from '../entity'
-import TokenService from '../service/tokenService'
-import { Role, roleTypeText } from '../types/role'
+import { AppDataSource } from '../connectDataBase.js'
+import { Role, roleTypeText } from '../types/role.js'
+import TokenService from '../service/tokenService.js'
+import { User } from '../entity/index.js'
 
 @UseAfter(checkAuth)
 @JsonController('/user')
@@ -39,7 +39,7 @@ export class UserController {
         }
       }
 
-      const data = new TokenService().validateAccessToken(token)
+      const data: any = new TokenService().validateAccessToken(token)
       const currentUserFromDB = await userRepository
         .createQueryBuilder('user')
         .leftJoinAndSelect('user.agency', 'agency')
@@ -85,7 +85,7 @@ export class UserController {
         }
       }
 
-      const data = new TokenService().validateAccessToken(token)
+      const data: any = new TokenService().validateAccessToken(token)
       const currentUserFromDB = await userRepository
         .createQueryBuilder('user')
         .leftJoinAndSelect('user.agency', 'agency')
@@ -119,6 +119,7 @@ export class UserController {
       const managerList = userList.filter((user) => user.role === Role.MANAGER)
 
       const getRoleTypeText = (role: any) => {
+        // @ts-ignore
         return roleTypeText[role]
       }
 

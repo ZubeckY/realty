@@ -4,13 +4,13 @@ import SecurityService from '../service/securityService.js'
 import TokenService from '../service/tokenService.js'
 import MailService from '../service/mailService.js'
 import OTPService from '../service/OTPService.js'
-import { checkAuth } from '../middleware/checkAuth'
+import { checkAuth } from '../middleware/checkAuth.js'
 import { AuthToken, User } from '../entity/index.js'
-import { roleTypeText } from '../types/role'
+import { roleTypeText } from '../types/role.js'
 import AuthDto from '../dtos/authDto.js'
+import config from '../config.js'
 import * as bcrypt from 'bcrypt'
 import * as uuid from 'uuid'
-import config from '../config'
 
 // @ts-ignore
 @JsonController('/auth')
@@ -186,8 +186,8 @@ export class AuthController {
       }
 
       // Убераем старые коды
-      userFromDB.activationCode = null
-      userFromDB.activationLink = null
+      userFromDB.activationCode = undefined
+      userFromDB.activationLink = undefined
       await userRepository.save(userFromDB)
 
       // Создаём токен

@@ -1,6 +1,6 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { Client, Agency, User } from './index.js'
-import { Category } from '../types/category'
+import { Category } from '../types/category.js'
 import * as typeorm from 'typeorm'
 
 @Entity()

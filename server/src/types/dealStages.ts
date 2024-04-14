@@ -1,4 +1,4 @@
-import { DictionaryValue } from './DictionaryValue'
+import { DictionaryValue } from './DictionaryValue.js'
 
 export enum DealStages {
   new_client = 'new_client',

@@ -22,7 +22,7 @@
     "skipLibCheck": true
   },
   "include": [
-    "server/src/**/*"
+    "./src/**/*"
   ],
   "exclude": [
     "node_modules"

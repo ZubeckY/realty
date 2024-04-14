@@ -1,6 +1,6 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import * as typeorm from 'typeorm'
 import { Agency, PaymentTransaction, User } from './index.js'
+import * as typeorm from 'typeorm'
 
 @Entity()
 export class PaymentToken {

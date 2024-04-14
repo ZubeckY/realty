@@ -1,8 +1,8 @@
-import { Delete, Get, JsonController, Param, Params, Post, QueryParam, UseAfter } from 'routing-controllers'
+import { Delete, Get, JsonController, Param, QueryParam } from 'routing-controllers'
+import XmlService from '../service/xmlService.js'
+import { AppDataSource } from '../connectDataBase.js'
+import { File } from '../entity/index.js'
 import * as fs from 'node:fs'
-import { File } from '../entity'
-import { AppDataSource } from '../connectDataBase'
-import XmlService from '../service/xmlService'
 import commonjsVariables from 'commonjs-variables-for-esmodules'
 //   @ts-ignore
 const {  __dirname } = commonjsVariables(import.meta)

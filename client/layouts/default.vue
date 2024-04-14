@@ -71,7 +71,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { TimesOfDay } from "~/assets/script/functions/timesOfDay";
-import checkAuth from "~/assets/script/functions/checkAuth";
+import checkAuth from "~/assets/script/functions/checkAuth.js";
 import { ColorTheme } from "~/assets/script/functions/colorTheme";
 
 @Component

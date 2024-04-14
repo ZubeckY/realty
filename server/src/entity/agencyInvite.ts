@@ -1,14 +1,14 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
 
 import * as typeorm from 'typeorm'
-import { Agency, User } from "./index.js";
+import { Agency, User } from './index.js'
 
 @Entity()
 export class AgencyInvite {
   @PrimaryGeneratedColumn()
   id!: number
 
-  @Column({ commment: 'hash', unique: true })
+  @Column({ comment: 'hash', unique: true })
   hash!: string
 
   @ManyToOne(() => User, (user) => user.id, {

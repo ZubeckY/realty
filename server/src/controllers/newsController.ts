@@ -1,8 +1,8 @@
-import { Body, Delete, Get, JsonController, Param, Params, Patch, Post, Req, Res, UseAfter } from "routing-controllers";
+import { Body, Get, JsonController, Param, Patch, Post, Req, Res, UseAfter } from 'routing-controllers'
 import { AppDataSource } from '../connectDataBase.js'
 import { Agency, News, User, File } from '../entity/index.js'
-import { checkAuth } from '../middleware/checkAuth'
-import { In } from "typeorm";
+import { checkAuth } from '../middleware/checkAuth.js'
+import { In } from 'typeorm'
 
 @UseAfter(checkAuth)
 @JsonController('/news')
@@ -49,15 +49,12 @@ export class NewsController {
       const { text, tags, youtube } = model
       const newsItem = new News()
 
-      await fileRepository.update(
-        { id: In(listID) },
-        { usage: true, isPublished: true }
-      )
+      await fileRepository.update({ id: In(listID) }, { usage: true, isPublished: true })
 
       const listFilesFromDB = await fileRepository.find({
         where: {
-          id: In(listID)
-        }
+          id: In(listID),
+        },
       })
 
       newsItem.text = text
@@ -102,7 +99,7 @@ export class NewsController {
         .leftJoinAndSelect('news.agency', 'agency')
         .leftJoinAndSelect('news.images', 'images')
         .where('news.agency.id = :agencyId', { agencyId: id })
-        .orderBy("news.created", "DESC")
+        .orderBy('news.created', 'DESC')
         .getMany()
     } catch (e) {
       return {
@@ -186,7 +183,7 @@ export class NewsController {
 
       if (!newsItemFromDB) {
         return {
-          message: 'Запись не найдена'
+          message: 'Запись не найдена',
         }
       }
 

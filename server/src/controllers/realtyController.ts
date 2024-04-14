@@ -1,4 +1,4 @@
-import { Get, JsonController } from "routing-controllers";
+import { Get, JsonController } from 'routing-controllers'
 import { operationTypeText } from '../types/operationType.js'
 import { categoryTypeText } from '../types/category.js'
 import { marketTypeText } from '../types/marketType.js'
@@ -23,17 +23,16 @@ import { contactMethodTypeText } from '../types/contactMethhod.js'
 
 @JsonController('/realty')
 export class RealtyController {
-
   @Get('/types')
-  async getRealtyTypes(){
+  async getRealtyTypes() {
     try {
       return {
-        categoryTypeText
+        categoryTypeText,
       }
     } catch (e) {
       return {
         message: 'Ошибка сервера',
-        error: e
+        error: e,
       }
     }
   }

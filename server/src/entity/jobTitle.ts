@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
-import { Agency } from './agency'
+import { Agency } from './index.js'
 import * as typeorm from 'typeorm'
 
 @Entity()

@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { User, Agency } from "./index"
+import { User, Agency } from "./index.js"
 import * as typeorm from "typeorm"
 
 @Entity()

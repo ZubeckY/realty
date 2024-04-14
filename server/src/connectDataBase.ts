@@ -5,10 +5,10 @@ import config from './config.js'
 
 export const AppDataSource: DataSource = new DataSource({
   type: 'postgres',
-  host: config.DB_HOST,
+  host: config.IS_PROD ? config.DB_HOST_PROD : config.DB_HOST,
   port: config.DB_PORT,
   username: config.DB_USERNAME,
-  password: config.DB_PASSWORD,
+  password: config.IS_PROD ? config.DB_PASSWORD_PROD : config.DB_PASSWORD,
   database: config.DB_DATABASE,
   entities: ["src/entity/**/*.ts"],
   synchronize: true,

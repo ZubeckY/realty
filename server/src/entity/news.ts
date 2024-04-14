@@ -25,7 +25,6 @@ export class News {
   tags?: string
 
   @ManyToMany(() => File, (file) => file.id, {
-    array: true,
     cascade: true,
     nullable: true,
     onDelete: 'CASCADE',

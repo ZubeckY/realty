@@ -183,7 +183,6 @@ export class Realty {
   builtYear?: number
 
   @ManyToMany(() => File, (file) => file.id, {
-    array: true,
     cascade: true,
     nullable: true,
     onDelete: 'CASCADE',

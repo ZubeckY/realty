@@ -51,7 +51,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from "vue-property-decorator"
 import { TimesOfDay } from "~/assets/script/functions/timesOfDay"
-import checkAuth from "~/assets/script/functions/checkAuth"
+import checkAuth from "~/assets/script/functions/checkAuth.js"
 import axiosAuthConfig from "~/assets/script/functions/axiosAuthConfig"
 
 @Component
@@ -177,7 +177,7 @@ export default class Default extends Vue {
   }
 
   setHeader() {
-    const { name, path }: any = this.$router.currentRoute;
+    const { path }: any = this.$router.currentRoute;
     const i = this.findIndexElement(path);
     return (this.currentHeader =
         this.profileLinks[i]["headerComponent"] ?? "header-default-empty");

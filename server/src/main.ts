@@ -6,16 +6,16 @@ import multer from 'multer'
 import config from './config.js'
 import bodyParser from 'body-parser'
 import compression from 'compression'
-import { File, User } from './entity'
+import { File, User } from './entity/index.js'
 import logger from './modules/logger.js'
 import { createExpressServer } from 'routing-controllers'
 import controllers from './controllers/index.js'
-import { checkAuth } from './middleware/checkAuth'
-import TokenService from './service/tokenService'
+import { checkAuth } from './middleware/checkAuth.js'
+import TokenService from './service/tokenService.js'
 import { AppDataSource, connectDataBase } from './connectDataBase.js'
 import commonjsVariables from 'commonjs-variables-for-esmodules'
 //   @ts-ignore
-const { __filename, __dirname } = commonjsVariables(import.meta)
+const { __dirname } = commonjsVariables(import.meta)
 
 const { PORT } = config
 const app = createExpressServer({
@@ -42,16 +42,20 @@ const storage = multer.diskStorage({
       return null
     }
 
-    const { id } = new TokenService().validateAccessToken(token)
+    const data: any = new TokenService().validateAccessToken(token)
     const userRepository = AppDataSource.getRepository(User)
 
     const userFromDB = await userRepository
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.agency', 'agency')
-      .where('user.id = :userId', { userId: id })
+      .where('user.id = :userId', { userId: data.id })
       .getOne()
 
-    const agencyID = userFromDB.agency.id
+    if (!userFromDB) {
+      return null
+    }
+
+    const agencyID = userFromDB!.agency!.id
     if (!agencyID) {
       return null
     }
@@ -89,10 +93,10 @@ app.post(
         })
       }
 
-      const { id } = new TokenService().validateAccessToken(token)
+      const data: any = new TokenService().validateAccessToken(token)
       const userRepository = AppDataSource.getRepository(User)
       const userFromDB = await userRepository.findOneBy({
-        id,
+        id: data.id,
       })
 
       if (!userFromDB) {
@@ -120,7 +124,7 @@ app.post(
       createFile.isPublished = false
       createFile.isDeleted = false
 
-      const savedFile = await fileRepository.save(createFile)
+      const savedFile: any = await fileRepository.save(createFile)
       delete savedFile.user
 
       return res.send(savedFile)

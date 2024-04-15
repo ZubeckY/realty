@@ -173,13 +173,47 @@
           />
         </div>
       </div>
+
+      <div class="create__group mb-3">
+        <v-btn
+          :color="usableColor"
+          :loading="loading"
+          :disabled="disabled"
+          @click="createOne"
+          outlined
+          small
+        >
+          Создать
+        </v-btn>
+        <v-btn
+          color="error darken-1"
+          @click="$router.push('/news')"
+          :disabled="disabled"
+          outlined
+          small
+        >
+          Отмена
+        </v-btn>
+      </div>
     </card>
+
+    <v-snackbar
+      v-model="snackbar"
+      :color="snackbarColor"
+      :timeout="2000"
+      outlined
+      text
+    >
+      <span v-html="snackbarMessage"></span>
+    </v-snackbar>
   </div>
 </template>
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import { ColorTheme } from '~/assets/script/functions/colorTheme'
 import { realtyTypeText } from '~/assets/script/models/RealtyType'
+import getAuthToken from "~/assets/script/functions/getAuthToken";
+import axiosAuthConfig from "~/assets/script/functions/axiosAuthConfig";
 
 @Component({})
 export default class Create extends Vue {
@@ -238,14 +272,14 @@ export default class Create extends Vue {
   ]
 
   model: any = {
-    realtyType: '+',
-    district: '+',
-    microDistrict: '+',
-    objectReadiness: '+',
+    realtyType: '',
+    district: '',
+    microDistrict: '',
+    objectReadiness: '',
     purposeOfPurchase: '',
-    paymentMethod: '+',
+    paymentMethod: '',
     stage: '',
-    comment: '+',
+    comment: '',
     client: '',
     manager: '',
     user: '',
@@ -256,6 +290,63 @@ export default class Create extends Vue {
     await this.initDistrictList()
     await this.initMicroDistrictList()
   }
+
+
+  async createOne() {
+
+    if (process.client) {
+      let authToken = getAuthToken();
+
+      if (!authToken) {
+        return null;
+      }
+
+      this.loading = true;
+      this.disabled = true;
+
+      const user = this.$store.state.user.user;
+      const agency = this.$store.state.user.user.agency;
+
+      await this.$axios
+        .post(
+          "/api/lead/create/",
+          {
+            lead: this.model,
+            agency,
+            user,
+          },
+          {
+            ...axiosAuthConfig(authToken, "", "crm_client")
+          }
+        )
+        .then((data) => {
+          if (data.data?.message) {
+            this.setSnackbarValues("error darken-1", data.data.message);
+            console.log(data.data.error);
+            return;
+          }
+
+          this.setSnackbarValues("success darken-1", "Успешно");
+          setTimeout(() => {
+            this.$router.push("/leads");
+          }, 1000);
+        })
+        .catch((e) => {
+          console.log(e);
+        })
+        .finally(() => {
+          this.loading = false;
+          this.disabled = false;
+        });
+    }
+  }
+
+  setSnackbarValues(color: string, message: string) {
+    this.snackbar = true
+    this.snackbarColor = color
+    this.snackbarMessage = message
+  }
+
 
   checkUserCreated() {
     if (!this.currentRoleHigh) {
@@ -315,6 +406,10 @@ export default class Create extends Vue {
 
   get usableTheme() {
     return new ColorTheme().isDark()
+  }
+
+  get usableColor() {
+    return new ColorTheme().color()
   }
 
   get usableText() {

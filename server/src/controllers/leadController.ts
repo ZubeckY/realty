@@ -1,6 +1,6 @@
-import { Body, Delete, Get, JsonController, Param, Post, UseAfter } from "routing-controllers";
+import { Body, Delete, Get, JsonController, Param, Post, UseAfter } from 'routing-controllers'
 import { Agency, User, Lead, Client } from '../entity/index.js'
-import { checkAuth } from "../middleware/checkAuth.js"
+import { checkAuth } from '../middleware/checkAuth.js'
 import { AppDataSource } from '../connectDataBase.js'
 
 @UseAfter(checkAuth)
@@ -31,7 +31,7 @@ export class LeadController {
         .leftJoinAndSelect('lead.client', 'client')
         .leftJoinAndSelect('lead.agency', 'agency')
         .where('lead.agency.id = :agencyId', { agencyId: id })
-        .getMany();
+        .getMany()
     } catch (e) {
       return {
         message: 'Ошибка сервера',
@@ -96,31 +96,45 @@ export class LeadController {
 
       let clientFinal: any = {}
 
-      const clientFromDB = await clientRepository.findOneBy({
-        fullName: client.fullName,
-        phone: client.phone,
-      })
-
-      if (!clientFromDB) {
-        clientFinal = new Client()
-        clientFinal.fullName = client.fullName
-        clientFinal.phone = client.phone
-        clientFinal.company = client.company ?? ''
-        clientFinal.comment = client.comment ?? ''
-
-        await clientRepository.save(clientFinal)
+      if (!client) {
+        clientFinal = null
       } else {
-        clientFinal = clientFromDB
+        const clientFromDB = await clientRepository.findOneBy({
+          fullName: client.fullName,
+          phone: client.phone,
+        })
+
+        if (!clientFromDB) {
+          clientFinal = new Client()
+          clientFinal.fullName = client.fullName
+          clientFinal.phone = client.phone
+          clientFinal.company = client.company ?? ''
+          clientFinal.comment = client.comment ?? ''
+
+          await clientRepository.save(clientFinal)
+        } else {
+          clientFinal = clientFromDB
+        }
       }
 
       const leadCreate = new Lead()
 
-      leadCreate.stage = 'new_client'
+      leadCreate.stage = lead.stage ?? 'new_client'
+      leadCreate.realtyType = lead.realtyType
+      leadCreate.district = lead.district
+      leadCreate.microDistrict = lead.microDistrict
+      leadCreate.objectReadiness = lead.objectReadiness
+      leadCreate.purposeOfPurchase = lead.purposeOfPurchase
+      leadCreate.paymentMethod = lead.paymentMethod
       leadCreate.comment = lead.comment
+      leadCreate.manager = lead.manager
+      leadCreate.user = lead.user
       leadCreate.client = clientFinal
+      leadCreate.agency = agencyFromDB
 
       return await leadRepository.save(leadCreate)
     } catch (e) {
+      console.log(e)
       return {
         message: 'Ошибка сервера',
         error: e,
@@ -180,14 +194,14 @@ export class LeadController {
 
       if (!leadFromDB) {
         return {
-          message: 'Лид не найден'
+          message: 'Лид не найден',
         }
       }
 
       const clientID: number = leadFromDB!.client!.id
 
       const clientFromDB = await clientRepository.findOneBy({
-        id: clientID
+        id: clientID,
       })
 
       if (clientFromDB) {

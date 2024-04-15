@@ -33,13 +33,13 @@
 
       <template v-slot:item.client.fullName="{ item }">
         <td class="text-start text-no-wrap">
-          {{ item.client.fullName }}
+          {{ getClientFullName(item.client) }}
         </td>
       </template>
 
       <template v-slot:item.client.phone="{ item }">
         <td class="text-start text-no-wrap">
-          {{ item.client.phone }}
+          {{ getClientPhone(item.client) }}
         </td>
       </template>
 
@@ -49,10 +49,31 @@
         </td>
       </template>
 
+      <template v-slot:item.district="{ item }">
+        <td class="text-start text-no-wrap">
+          {{ districtTypeText(item['district']) }}
+        </td>
+      </template>
+
+      <template v-slot:item.microDistrict="{ item }">
+        <td class="text-start text-no-wrap">
+          {{ districtTypeText(item['microDistrict']) }}
+        </td>
+      </template>
+
       <template v-slot:item.actions="{ item }">
         <div class="d-flex">
-          <leads-edit />
-          <leads-delete />
+          <v-btn
+            @click="$router.push('/leads/edit/' + item.id)"
+            class="mx-2"
+            elevation="0"
+            x-small
+            icon
+          >
+            <v-icon color="primary darken-1">mdi-pencil</v-icon>
+          </v-btn>
+
+          <leads-delete @isConfirm="deleteOne"/>
         </div>
       </template>
     </v-data-table>
@@ -74,7 +95,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { ColorTheme } from '~/assets/script/functions/colorTheme'
 import axiosAuthConfig from '~/assets/script/functions/axiosAuthConfig'
 import { normalizeDate } from '~/assets/script/functions/norlamizeDate'
-import getAuthToken from "~/assets/script/functions/getAuthToken";
+import getAuthToken from '~/assets/script/functions/getAuthToken'
 
 @Component
 export default class Leads extends Vue {
@@ -84,6 +105,8 @@ export default class Leads extends Vue {
   snackbar: boolean = false
   snackbarColor: string = ''
   snackbarMessage: string = ''
+
+  districtList: any = []
 
   list: any = []
   headers: any = [
@@ -113,6 +136,8 @@ export default class Leads extends Vue {
         return null
       }
 
+      await this.initDistrictList()
+
       await this.$axios
         .post(
           '/api/lead/list/',
@@ -136,6 +161,14 @@ export default class Leads extends Vue {
     }
   }
 
+  getClientFullName(client: any) {
+    return client ? client.fullName : ''
+  }
+
+  getClientPhone(client: any) {
+    return client ? client.phone : ''
+  }
+
   setSnackbarValues(color: string, message: string) {
     this.snackbar = true
     this.snackbarColor = color
@@ -144,6 +177,23 @@ export default class Leads extends Vue {
 
   normalizeCreated(date: any) {
     return normalizeDate(date)
+  }
+
+  async initDistrictList() {
+    return await this.$axios
+      .get('/api/file/district-list/?regions=23&cities=krasnodar', {})
+      .then((data) => {
+        this.districtList = data.data[0].cityList[0].districtList
+      })
+  }
+
+  districtTypeText(value: string) {
+    const item = this.districtList.filter((item: any) => item.id === value)
+    return item.length ? item[0].title : ''
+  }
+
+  deleteOne() {
+
   }
 
   get usableBlock() {

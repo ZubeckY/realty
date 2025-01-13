@@ -4,9 +4,6 @@
   "description": "",
   "main": "index.js",
   "type": "module",
-  "engines": {
-    "node": "ES2018"
-  },
   "husky": {
     "hooks": {
       "pre-commit": "npm run lint"

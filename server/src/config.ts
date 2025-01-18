@@ -1,5 +1,5 @@
 const config = {
-  IS_PROD: false,
+  IS_PROD: true,
   //
   PORT: 4000,
   CLIENT_PORT: 3000,
@@ -8,12 +8,16 @@ const config = {
   CLIENT_URL:  'http://localhost',
   //
   DB_HOST: 'localhost',
-  DB_HOST_PROD: 'postgres',
+  DB_HOST_PROD: '31.129.98.120',
+
   DB_PORT: 5432,
   DB_USERNAME: 'postgres',
+  DB_USERNAME_PROD: 'serverUser',
+
   DB_PASSWORD: 'root1234',
-  DB_PASSWORD_PROD: 'root1234',
-  DB_DATABASE: 'test_realty',
+  DB_PASSWORD_PROD: 'mQBeWsb134',
+
+  DB_DATABASE: 'realty',
   //
   JWT_ACCESS_SECRET: 'realtyPhraseAccessToken',
   JWT_REFRESH_SECRET: 'realtyPhraseRefreshToken',
